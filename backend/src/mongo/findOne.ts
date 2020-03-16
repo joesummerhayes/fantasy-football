@@ -5,10 +5,12 @@ interface Query {
   id: number;
 }
 
-export const findEvent = async (query: Query): any => {
+type Collections = 'events' | 'teams'
+
+export const findEvent = async (query: Query, collectionName: Collections): any => {
   const db = await getPersistent();
 
-  const collection = await db.collection('events');
+  const collection = await db.collection(collectionName);
   const document = await collection.findOne({
     _id: new ObjectId(query.id),
   });
