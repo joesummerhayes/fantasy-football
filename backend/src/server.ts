@@ -7,6 +7,16 @@ import { createServer } from 'http';
 import initGraphqlServer from './graphql/server';
 import { findEvent } from './mongo/findOne';
 import { createEvent } from './mongo/createOne';
+import { createTeam } from './mongo/createTeam';
+import Request from 'superagent';
+const fetch = require("node-fetch");
+
+interface Team {
+  id: string;
+  name: string;
+  cleanName: string;
+  image: string;
+}
 
 async function run() {
   console.log('hi');
@@ -25,7 +35,19 @@ async function run() {
   //   name: 'a completely different document',
   // });
 
+  // const teams = `https://api.footystats.org/league-teams?key=${process.env.FOOTY_STATS_API_KEY}&league_id=2012`;
+  // Request.get(teams).then((response) => {
+  //   console.log(response.body.data);
+  //   const teamArray = response.body.data;
+  //   teamArray.map(async (team: Team) => {
+  //     const { name, cleanName, image, id } = team;
+  //     const teamToCreate = { name, cleanName, image, id };
+  //     const foo = await createTeam(teamToCreate);
+  //   });
+  // });
 
+
+  //wI9IkCUMfZuWHP1w06M51dqO3AcQq20XgbTUJ51CorDBxu6amrinidm5RgVj
   // init graphql server
   const graphqlServer = initGraphqlServer();
 
