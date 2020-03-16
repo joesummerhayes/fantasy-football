@@ -25,7 +25,7 @@ const RootQueryType = new GraphQLObjectType({
         return firstEvent;
       },
     },
-    GetTeamById: {
+    premTeam: {
       type: ITeamType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLString) },
