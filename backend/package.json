@@ -45,6 +45,7 @@
     "@types/check-types": "^7.3.1",
     "@types/helmet": "0.0.44",
     "@types/mongodb": "^3.3.16",
+    "@types/superagent": "^4.1.7",
     "@types/winston": "^2.4.4",
     "apollo-link-persisted-queries": "^0.2.2",
     "apollo-server": "^2.10.1",
@@ -69,7 +70,9 @@
     "jwks-rsa": "^1.6.0",
     "mongodb": "^3.5.4",
     "mongoose": "^5.9.2",
+    "node-fetch": "^2.6.0",
     "subscriptions-transport-ws": "^0.9.16",
+    "superagent": "^5.2.2",
     "winston": "^3.2.1"
   }
 }
