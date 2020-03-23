@@ -9,14 +9,22 @@ import {
 } from 'redux';
 import reduxThunk from 'redux-thunk';
 import { Auth0Provider } from './contexts/auth0-context';
-import reducers from './reducers';
+import reducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENTION_COMPOSE__?: typeof compose;
+  }
+}
+
+// Dev tools set up - not sure how to use alongside thunk
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
+
 const store = createStore(
-  reducers,
-  {},
+  reducer,
   compose(
     applyMiddleware(reduxThunk),
   ),
