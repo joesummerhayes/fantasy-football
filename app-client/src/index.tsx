@@ -8,6 +8,7 @@ import {
   Store,
 } from 'redux';
 import reduxThunk from 'redux-thunk';
+import { Auth0Provider } from './contexts/auth0-context';
 import reducers from './reducers';
 import './index.css';
 import App from './App';
@@ -22,10 +23,12 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+  <Auth0Provider>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Auth0Provider>,
+  document.getElementById('root'),
 );
 
 serviceWorker.unregister();
