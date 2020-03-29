@@ -1,19 +1,19 @@
 import { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
-import IPostType from '../types/IPostType';
-import { IPost } from '../../models/post';
+import IUserType, { IUserInputType } from '../types/IUserType';
+import { IUser } from '../../models/user';
+import { createUser } from '../../mongo/createOne';
 
 const RootMutationType = new GraphQLObjectType({
   name: 'RootMutationType',
   fields: {
-    SaveDeal: {
-      type: IPostType,
+    SaveUser: {
+      type: IUserType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
-        title: { type: new GraphQLNonNull(GraphQLString) },
+        user: { type: new GraphQLNonNull(IUserInputType) },
       },
-      resolve(obj, args, ctx) {
-        console.log(args);
-        return 'hello';
+      async resolve(obj, args, ctx) {
+        await createUser(args.user);
+        return args.user;
       },
     },
   },

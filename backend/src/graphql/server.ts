@@ -4,7 +4,8 @@ import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import { Db } from 'mongodb';
 import Schema from './schema';
 
-export default function server(db: Db) {
+export default function server() {
+  console.log('hello')
   return new ApolloServer({
     schema: Schema,
     subscriptions: {

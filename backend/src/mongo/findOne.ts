@@ -7,7 +7,7 @@ interface Query {
 
 type Collections = 'events' | 'teams'
 
-export const findEvent = async (query: Query, collectionName: Collections): any => {
+export const findEvent = async (query: Query, collectionName: Collections): Promise<FFType.PremTeam> => {
   const db = await getPersistent();
 
   const collection = await db.collection(collectionName);

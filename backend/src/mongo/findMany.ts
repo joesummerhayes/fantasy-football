@@ -1,6 +1,6 @@
 import getPersistent from './persistent';
 
-export const findEvents = async (query: any): any => {
+export const findEvents = async (): Promise<void> => {
   const db = await getPersistent();
 
   const collection = await db.collection('events');

@@ -7,7 +7,7 @@ interface Team {
   image: string;
 }
 
-export const createTeam = async (team: Team): any => {
+export const createTeam = async (team: Team): Promise<void> => {
   const db = await getPersistent();
 
   const collection = await db.collection('teams');

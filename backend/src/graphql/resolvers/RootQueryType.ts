@@ -6,14 +6,14 @@ import { findEvent } from '../../mongo/findOne';
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    GetPosts: {
-      type: new GraphQLList(IPostType),
-      async resolve(obj, args, ctx) {
-        const firstEvent = await findEvent({ name: 'lozzzz' }, 'events');
-        console.log('1111', firstEvent);
-        return [firstEvent];
-      },
-    },
+    // GetPosts: {
+    //   type: new GraphQLList(IPostType),
+    //   async resolve(obj, args, ctx) {
+    //     const firstEvent = await findEvent({ name: 'lozzzz' }, 'events');
+    //     console.log('1111', firstEvent);
+    //     return [firstEvent];
+    //   },
+    // },
     GetPostById: {
       type: IPostType,
       args: {
