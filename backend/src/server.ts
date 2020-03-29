@@ -49,6 +49,7 @@ async function run() {
 
   //wI9IkCUMfZuWHP1w06M51dqO3AcQq20XgbTUJ51CorDBxu6amrinidm5RgVj
   // init graphql server
+  console.log('pre graph ql')
   const graphqlServer = initGraphqlServer();
 
   // start HTTP server
@@ -59,7 +60,7 @@ async function run() {
 
   httpServer.listen(PORT, () => {
     console.log(
-      `🚀 Server ready at http://localhost:${PORT}${graphqlServer.graphqlPath}`,
+      `🚀 Server ready at.... http://localhost:${PORT}${graphqlServer.graphqlPath}`,
     );
     console.log(
       `🚀 Subscriptions ready at ws://localhost:${PORT}${graphqlServer.subscriptionsPath}`,

@@ -1,14 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { connect, useSelector } from 'react-redux';
 import getPremTeam from '../data/prem-team';
-import { Auth0Context } from '../contexts/auth0-context';
+import { useAuth0 } from '../contexts/auth0-context';
+import * as actions from '../actions';
 
+interface Props {
+  saveUser?: (user: FFType.User) => Promise<void>;
+  getPremTeams?: (user: FFType.User) => Promise<void>;
+  user?: FFType.User;
+}
 
-const Landing = () => {
+const Landing: React.FC<Props> = (props: Props) => {
+  console.log(props);
+
   const foo = getPremTeam('5e6c0c6902654f24f473cd74');
 
-  const { isLoading, user, loginWithRedirect, logout } = useContext(Auth0Context);
+  const { isLoading, user, loginWithRedirect, logout } = useAuth0();
 
-  console.log(foo);
+  useEffect(() => {
+    const { saveUser } = props;
+    if (saveUser) saveUser(user);
+    console.log('mount it!');
+  }, [user]);
+
+
   return (
     <div className="hero is-info is-fullheight">
       <div className="hero-body">
@@ -42,4 +57,6 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state: FFType.AppState): FFType.AppState => state;
+
+export default connect(mapStateToProps, actions)(Landing);
