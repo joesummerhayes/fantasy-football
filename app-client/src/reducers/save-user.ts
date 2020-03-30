@@ -7,8 +7,11 @@ export const user: Reducer = async (state = {}, action: AnyAction): Promise<FFTy
   switch (action.type) {
     case SAVE_USER: {
       const { payload } = action as SaveUser;
-      console.log('payload in reducer', payload);
       if (payload) await saveUser(payload);
+      console.log('reducer returning', {
+        ...state,
+        ...payload,
+      });
       return {
         ...state,
         ...payload,

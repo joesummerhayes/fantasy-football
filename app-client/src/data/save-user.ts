@@ -5,7 +5,7 @@ interface UserQLResult {
 }
 
 const saveUser = async (user: FFType.User): Promise<void> => {
-  console.log('HEKKLOOO', user);
+  console.log('CALLING SAVE USER MUTATION', user);
   const newUser = await graphQL.query<UserQLResult>(`
   mutation {
     SaveUser(user: { email:"${user.email}", picture: "${user.picture}", name:"${user.name}"}) {

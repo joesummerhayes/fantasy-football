@@ -11,7 +11,6 @@ interface Props {
 }
 
 const Landing: React.FC<Props> = (props: Props) => {
-  console.log(props);
 
   // const foo = getPremTeam('5e6c0c6902654f24f473cd74');
 
@@ -21,8 +20,8 @@ const Landing: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     const { saveUser } = props;
-    if (saveUser) saveUser(user);
-    console.log('mount it!');
+    console.log('POO', user);
+    if (saveUser && user) saveUser(user);
   }, [user]);
 
 
