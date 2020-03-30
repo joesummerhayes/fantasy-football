@@ -6,7 +6,6 @@ import helmet from 'helmet';
 import { createServer } from 'http';
 import initGraphqlServer from './graphql/server';
 import { findEvent } from './mongo/findOne';
-import { createEvent } from './mongo/createOne';
 import { createTeam } from './mongo/createTeam';
 import Request from 'superagent';
 const fetch = require("node-fetch");
