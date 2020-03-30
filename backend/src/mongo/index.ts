@@ -1,13 +1,13 @@
 import connect from './connect';
 import { findEvent } from './findOne';
-import { createEvent } from './createOne';
+import createUser from './createOne';
 import { findEvents } from './findMany';
 import { createTeam } from './createTeam';
 
 export {
   connect,
   findEvent,
-  createEvent,
+  createUser,
   createTeam,
   findEvents,
 };

@@ -1,10 +1,15 @@
 import getPersistent from './persistent';
 
-export const createUser = async (query: any): Promise<void> => {
+export const createUser = async (query: FFType.User): Promise<void> => {
   const db = await getPersistent();
+  console.log('trying to insert', query);
 
   const collection = await db.collection('users');
-  console.log('trying to insert');
+  const userExists = collection.findOne({
+    email: query.email,
+  });
+
+  if (userExists) return undefined;
 
   return collection.insert(query);
 };

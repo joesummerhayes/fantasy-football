@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
-import getPremTeam from '../data/prem-team';
 import { useAuth0 } from '../contexts/auth0-context';
 import * as actions from '../actions';
+import { AppState } from '../app-state';
 
 interface Props {
   saveUser?: (user: FFType.User) => Promise<void>;
@@ -13,9 +13,11 @@ interface Props {
 const Landing: React.FC<Props> = (props: Props) => {
   console.log(props);
 
-  const foo = getPremTeam('5e6c0c6902654f24f473cd74');
+  // const foo = getPremTeam('5e6c0c6902654f24f473cd74');
 
   const { isLoading, user, loginWithRedirect, logout } = useAuth0();
+  // eslint-disable-next-line react/destructuring-assignment
+  console.log('USER: ', props.user);
 
   useEffect(() => {
     const { saveUser } = props;
@@ -57,6 +59,6 @@ const Landing: React.FC<Props> = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: FFType.AppState): FFType.AppState => state;
+const mapStateToProps = (state: AppState): AppState => state;
 
 export default connect(mapStateToProps, actions)(Landing);

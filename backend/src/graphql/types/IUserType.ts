@@ -3,7 +3,7 @@ import { GraphQLObjectType, GraphQLInputObjectType, GraphQLString } from 'graphq
 const IUserType = new GraphQLObjectType({
   name: 'user',
   fields: {
-    _id: { type: GraphQLString },
+    // _id: { type: GraphQLString },
     email: { type: GraphQLString },
     picture: { type: GraphQLString },
     name: { type: GraphQLString },
@@ -13,7 +13,7 @@ const IUserType = new GraphQLObjectType({
 export const IUserInputType = new GraphQLInputObjectType({
   name: 'userInputType',
   fields: {
-    _id: { type: GraphQLString },
+    // _id: { type: GraphQLString },
     email: { type: GraphQLString },
     picture: { type: GraphQLString },
     name: { type: GraphQLString },
