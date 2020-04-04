@@ -11,20 +11,13 @@ interface Props {
 }
 
 const Landing: React.FC<Props> = (props: Props) => {
-  console.log(props);
-
-  // const foo = getPremTeam('5e6c0c6902654f24f473cd74');
-
   const { isLoading, user, loginWithRedirect, logout } = useAuth0();
-  // eslint-disable-next-line react/destructuring-assignment
-  console.log('USER: ', props.user);
 
   useEffect(() => {
     const { saveUser } = props;
-    if (saveUser) saveUser(user);
-    console.log('mount it!');
+    console.log('1111', user);
+    if (saveUser && user) saveUser(user);
   }, [user]);
-
 
   return (
     <div className="hero is-info is-fullheight">

@@ -1,18 +1,19 @@
 import graphQL from './graph-ql';
 
 interface UserQLResult {
-  user: FFType.User;
+  SaveUser: FFType.User;
 }
 
-const saveUser = async (user: FFType.User): Promise<void> => {
-  console.log('HEKKLOOO', user);
-  const newUser = await graphQL.query<UserQLResult>(`
+const saveUser = async (user: FFType.User): Promise<FFType.User> => {
+  const response = await graphQL.query<UserQLResult>(`
   mutation {
     SaveUser(user: { email:"${user.email}", picture: "${user.picture}", name:"${user.name}"}) {
       email
+      name
+      picture
     }
   }`);
-  console.log('BOO', newUser);
-}
+  return response.SaveUser;
+};
 
 export default saveUser;

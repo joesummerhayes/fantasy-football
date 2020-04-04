@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import { premTeamsReducer } from './prem-teams';
-import { user } from './save-user';
+import { saveUserReducer } from './save-user';
 
 export default combineReducers({
   premTeamsReducer,
-  user,
+  user: saveUserReducer,
 });

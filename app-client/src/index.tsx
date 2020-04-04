@@ -16,17 +16,17 @@ import * as serviceWorker from './serviceWorker';
 
 declare global {
   interface Window {
-    __REDUX_DEVTOOLS_EXTENTION_COMPOSE__?: typeof compose;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
 
-// Dev tools set up - not sure how to use alongside thunk
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
+ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducer,
   compose(
     applyMiddleware(reduxThunk),
+    composeEnhancers(),
   ),
 );
 

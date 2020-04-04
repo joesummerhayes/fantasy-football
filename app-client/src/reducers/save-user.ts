@@ -1,14 +1,16 @@
 import { Reducer, AnyAction } from 'redux';
 import { SAVE_USER } from '../actions/types';
 import { SaveUser } from '../actions';
-import saveUser from '../data/save-user';
+import { AppState } from '../app-state';
 
-export const user: Reducer = async (state = {}, action: AnyAction): Promise<FFType.User> => {
+export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppState => {
   switch (action.type) {
     case SAVE_USER: {
       const { payload } = action as SaveUser;
-      console.log('payload in reducer', payload);
-      if (payload) await saveUser(payload);
+      console.log('reducer returning', {
+        ...state,
+        ...payload,
+      });
       return {
         ...state,
         ...payload,
