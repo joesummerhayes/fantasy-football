@@ -1,8 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import graphqlHttp from 'express-graphql';
+import mongoose from 'mongoose';
+import { config } from 'dotenv';
+
 import graphqlSchema from './graphql/schema';
 import graphiqlResolver from './graphql/resolvers';
+
+config();
 
 const app = express();
 
@@ -23,7 +28,7 @@ app.use('/graphql', graphqlHttp({
   rootValue: graphiqlResolver,
   graphiql: true,
   customFormatErrorFn(err) {
-    console.log('graphql failed');
+    console.log('graphql failed', err);
     if (!err.originalError) {
       return err;
     }
@@ -36,4 +41,10 @@ app.use('/graphql', graphqlHttp({
   },
 }));
 
-app.listen(4000, () => console.log('express graphql server is now running on localhost:4000/graphql !'));
+mongoose.connect(`${process.env.MONGO_URL}`)
+  .then(() => {
+    app.listen(4000, () => console.log('express graphql server is now running on localhost:4000/graphql !'));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
