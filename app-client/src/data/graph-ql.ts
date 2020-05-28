@@ -36,4 +36,8 @@ export class GraphQL {
   }
 }
 
-export default new GraphQL(`${API_URL}/graphql`);
+// export default new GraphQL(`${API_URL}/graphql`);
+
+// currently forcing to localhost
+// TODO use env variables
+export default new GraphQL('http://localhost:4000/graphql');

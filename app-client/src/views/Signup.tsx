@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { required, length, email } from '../utils/validation';
+import createUser from '../data/create-user';
 
 const useStyles = makeStyles({
   root: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles({
   },
   inputField: {
     paddingTop: '1rem',
+  },
+  submitButton: {
+    marginTop: '1rem',
   },
 });
 
@@ -94,43 +98,16 @@ const Signup = (): ReactElement => {
     setState(updatedForm);
   };
 
-  const submitSignup = () => {
-    const graphqlQuery = {
-      query: `
-        mutation createNewUser($name: String!, $email: String!, $password: String!){
-          createUser(userInput: {name: $name, email: $email, password: $password}) {
-            _id
-            name
-            email
-            password
-          }
-        }
-      `,
-      variables: {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      },
-    };
-    fetch('http://localhost:4000/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(graphqlQuery),
-    })
-      .then((res) => res.json())
-      .then((resData) => {
-        console.log(resData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
     <Box display="flex">
-      <form className={classes.root}>
+      <form
+        className={classes.root}
+        onSubmit={() => createUser({
+          name: form.name.value,
+          email: form.email.value,
+          password: form.password.value,
+        })}
+      >
         <div className={classes.inputField}>
           <TextField
             id="name"
@@ -189,7 +166,11 @@ const Signup = (): ReactElement => {
             helperText={form.confirmPass.touched && form.confirmPass.value !== form.password.value ? 'Passwords do not match' : ''}
           />
         </div>
-        <Button variant="contained" onClick={submitSignup}>
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          type="submit"
+        >
           Submit
         </Button>
       </form>
