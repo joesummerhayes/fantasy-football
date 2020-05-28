@@ -41,7 +41,12 @@ app.use('/graphql', graphqlHttp({
   },
 }));
 
-mongoose.connect(`${process.env.MONGO_URL}`)
+const mongoConfig = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+};
+
+mongoose.connect(`${process.env.MONGO_URL}`, mongoConfig)
   .then(() => {
     app.listen(4000, () => console.log('express graphql server is now running on localhost:4000/graphql !'));
   })
