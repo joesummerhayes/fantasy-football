@@ -1,10 +1,14 @@
 import React, { ReactElement } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { required, length, email } from '../utils/validation';
 import createUser from '../data/create-user';
+
+import { createUserAction } from '../actions/index';
+
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +24,10 @@ const useStyles = makeStyles({
 });
 
 const Signup = (): ReactElement => {
+  const dispatch = useDispatch();
+  const appState = useSelector((state) => state);
+  console.log('!!!', appState);
+
   const classes = useStyles();
 
   const [formIsValid, validateForm] = React.useState(false);
@@ -102,11 +110,14 @@ const Signup = (): ReactElement => {
     <Box display="flex">
       <form
         className={classes.root}
-        onSubmit={() => createUser({
-          name: form.name.value,
-          email: form.email.value,
-          password: form.password.value,
-        })}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(createUserAction({
+            name: form.name.value,
+            email: form.email.value,
+            password: form.password.value,
+          }));
+        }}
       >
         <div className={classes.inputField}>
           <TextField
