@@ -1,6 +1,6 @@
 import { Reducer, AnyAction } from 'redux';
-import { SAVE_USER } from '../actions/types';
-import { SaveUser } from '../actions';
+import { SAVE_USER, CREATE_USER } from '../actions/types';
+import { SaveUser, CreateUser } from '../actions';
 import { AppState } from '../app-state';
 
 export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppState => {
@@ -11,6 +11,14 @@ export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppStat
         ...state,
         ...payload,
       });
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+    case CREATE_USER: {
+      const { payload } = action as CreateUser;
+      console.log('create user reducer working', payload);
       return {
         ...state,
         ...payload,

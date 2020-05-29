@@ -11,7 +11,6 @@ const createUser = async (variables: any): Promise<FFType.User> => {
       _id
       name
       email
-      password
     }
   }`,
   variables);
