@@ -1,9 +1,7 @@
 import { Action } from 'redux';
-import saveUserQl from '../data/save-user';
 import createUser from '../data/create-user';
 import {
   GET_PREM_TEAMS,
-  SAVE_USER,
   CREATE_USER,
 } from './types';
 
@@ -27,14 +25,6 @@ export const getPremTeams = () => async (dispatch: premTeamsDispatch): Promise<v
   dispatch({
     type: GET_PREM_TEAMS,
     payload: {},
-  });
-};
-
-export const saveUser = (user: FFType.User) => async (dispatch: SaveUserDispatch): Promise<void> => {
-  const savedUser = await saveUserQl(user);
-  dispatch({
-    type: SAVE_USER,
-    payload: savedUser,
   });
 };
 

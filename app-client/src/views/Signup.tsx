@@ -25,8 +25,8 @@ const useStyles = makeStyles({
 
 const Signup = (): ReactElement => {
   const dispatch = useDispatch();
-  const foo = useSelector((state) => state);
-  console.log('!!!', foo);
+  const appState = useSelector((state) => state);
+  console.log('!!!', appState);
 
   const classes = useStyles();
 
@@ -185,7 +185,6 @@ const Signup = (): ReactElement => {
           Submit
         </Button>
       </form>
-      {/* <button type="button" onClick={() => dispatch(createUserAction('hello'))}>Hello</button> */}
     </Box>
   );
 };
