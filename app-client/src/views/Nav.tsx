@@ -35,7 +35,7 @@ const Nav = (): ReactElement => {
         <Link to="/">tab 3</Link>
       </div>
       <div className={classes.navRight}>
-        <Link to="/">Login</Link>
+        <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
       </div>
     </div>
