@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { required, length, email } from '../utils/validation';
-import createUser from '../data/create-user';
+
 
 import { createUserAction } from '../actions/index';
 
@@ -25,12 +26,9 @@ const useStyles = makeStyles({
 
 const Signup = (): ReactElement => {
   const dispatch = useDispatch();
-  const appState = useSelector((state) => state);
-  console.log('!!!', appState);
-
   const classes = useStyles();
-
   const [formIsValid, validateForm] = React.useState(false);
+  const [toLogin, redirctToLogin] = React.useState(false);
   const [form, setState] = React.useState<Record<string, any>>({
     name: {
       value: '',
@@ -57,7 +55,10 @@ const Signup = (): ReactElement => {
       validators: [required, length({ min: 5 })],
     },
   });
-  console.log('My State: ', form, formIsValid);
+
+  if (toLogin) {
+    return <Redirect to="login" />;
+  }
 
   const blurHandler = (inputField: string) => {
     setState({
@@ -117,6 +118,7 @@ const Signup = (): ReactElement => {
             email: form.email.value,
             password: form.password.value,
           }));
+          redirctToLogin(true);
         }}
       >
         <div className={classes.inputField}>
