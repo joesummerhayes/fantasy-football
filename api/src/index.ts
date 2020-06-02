@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response, NextFunction, Request } from 'express';
 import bodyParser from 'body-parser';
 import graphqlHttp from 'express-graphql';
 import mongoose from 'mongoose';
@@ -6,6 +6,11 @@ import { config } from 'dotenv';
 
 import graphqlSchema from './graphql/schema';
 import graphiqlResolver from './graphql/resolvers';
+
+interface Error {
+  statusCode?: number;
+  message?: string;
+}
 
 config();
 
@@ -40,6 +45,12 @@ app.use('/graphql', graphqlHttp({
     };
   },
 }));
+
+app.use((error: Error, req: Request, res: Response<any>, next: NextFunction) => {
+  console.log(error);
+  const { message } = error;
+  res.status(500).json({ message });
+});
 
 const mongoConfig = {
   useUnifiedTopology: true,

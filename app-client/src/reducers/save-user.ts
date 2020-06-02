@@ -10,7 +10,8 @@ export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppStat
       console.log('create user reducer working', payload);
       return {
         ...state,
-        ...payload,
+        user: payload,
+        redirect: 'login',
       };
     }
     default:

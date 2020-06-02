@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import validator from 'validator';
 import User from '../models/user';
 
 interface UserArgs {
@@ -10,13 +11,20 @@ interface UserArgs {
 }
 
 export default {
-  test(): string {
-    return 'this is my return';
-  },
-
   async createUser(args: UserArgs) {
     const { userInput } = args;
     const { name, email, password } = userInput;
+    const errors = [];
+    if (!validator.isEmail(email)) {
+      errors.push({ message: 'Email is not valid' });
+    }
+    if (validator.isEmpty(password) || !validator.isLength(password, { min: 10 })) {
+      errors.push({ message: 'password is too short' });
+    }
+    if (errors.length > 0) {
+      const error = new Error('invalid input');
+      throw error;
+    }
     const hashedPw = await bcrypt.hash(password, 12);
     const user = new User({
       name,
