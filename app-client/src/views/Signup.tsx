@@ -1,15 +1,13 @@
 import React, { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { required, length, email } from '../utils/validation';
-
-
-import { createUserAction } from '../actions/index';
-
+import { createUserAction, redirect } from '../actions/index';
 
 const useStyles = makeStyles({
   root: {
@@ -24,11 +22,14 @@ const useStyles = makeStyles({
   },
 });
 
-const Signup = (): ReactElement => {
+
+const Signup = (props: any): ReactElement => {
+  console.log(props);
   const dispatch = useDispatch();
   const classes = useStyles();
+  const appState = useSelector((state: any) => state);
+  const [error, setError] = React.useState(false);
   const [formIsValid, validateForm] = React.useState(false);
-  const [toLogin, redirctToLogin] = React.useState(false);
   const [form, setState] = React.useState<Record<string, any>>({
     name: {
       value: '',
@@ -56,8 +57,13 @@ const Signup = (): ReactElement => {
     },
   });
 
-  if (toLogin) {
-    return <Redirect to="login" />;
+
+  if (appState.data.redirect === 'login') {
+    // dispatch(redirect('testing'));
+    // change redirect back to false
+
+    return <Redirect push to="login" />;
+    // props.history.push('/');
   }
 
   const blurHandler = (inputField: string) => {
@@ -68,6 +74,12 @@ const Signup = (): ReactElement => {
         touched: true,
       },
     });
+  };
+
+  const handleError = (): ReactElement | void => {
+    if (appState.error.message) {
+      return <MuiAlert severity="error">{appState.error.message}</MuiAlert>;
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,12 +125,13 @@ const Signup = (): ReactElement => {
         className={classes.root}
         onSubmit={(e) => {
           e.preventDefault();
-          dispatch(createUserAction({
-            name: form.name.value,
-            email: form.email.value,
-            password: form.password.value,
-          }));
-          redirctToLogin(true);
+          dispatch(
+            createUserAction({
+              name: form.name.value,
+              email: form.email.value,
+              password: form.password.value,
+            }),
+          );
         }}
       >
         <div className={classes.inputField}>
@@ -179,6 +192,7 @@ const Signup = (): ReactElement => {
             helperText={form.confirmPass.touched && form.confirmPass.value !== form.password.value ? 'Passwords do not match' : ''}
           />
         </div>
+        {handleError()}
         <Button
           variant="contained"
           className={classes.submitButton}

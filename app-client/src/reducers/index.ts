@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { premTeamsReducer } from './prem-teams';
 import { saveUserReducer } from './save-user';
+import { getErrorReducer } from './errors';
+import { redirectReducer } from './redirect';
 
 export default combineReducers({
-  premTeamsReducer,
-  user: saveUserReducer,
+  data: saveUserReducer,
+  error: getErrorReducer,
+  redirectReducer,
 });
