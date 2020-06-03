@@ -1,13 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import Landing from './views/Landing';
 import Signup from './views/Signup';
 import Login from './views/Login';
 import Nav from './views/Nav';
 import './App.css';
+import history from './history';
 
 const App: React.FC = () => (
-  <Router>
+  <Router history={history}>
     <Nav />
     <div>
       <Route exact path="/" component={Landing} />

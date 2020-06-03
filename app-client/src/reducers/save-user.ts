@@ -11,7 +11,6 @@ export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppStat
       return {
         ...state,
         user: payload,
-        redirect: 'login',
       };
     }
     default:

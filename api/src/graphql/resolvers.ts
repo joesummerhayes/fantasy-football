@@ -18,7 +18,7 @@ export default {
     if (!validator.isEmail(email)) {
       errors.push({ message: 'Email is not valid' });
     }
-    if (validator.isEmpty(password) || !validator.isLength(password, { min: 10 })) {
+    if (validator.isEmpty(password) || !validator.isLength(password, { min: 5 })) {
       errors.push({ message: 'password is too short' });
     }
     if (errors.length > 0) {
