@@ -4,15 +4,11 @@ import {
   GET_PREM_TEAMS,
   CREATE_USER,
   GET_ERROR,
-  REDIRECT,
 } from './types';
+import history from '../history';
 
 export interface GetPremTeams extends Action {
   payload: {};
-}
-
-export interface Redirect extends Action {
-  payload: string;
 }
 
 export interface SaveUser extends Action {
@@ -24,7 +20,6 @@ export interface CreateUser extends Action {
 }
 
 type premTeamsDispatch = (actions: GetPremTeams) => void;
-type RedirectDispatch = (actions: Redirect) => void;
 type CreateUserDispatch = (actions: CreateUser) => void;
 
 export const getPremTeams = () => async (dispatch: premTeamsDispatch): Promise<void> => {
@@ -40,6 +35,7 @@ export const createUserAction = (userInputData: FFType.User) => async (dispatch:
     if (!savedUser) {
       throw new Error('Could not create new user');
     }
+    history.push('/login');
     dispatch({
       type: CREATE_USER,
       payload: savedUser,
@@ -53,13 +49,6 @@ export const createUserAction = (userInputData: FFType.User) => async (dispatch:
     });
     return err;
   }
-};
-
-export const redirect = (direction: string) => async (dispatch: RedirectDispatch): Promise<void> => {
-  dispatch({
-    type: REDIRECT,
-    payload: direction,
-  });
 };
 
 export default {};
