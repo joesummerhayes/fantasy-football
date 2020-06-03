@@ -5,7 +5,7 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { required, length, email } from '../utils/validation';
+import { required, length, email, confirmPass } from '../utils/validation';
 import { createUserAction } from '../actions/index';
 
 const useStyles = makeStyles({
@@ -26,9 +26,9 @@ const Signup = (props: any): ReactElement => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isError = useSelector((state: any) => state.error);
-  const [error, setError] = React.useState(false);
+  // const [error, setError] = React.useState(false);
   const [formIsValid, validateForm] = React.useState(false);
-  const [form, setState] = React.useState<Record<string, any>>({
+  const [form, setForm] = React.useState<Record<string, any>>({
     name: {
       value: '',
       touched: false,
@@ -55,8 +55,9 @@ const Signup = (props: any): ReactElement => {
     },
   });
 
+
   const blurHandler = (inputField: string) => {
-    setState({
+    setForm({
       ...form,
       [inputField]: {
         ...form[inputField],
@@ -81,6 +82,10 @@ const Signup = (props: any): ReactElement => {
       isInputValid = isInputValid && validator(value);
     });
 
+    if (input === 'confirmPass') {
+      isInputValid = isInputValid && confirmPass(form.password.value, value);
+    }
+
     const updatedForm = {
       ...form,
       [input]: {
@@ -90,7 +95,7 @@ const Signup = (props: any): ReactElement => {
       },
     };
 
-    const formEntries = Object.entries(form);
+    const formEntries = Object.entries(updatedForm);
 
     const validations = formEntries.map((item: Record<string, any>) => {
       return item[1].valid;
@@ -105,7 +110,7 @@ const Signup = (props: any): ReactElement => {
     const isFormValid = validations.reduce(reducer, true);
 
     validateForm(isFormValid);
-    setState(updatedForm);
+    setForm(updatedForm);
   };
 
   return (
