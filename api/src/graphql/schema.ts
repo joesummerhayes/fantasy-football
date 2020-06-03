@@ -8,6 +8,11 @@ export default buildSchema(`
     password: String
   }
 
+  type AuthData {
+    token: String!
+    userId: String!
+  }
+
   input UserInputData {
     name: String!
     email: String!
@@ -15,7 +20,7 @@ export default buildSchema(`
   }
 
   type RootQuery {
-    test: String
+    login(email: String!, password: String!): AuthData!
   }
 
   type RootMutation {
