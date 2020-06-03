@@ -7,7 +7,6 @@ export const saveUserReducer: Reducer = (state = {}, action: AnyAction): AppStat
   switch (action.type) {
     case CREATE_USER: {
       const { payload } = action as CreateUser;
-      console.log('create user reducer working', payload);
       return {
         ...state,
         user: payload,
