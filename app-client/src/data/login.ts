@@ -23,11 +23,9 @@ const login = async (variables: any): Promise<LoggedInUser> => {
       }
     }`,
   variables);
-  console.log('2222');
   if (response === null) {
     throw new Error('There was a problem loggin in user');
   }
-  console.log('3333', response);
   return response.login;
 };
 

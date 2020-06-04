@@ -18,6 +18,7 @@ export class GraphQL {
     const response = await fetch(this.endpoint, {
       method: 'POST',
       headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
         'content-type': 'application/json',
       },
       body: JSON.stringify({ query, operationName, variables }),

@@ -7,6 +7,8 @@ import { config } from 'dotenv';
 import graphqlSchema from './graphql/schema';
 import graphiqlResolver from './graphql/resolvers';
 
+import authMiddleware from './middleware/auth';
+
 interface Error {
   statusCode?: number;
   message?: string;
@@ -27,6 +29,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(authMiddleware);
 
 app.use('/graphql', graphqlHttp({
   schema: graphqlSchema,

@@ -64,4 +64,16 @@ export default {
 
     return { token, userId: user._id.toString() };
   },
+
+  async user(args: any, req: any) {
+    if (!req.isAuth) {
+      const error = new Error('not authenticated');
+      throw error;
+    }
+    const user = await User.findById(req.userId);
+    if (!user) {
+      throw new Error('no user found');
+    }
+    return user;
+  },
 };
