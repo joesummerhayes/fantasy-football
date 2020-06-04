@@ -6,7 +6,7 @@ interface LoggedInUser {
 }
 
 interface UserQLResult {
-  loggedInUser: LoggedInUser;
+  login: LoggedInUser;
 }
 
 interface LoginVariables {
@@ -28,7 +28,7 @@ const login = async (variables: any): Promise<LoggedInUser> => {
     throw new Error('There was a problem loggin in user');
   }
   console.log('3333', response);
-  return response.loggedInUser;
+  return response.login;
 };
 
 export default login;

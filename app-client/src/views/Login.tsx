@@ -1,8 +1,9 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
-import login from '../data/login';
+import { loginAction } from '../actions/index';
 
 const useStyles = makeStyles({
   root: {
@@ -23,10 +24,11 @@ const Login: React.FC = () => {
     password: '',
   });
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const testing = (e: any) => {
+  const loginUser = (e: any) => {
     e.preventDefault();
-    login(form);
+    dispatch(loginAction(form));
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -46,7 +48,7 @@ const Login: React.FC = () => {
 
   return (
     <Box display="flex">
-      <form className={classes.root} onSubmit={testing}>
+      <form className={classes.root} onSubmit={loginUser}>
         <div>
           Login
         </div>
