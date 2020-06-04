@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import jwt from 'jsonwebtoken';
 import User from '../models/user';
 
-interface UserArgs {
+interface CreateUserArgs {
   userInput: {
     name: string;
     email: string;
@@ -10,8 +11,13 @@ interface UserArgs {
   };
 }
 
+interface LoginArgs {
+  email: string;
+  password: string;
+}
+
 export default {
-  async createUser(args: UserArgs) {
+  async createUser(args: CreateUserArgs) {
     const { userInput } = args;
     const { name, email, password } = userInput;
     const errors = [];
@@ -37,5 +43,37 @@ export default {
     } catch (err) {
       console.log(err);
     }
+  },
+
+  async login(args: LoginArgs) {
+    const { email, password } = args;
+    const user = await User.findOne({ email });
+    if (!user) {
+      const error = new Error('User not found');
+      throw error;
+    }
+    const isEqual = await bcrypt.compare(password, user.password);
+    if (!isEqual) {
+      const error = new Error('password is incorrect');
+      throw error;
+    }
+    const token = jwt.sign({
+      userId: user._id.toString(),
+      email: user.email,
+    }, 'supersecretsecret', { expiresIn: '1h' });
+
+    return { token, userId: user._id.toString() };
+  },
+
+  async user(args: any, req: any) {
+    if (!req.isAuth) {
+      const error = new Error('not authenticated');
+      throw error;
+    }
+    const user = await User.findById(req.userId);
+    if (!user) {
+      throw new Error('no user found');
+    }
+    return user;
   },
 };

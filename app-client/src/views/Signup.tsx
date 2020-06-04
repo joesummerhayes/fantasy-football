@@ -72,7 +72,7 @@ const Signup = (props: any): ReactElement => {
     }
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
     const input = target.getAttribute('id') || '';
     const { value } = target;

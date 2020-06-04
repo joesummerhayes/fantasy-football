@@ -13,6 +13,7 @@ import reducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { LOGIN_USER } from './actions/types';
 
 declare global {
   interface Window {
@@ -29,6 +30,11 @@ const store = createStore(
     composeEnhancers(),
   ),
 );
+
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch({ type: LOGIN_USER });
+}
 
 ReactDOM.render(
   <Auth0Provider>
