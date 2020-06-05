@@ -28,7 +28,9 @@ const Nav = (): ReactElement => {
   const classes = useStyles();
 
   const signout = (): void => {
-    console.log('sign out');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiryDate');
+    localStorage.removeItem('userId');
   };
 
   return (
