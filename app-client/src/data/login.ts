@@ -1,20 +1,10 @@
 import graphQL from './graph-ql';
 
-interface LoggedInUser {
-  token: string;
-  userId: string;
-}
-
 interface UserQLResult {
-  login: LoggedInUser;
+  login: FFType.LoggedInUser;
 }
 
-interface LoginVariables {
-  email: string;
-  password: string;
-}
-
-const login = async (variables: any): Promise<LoggedInUser> => {
+const login = async (variables: any): Promise<FFType.LoggedInUser> => {
   const response = await graphQL.query<UserQLResult>(`
     query loggingInuser($email: String!, $password: String!){
       login(email: $email, password: $password) {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import { loginAction } from '../actions/index';
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const loginUser = (e: any) => {
+  const loginUser = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(loginAction(form));
   };
@@ -43,8 +43,6 @@ const Login: React.FC = () => {
 
     setForm(updatedForm);
   };
-
-  console.log(form);
 
   return (
     <Box display="flex">

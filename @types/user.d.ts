@@ -1,7 +1,7 @@
 export interface User {
+  _id: string;
   name: string;
-  email: string;
-  password: string;
+  email?: string;
 }
 
 export interface LoggedInUser {
@@ -10,6 +10,12 @@ export interface LoggedInUser {
 }
 
 export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface SignupUser {
+  name: string;
   email: string;
   password: string;
 }

@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
@@ -11,13 +12,15 @@ interface CreateUserArgs {
   };
 }
 
-interface LoginArgs {
-  email: string;
-  password: string;
+declare module 'express-serve-static-core' {
+  interface Request {
+    isAuth?: boolean;
+    userId: string;
+  }
 }
 
 export default {
-  async createUser(args: CreateUserArgs) {
+  async createUser(args: CreateUserArgs): Promise<FFType.User> {
     const { userInput } = args;
     const { name, email, password } = userInput;
     const errors = [];
@@ -42,10 +45,11 @@ export default {
       return createdUser;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   },
 
-  async login(args: LoginArgs) {
+  async login(args: FFType.LoginCredentials): Promise<FFType.LoggedInUser> {
     const { email, password } = args;
     const user = await User.findOne({ email });
     if (!user) {
@@ -65,7 +69,7 @@ export default {
     return { token, userId: user._id.toString() };
   },
 
-  async user(args: any, req: any) {
+  async user(_args: any, req: Request): Promise<FFType.User> {
     if (!req.isAuth) {
       const error = new Error('not authenticated');
       throw error;

@@ -8,7 +8,6 @@ import {
   Store,
 } from 'redux';
 import reduxThunk from 'redux-thunk';
-import { Auth0Provider } from './contexts/auth0-context';
 import reducer from './reducers';
 import './index.css';
 import App from './App';
@@ -23,7 +22,7 @@ declare global {
 
  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
+const store: Store = createStore(
   reducer,
   compose(
     applyMiddleware(reduxThunk),
@@ -37,11 +36,9 @@ if (token) {
 }
 
 ReactDOM.render(
-  <Auth0Provider>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </Auth0Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root'),
 );
 

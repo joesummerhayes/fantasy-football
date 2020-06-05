@@ -1,15 +1,10 @@
 import graphQL from './graph-ql';
-import {compose} from 'redux';
-
-interface User {
-  name: string;
-}
 
 interface UserQLResult {
-  user: User;
+  user: FFType.User;
 }
 
-const getUser = async (): Promise<User> => {
+const getUser = async (): Promise<FFType.User> => {
   const response = await graphQL.query<UserQLResult>(`
     query {
       user {

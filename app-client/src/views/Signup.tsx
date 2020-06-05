@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+import MuiAlert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -21,14 +21,23 @@ const useStyles = makeStyles({
   },
 });
 
+interface Validator {
+  (arg: string): boolean;
+}
 
-const Signup = (props: any): ReactElement => {
+interface FormItem {
+  value: string;
+  touched: boolean;
+  valid: boolean;
+  validators: Validator[];
+}
+
+const Signup = (): ReactElement => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isError = useSelector((state: any) => state.error);
-  // const [error, setError] = React.useState(false);
   const [formIsValid, validateForm] = React.useState(false);
-  const [form, setForm] = React.useState<Record<string, any>>({
+  const [form, setForm] = React.useState<Record<string, FormItem>>({
     name: {
       value: '',
       touched: false,
@@ -55,8 +64,7 @@ const Signup = (props: any): ReactElement => {
     },
   });
 
-
-  const blurHandler = (inputField: string) => {
+  const blurHandler = (inputField: string): void => {
     setForm({
       ...form,
       [inputField]: {
@@ -78,7 +86,7 @@ const Signup = (props: any): ReactElement => {
     const { value } = target;
     let isInputValid = true;
 
-    form[input].validators.map((validator: any) => {
+    form[input].validators.map((validator: Validator): void => {
       isInputValid = isInputValid && validator(value);
     });
 
@@ -95,9 +103,9 @@ const Signup = (props: any): ReactElement => {
       },
     };
 
-    const formEntries = Object.entries(updatedForm);
+    const formEntries: [string, FormItem][] = Object.entries(updatedForm);
 
-    const validations = formEntries.map((item: Record<string, any>) => {
+    const validations = formEntries.map((item: [string, FormItem]) => {
       return item[1].valid;
     });
     const reducer = (acc: boolean, item: boolean): boolean => {
@@ -117,7 +125,7 @@ const Signup = (props: any): ReactElement => {
     <Box display="flex">
       <form
         className={classes.root}
-        onSubmit={(e) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
           e.preventDefault();
           if (formIsValid) {
             dispatch(

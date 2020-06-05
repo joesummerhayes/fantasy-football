@@ -9,7 +9,6 @@ import {
 } from './types';
 import history from '../history';
 
-
 export interface GetPremTeams extends Action {
   payload: {};
 }
@@ -37,7 +36,7 @@ export const getPremTeams = () => async (dispatch: premTeamsDispatch): Promise<v
   });
 };
 
-export const createUserAction = (userInputData: FFType.User) => async (dispatch: CreateUserDispatch): Promise<void> => {
+export const createUserAction = (userInputData: FFType.SignupUser) => async (dispatch: CreateUserDispatch): Promise<void> => {
   try {
     const savedUser = await createUser(userInputData);
     if (!savedUser) {
