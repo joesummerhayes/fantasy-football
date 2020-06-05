@@ -50,7 +50,7 @@ app.use('/graphql', graphqlHttp({
   },
 }));
 
-app.use((error: Error, req: Request, res: Response<any>, next: NextFunction) => {
+app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.log(error);
   const { message } = error;
   res.status(500).json({ message });
