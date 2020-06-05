@@ -27,6 +27,10 @@ const useStyles = makeStyles({
 const Nav = (): ReactElement => {
   const classes = useStyles();
 
+  const signout = (): void => {
+    console.log('sign out');
+  };
+
   return (
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
@@ -37,6 +41,7 @@ const Nav = (): ReactElement => {
       <div className={classes.navRight}>
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
+        <Link onClick={signout} to="/login">Sign Out</Link>
       </div>
     </div>
   );
