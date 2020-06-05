@@ -106,7 +106,6 @@ const Signup = (): ReactElement => {
     const formEntries: [string, FormItem][] = Object.entries(updatedForm);
 
     const validations = formEntries.map((item: [string, FormItem]) => {
-      console.log(item);
       return item[1].valid;
     });
     const reducer = (acc: boolean, item: boolean): boolean => {

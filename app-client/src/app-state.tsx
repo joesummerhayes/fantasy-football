@@ -1,6 +1,7 @@
 export interface AppState {
   user?: {
-    token: number;
-    userId: string;
+    user?: FFType.LoggedInUser;
+    loggedIn: boolean;
   };
 }
+
