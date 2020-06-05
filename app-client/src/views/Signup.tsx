@@ -25,7 +25,7 @@ interface Validator {
   (arg: string): boolean;
 }
 
-interface Foo {
+interface FormItem {
   value: string;
   touched: boolean;
   valid: boolean;
@@ -37,7 +37,7 @@ const Signup = (): ReactElement => {
   const classes = useStyles();
   const isError = useSelector((state: any) => state.error);
   const [formIsValid, validateForm] = React.useState(false);
-  const [form, setForm] = React.useState<Record<string, Foo>>({
+  const [form, setForm] = React.useState<Record<string, FormItem>>({
     name: {
       value: '',
       touched: false,
@@ -86,7 +86,7 @@ const Signup = (): ReactElement => {
     const { value } = target;
     let isInputValid = true;
 
-    form[input].validators.map((validator: Validator) => {
+    form[input].validators.map((validator: Validator): void => {
       isInputValid = isInputValid && validator(value);
     });
 
@@ -103,9 +103,10 @@ const Signup = (): ReactElement => {
       },
     };
 
-    const formEntries = Object.entries(updatedForm);
+    const formEntries: [string, FormItem][] = Object.entries(updatedForm);
 
-    const validations = formEntries.map((item: Record<string, any>) => {
+    const validations = formEntries.map((item: [string, FormItem]) => {
+      console.log(item);
       return item[1].valid;
     });
     const reducer = (acc: boolean, item: boolean): boolean => {
@@ -125,7 +126,7 @@ const Signup = (): ReactElement => {
     <Box display="flex">
       <form
         className={classes.root}
-        onSubmit={(e) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
           e.preventDefault();
           if (formIsValid) {
             dispatch(
