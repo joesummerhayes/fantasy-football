@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
 import { loginAction } from '../actions/index';
 
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
 });
 
 const Login: React.FC = () => {
+
   const [form, setForm] = React.useState({
     email: '',
     password: '',
@@ -47,9 +49,6 @@ const Login: React.FC = () => {
   return (
     <Box display="flex">
       <form className={classes.root} onSubmit={loginUser}>
-        <div>
-          Login
-        </div>
         <div className={classes.inputField}>
           <TextField
             fullWidth
@@ -71,7 +70,13 @@ const Login: React.FC = () => {
             type="password"
           />
         </div>
-        <button type="submit">hello</button>
+        <Button
+          variant="contained"
+          className={classes.submitButton}
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     </Box>
   );

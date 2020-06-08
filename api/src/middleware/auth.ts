@@ -6,11 +6,6 @@ interface Token {
   token: string;
 }
 
-// export interface AuthResponse extends Request {
-//   isAuth?: boolean;
-//   userId: string;
-// }
-
 declare module 'express-serve-static-core' {
   interface Request {
     isAuth?: boolean;

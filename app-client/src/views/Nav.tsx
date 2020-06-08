@@ -27,16 +27,21 @@ const useStyles = makeStyles({
 const Nav = (): ReactElement => {
   const classes = useStyles();
 
+  const signout = (): void => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiryDate');
+    localStorage.removeItem('userId');
+  };
+
   return (
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
-        <Link to="/">tab 1</Link>
-        <Link to="/">tab 2</Link>
-        <Link to="/">tab 3</Link>
+        <Link to="/protectedRoute">tab 1</Link>
       </div>
       <div className={classes.navRight}>
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
+        <Link onClick={signout} to="/login">Sign Out</Link>
       </div>
     </div>
   );
