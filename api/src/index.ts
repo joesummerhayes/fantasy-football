@@ -46,12 +46,12 @@ app.use('/graphql', graphqlHttp({
     return {
       message,
       status: code,
+      specificError: err.message,
     };
   },
 }));
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.log(error);
   const { message } = error;
   res.status(500).json({ message });
 });

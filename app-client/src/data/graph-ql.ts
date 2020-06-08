@@ -29,7 +29,7 @@ export class GraphQL {
         if (err.extensions && err.extensions.exception) {
           return err.extensions.exception;
         }
-        return err;
+        throw err;
       });
       console.error('GraphQL.query', exceptions);
     }
