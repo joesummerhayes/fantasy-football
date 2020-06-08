@@ -1,6 +1,6 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -27,6 +27,8 @@ const useStyles = makeStyles({
 const Nav = (): ReactElement => {
   const classes = useStyles();
 
+  const isAuth = useSelector((state: any) => state.user.loggedIn);
+
   const signout = (): void => {
     localStorage.removeItem('token');
     localStorage.removeItem('expiryDate');
@@ -36,12 +38,12 @@ const Nav = (): ReactElement => {
   return (
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
-        <Link to="/protectedRoute">tab 1</Link>
+        {isAuth && <Link to="/protectedRoute">tab 1</Link>}
       </div>
       <div className={classes.navRight}>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Sign Up</Link>
-        <Link onClick={signout} to="/login">Sign Out</Link>
+        {!isAuth && <Link to="/login">Login</Link>}
+        {!isAuth && <Link to="/signup">Sign Up</Link>}
+        {isAuth && <Link onClick={signout} to="/login">Sign Out</Link>}
       </div>
     </div>
   );
