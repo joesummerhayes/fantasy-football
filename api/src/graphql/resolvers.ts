@@ -24,6 +24,11 @@ export default {
     const { userInput } = args;
     const { name, email, password } = userInput;
     const errors = [];
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      throw new Error('User already exists for this email');
+    }
+
     if (!validator.isEmail(email)) {
       errors.push({ message: 'Email is not valid' });
     }

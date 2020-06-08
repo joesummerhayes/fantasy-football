@@ -51,7 +51,7 @@ export const createUserAction = (userInputData: FFType.SignupUser) => async (dis
     console.log(err);
     dispatch({
       type: GET_ERROR,
-      payload: err.toString(),
+      payload: err.specificError,
     });
     return err;
   }
@@ -60,7 +60,6 @@ export const createUserAction = (userInputData: FFType.SignupUser) => async (dis
 export const loginAction = (loginInputData: FFType.LoginCredentials) => async (dispatch: LoginDispatch): Promise<void> => {
   try {
     const user = await login(loginInputData);
-    console.log(user);
     if (!user) {
       throw new Error('no user found with these credentials');
     }
