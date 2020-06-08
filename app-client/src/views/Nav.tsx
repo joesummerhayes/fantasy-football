@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import history from '../history';
 
 const useStyles = makeStyles({
   navContainer: {
@@ -33,6 +34,7 @@ const Nav = (): ReactElement => {
     localStorage.removeItem('token');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('userId');
+    history.push('/login');
   };
 
   return (
