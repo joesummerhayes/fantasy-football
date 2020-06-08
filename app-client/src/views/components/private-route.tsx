@@ -7,7 +7,7 @@ const PrivateRoute: React.ComponentType<any> = ({ component: Component, ...rest 
       {...rest}
       render={(props) => (
         localStorage.getItem('token')
-          ? <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location }}} />
+          ? <Component {...props} /> : <Redirect to={{ pathname: '/login' }} />
       )}
     />
   );
