@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import history from '../history';
+import { logoutAction } from '../actions/index';
 
 const useStyles = makeStyles({
   navContainer: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
 
 const Nav = (): ReactElement => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const isAuth = useSelector((state: any) => state.user.loggedIn);
 
@@ -34,6 +36,7 @@ const Nav = (): ReactElement => {
     localStorage.removeItem('token');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('userId');
+    dispatch(logoutAction());
     history.push('/login');
   };
 

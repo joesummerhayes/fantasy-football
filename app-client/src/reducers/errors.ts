@@ -1,18 +1,23 @@
 import { Reducer, AnyAction, Action } from 'redux';
-import { GET_ERROR } from '../actions/types';
+import { GET_ERROR, CLEAR_ERROR } from '../actions/types';
+import { AppState } from '../app-state';
 
 interface GetErrors extends Action {
   payload: {};
 }
 
-export const getErrorReducer: Reducer = (state = {}, action: AnyAction) => {
+export const getErrorReducer: Reducer = (state: AppState = {}, action: AnyAction): AppState => {
   switch (action.type) {
     case GET_ERROR: {
+      console.log('11111');
       const { payload } = action as GetErrors;
       return {
         ...state,
-        message: payload,
+        ...payload,
       };
+    }
+    case CLEAR_ERROR: {
+      return {};
     }
     default:
       return state;

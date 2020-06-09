@@ -1,6 +1,7 @@
 import { PremTeam as IPremTeam } from './prem-team';
 import { User as IUser, LoggedInUser as ILoggedInUser, LoginCredentials as ILoginCredentials, SignupUser as ISignupUser } from './user';
 import { MongoUser as IMongoUser } from './mongo-user';
+import { Validator as IValidator, FormItem as IFormItem } from './form';
 
 declare namespace FFType {
   export type PremTeam = IPremTeam;
@@ -9,6 +10,8 @@ declare namespace FFType {
   export type LoggedInUser = ILoggedInUser;
   export type LoginCredentials = ILoginCredentials;
   export type SignupUser = ISignupUser;
+  export type Validator = IValidator;
+  export type FormItem = IFormItem;
 }
 
 export = FFType;

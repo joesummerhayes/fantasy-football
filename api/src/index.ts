@@ -41,12 +41,18 @@ app.use('/graphql', graphqlHttp({
     if (!err.originalError) {
       return err;
     }
+    let errorLocation = '';
+    if (err.path) {
+      console.log(err.path[0]);
+      errorLocation = err.path[0].toString();
+    }
     const message = 'an error occurred';
     const code = 500;
     return {
       message,
       status: code,
       specificError: err.message,
+      errorLocation,
     };
   },
 }));
