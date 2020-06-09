@@ -21,23 +21,12 @@ const useStyles = makeStyles({
   },
 });
 
-interface Validator {
-  (arg: string): boolean;
-}
-
-interface FormItem {
-  value: string;
-  touched: boolean;
-  valid: boolean;
-  validators: Validator[];
-}
-
 const Signup = (): ReactElement => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isError = useSelector((state: any) => state.error);
   const [formIsValid, validateForm] = React.useState(false);
-  const [form, setForm] = React.useState<Record<string, FormItem>>({
+  const [form, setForm] = React.useState<Record<string, FFType.FormItem>>({
     name: {
       value: '',
       touched: false,
@@ -75,8 +64,8 @@ const Signup = (): ReactElement => {
   };
 
   const handleError = (): ReactElement | void => {
-    if (isError.message) {
-      return <MuiAlert severity="error">{isError.message}</MuiAlert>;
+    if (isError.errorLocation === 'createUser') {
+      return <MuiAlert severity="error">{isError.specificError}</MuiAlert>;
     }
   };
 
@@ -86,7 +75,7 @@ const Signup = (): ReactElement => {
     const { value } = target;
     let isInputValid = true;
 
-    form[input].validators.map((validator: Validator): void => {
+    form[input].validators.map((validator: FFType.Validator): void => {
       isInputValid = isInputValid && validator(value);
     });
 
@@ -103,9 +92,9 @@ const Signup = (): ReactElement => {
       },
     };
 
-    const formEntries: [string, FormItem][] = Object.entries(updatedForm);
+    const formEntries: [string, FFType.FormItem][] = Object.entries(updatedForm);
 
-    const validations = formEntries.map((item: [string, FormItem]) => {
+    const validations = formEntries.map((item: [string, FFType.FormItem]) => {
       return item[1].valid;
     });
     const reducer = (acc: boolean, item: boolean): boolean => {

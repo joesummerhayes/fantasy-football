@@ -16,6 +16,7 @@ const getUser = async (): Promise<FFType.User> => {
   if (response === null) {
     throw new Error('could not get user details');
   }
+  console.log(response.user);
   return response.user;
 };
 

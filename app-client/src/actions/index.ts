@@ -3,15 +3,12 @@ import createUser from '../data/create-user';
 import login from '../data/login';
 import {
   GET_PREM_TEAMS,
-  CREATE_USER,
+  CLEAR_ERROR,
   GET_ERROR,
   LOGIN_USER,
+  LOGOUT_USER,
 } from './types';
 import history from '../history';
-
-export interface GetPremTeams extends Action {
-  payload: {};
-}
 
 export interface SaveUser extends Action {
   payload: FFType.User;
@@ -25,18 +22,14 @@ export interface LoginUser extends Action {
   payload: FFType.LoggedInUser;
 }
 
-type premTeamsDispatch = (actions: GetPremTeams) => void;
-type CreateUserDispatch = (actions: CreateUser) => void;
+export interface ClearError extends Action {
+  payload: {};
+}
+
 type LoginDispatch = (actions: LoginUser) => void;
+type ClearErrorDispatch = (actions: ClearError) => void;
 
-export const getPremTeams = () => async (dispatch: premTeamsDispatch): Promise<void> => {
-  dispatch({
-    type: GET_PREM_TEAMS,
-    payload: {},
-  });
-};
-
-export const createUserAction = (userInputData: FFType.SignupUser) => async (dispatch: CreateUserDispatch): Promise<void> => {
+export const createUserAction = (userInputData: FFType.SignupUser) => async (dispatch: any): Promise<void> => {
   try {
     const savedUser = await createUser(userInputData);
     if (!savedUser) {
@@ -44,20 +37,18 @@ export const createUserAction = (userInputData: FFType.SignupUser) => async (dis
     }
     history.push('/login');
     dispatch({
-      type: CREATE_USER,
-      payload: savedUser,
+      type: CLEAR_ERROR,
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: GET_ERROR,
-      payload: err.specificError,
+      payload: err,
     });
     return err;
   }
 };
 
-export const loginAction = (loginInputData: FFType.LoginCredentials) => async (dispatch: LoginDispatch): Promise<void> => {
+export const loginAction = (loginInputData: FFType.LoginCredentials) => async (dispatch: any): Promise<void> => {
   try {
     const user = await login(loginInputData);
     if (!user) {
@@ -72,17 +63,32 @@ export const loginAction = (loginInputData: FFType.LoginCredentials) => async (d
     localStorage.setItem('expiryDate', expiryDate.toISOString());
     history.push('/');
     dispatch({
+      type: CLEAR_ERROR,
+    });
+    dispatch({
       type: LOGIN_USER,
       payload: user,
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: GET_ERROR,
-      payload: err.toString(),
+      payload: err,
     });
     return err;
   }
+};
+
+export const clearErrors = () => (dispatch: ClearErrorDispatch): void => {
+  dispatch({
+    type: CLEAR_ERROR,
+    payload: {},
+  });
+};
+
+export const logoutAction = () => (dispatch: any) => {
+  dispatch({
+    type: LOGOUT_USER,
+  });
 };
 
 export default {};

@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import { saveUserReducer } from './save-user';
 import { getErrorReducer } from './errors';
-import { loginUserReducer } from './login-user';
+import userAuthReducer from './user-auth';
 
 export default combineReducers({
-  data: saveUserReducer,
   error: getErrorReducer,
-  user: loginUserReducer,
+  user: userAuthReducer,
 });
