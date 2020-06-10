@@ -86,6 +86,9 @@ export const clearErrors = () => (dispatch: ClearErrorDispatch): void => {
 };
 
 export const logoutAction = () => (dispatch: any) => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expiryDate');
+  localStorage.removeItem('userId');
   dispatch({
     type: LOGOUT_USER,
   });

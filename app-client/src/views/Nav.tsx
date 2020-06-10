@@ -33,9 +33,6 @@ const Nav = (): ReactElement => {
   const isAuth = useSelector((state: any) => state.user.loggedIn);
 
   const signout = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiryDate');
-    localStorage.removeItem('userId');
     dispatch(logoutAction());
     history.push('/login');
   };
