@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-// import history from '../history';
+import history from '../history';
 import { logoutAction } from '../actions/index';
 
 const useStyles = makeStyles({
   navContainer: {
-    backgroundColor: '#358600',
+    backgroundColor: '#63C132',
     overflow: 'hidden',
     fontSize: '17px',
     padding: '14px 16px',
@@ -34,13 +34,13 @@ const Nav: React.FC = (): ReactElement => {
 
   const signout = (): void => {
     dispatch(logoutAction());
-    // history.push('/login');
+    history.push('/login');
   };
 
   return (
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
-        <Link to="/add-player">Add Player</Link>
+        {isAuth && <Link to="/add-player">Add Player</Link>}
       </div>
       <div className={classes.navRight}>
         {!isAuth && <Link to="/login">Login</Link>}
