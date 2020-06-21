@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
 import { premTeams, positions } from '../../utils/add-player-data';
+import addPlayer from '../../data/add-player';
 
 const useStyles = makeStyles({
   root: {
@@ -75,9 +76,10 @@ const AddPlayer: React.FC = (): JSX.Element => {
     });
   };
 
+
   return (
     <Box>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={() => addPlayer(player)}>
         <div>
           <TextField
             className={classes.field}
@@ -129,7 +131,7 @@ const AddPlayer: React.FC = (): JSX.Element => {
             </Select>
           </FormControl>
         </div>
-        <Button variant="outlined" color="primary">Enter</Button>
+        <Button variant="outlined" color="primary" type="submit">Enter</Button>
       </form>
     </Box>
   );
