@@ -7,7 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
-import premTeams from '../../utils/teams';
+import { premTeams, positions } from '../../utils/add-player-data';
+import addPlayer from '../../data/add-player';
 
 const useStyles = makeStyles({
   root: {
@@ -24,16 +25,18 @@ const useStyles = makeStyles({
 });
 
 interface PlayerForm {
-  name: string;
+  firstName: string;
+  lastName: string;
   position: string;
   team: string;
 }
 
 const AddPlayer: React.FC = (): JSX.Element => {
   const [player, setPlayer] = React.useState<PlayerForm>({
-    name: '',
+    firstName: '',
     position: '',
     team: '',
+    lastName: '',
   });
   const classes = useStyles();
 
@@ -50,34 +53,41 @@ const AddPlayer: React.FC = (): JSX.Element => {
     setPlayer(updatedPlayer);
   };
 
-  const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
+  const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
     const { target } = event;
-    const { value } = target;
-    const team = 'team';
+    const { value, name } = target;
+    console.log(name, value);
 
     setPlayer({
       ...player,
-      [team as string]: value,
+      [name as string]: value,
     });
   };
 
   const teamsDropDown = (): ReactNode => {
     return premTeams.map((teamName: string) => {
-      return <MenuItem value={teamName}>{teamName}</MenuItem>;
+      return <MenuItem key={teamName} value={teamName}>{teamName}</MenuItem>;
     });
   };
 
+  const positionDropDown = (): ReactNode => {
+    return positions.map((position: string) => {
+      return <MenuItem key={position} value={position}>{position}</MenuItem>;
+    });
+  };
+
+
   return (
     <Box>
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={() => addPlayer(player)}>
         <div>
           <TextField
             className={classes.field}
             fullWidth
             variant="outlined"
-            placeholder="name"
-            id="name"
-            value={player.name}
+            placeholder="First Name"
+            id="firstName"
+            value={player.firstName}
             onChange={handleInputChange}
           />
         </div>
@@ -86,11 +96,25 @@ const AddPlayer: React.FC = (): JSX.Element => {
             className={classes.field}
             fullWidth
             variant="outlined"
-            placeholder="position"
-            id="position"
-            value={player.position}
+            placeholder="Last Name"
+            id="lastName"
+            value={player.lastName}
             onChange={handleInputChange}
           />
+        </div>
+        <div>
+          <FormControl variant="outlined" className={classes.dropDown}>
+            <InputLabel id="demo-simple-select-outlined-label" className={classes.dropDown}>Position</InputLabel>
+            <Select
+              id="position"
+              value={player.position}
+              onChange={handleDropDownChange}
+              label="Age"
+              name="position"
+            >
+              {positionDropDown()}
+            </Select>
+          </FormControl>
         </div>
         <div>
           <FormControl variant="outlined" className={classes.dropDown}>
@@ -101,12 +125,13 @@ const AddPlayer: React.FC = (): JSX.Element => {
               value={player.team}
               onChange={handleDropDownChange}
               label="Age"
+              name="team"
             >
               {teamsDropDown()}
             </Select>
           </FormControl>
         </div>
-        <Button variant="outlined" color="primary">Enter</Button>
+        <Button variant="outlined" color="primary" type="submit">Enter</Button>
       </form>
     </Box>
   );

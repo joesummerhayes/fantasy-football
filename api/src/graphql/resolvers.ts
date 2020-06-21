@@ -3,12 +3,22 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
+import Player from '../models/player';
 
 interface CreateUserArgs {
   userInput: {
     name: string;
     email: string;
     password: string;
+  };
+}
+
+interface AddPlayerArgs {
+  playerInput: {
+    firstName: string;
+    lastName: string;
+    position: string;
+    team: string;
   };
 }
 
@@ -84,5 +94,24 @@ export default {
       throw new Error('no user found');
     }
     return user;
+  },
+
+  async addPlayer(args: AddPlayerArgs): Promise<FFType.Player> {
+    try {
+      const { playerInput } = args;
+      const { firstName, lastName, position, team } = playerInput;
+      const player = new Player({
+        firstName,
+        lastName,
+        position,
+        team,
+      });
+      const createdPlayer = await player.save();
+      console.log(createdPlayer);
+      return createdPlayer;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   },
 };
