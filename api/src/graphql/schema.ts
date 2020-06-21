@@ -8,6 +8,14 @@ export default buildSchema(`
     password: String
   }
 
+  type Player {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    position: String!
+    team: String!
+  }
+
   type AuthData {
     token: String!
     userId: String!
@@ -19,6 +27,13 @@ export default buildSchema(`
     password: String!
   }
 
+  input PlayerInputData {
+    firstName: String!
+    lastName: String!
+    position: String!
+    team: String!
+  }
+
   type RootQuery {
     login(email: String!, password: String!): AuthData!
     user: User!
@@ -26,6 +41,7 @@ export default buildSchema(`
 
   type RootMutation {
     createUser(userInput: UserInputData!): User!
+    addPlayer(playerInput: PlayerInputData): Player!
   }
 
   schema {
