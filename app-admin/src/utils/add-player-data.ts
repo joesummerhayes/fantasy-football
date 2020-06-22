@@ -22,7 +22,7 @@ export const premTeams = [
   'Norwich City',
   'Sheffield United',
   'Southampton',
-  'Tottenham Hotspurs',
+  'Tottenham Hotspur',
   'Watford',
   'West Ham United',
   'Wolverhampton Wanderers',
