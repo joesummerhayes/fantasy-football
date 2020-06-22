@@ -20,7 +20,6 @@ const addPlayer = async (variables: any): Promise<FFType.Player> => {
   if (response === null) {
     throw new Error('There was a problem adding player');
   }
-  console.log(response.player);
   return response.player;
 };
 

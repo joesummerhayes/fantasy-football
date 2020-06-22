@@ -56,7 +56,6 @@ const AddPlayer: React.FC = (): JSX.Element => {
   const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
     const { target } = event;
     const { value, name } = target;
-    console.log(name, value);
 
     setPlayer({
       ...player,
@@ -109,7 +108,6 @@ const AddPlayer: React.FC = (): JSX.Element => {
               id="position"
               value={player.position}
               onChange={handleDropDownChange}
-              label="Age"
               name="position"
             >
               {positionDropDown()}
@@ -124,7 +122,6 @@ const AddPlayer: React.FC = (): JSX.Element => {
               id="team"
               value={player.team}
               onChange={handleDropDownChange}
-              label="Age"
               name="team"
             >
               {teamsDropDown()}
