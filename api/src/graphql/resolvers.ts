@@ -4,6 +4,7 @@ import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import Player from '../models/player';
+import PremTeam from '../models/prem-team';
 
 interface CreateUserArgs {
   userInput: {
@@ -100,13 +101,30 @@ export default {
     try {
       const { playerInput } = args;
       const { firstName, lastName, position, team } = playerInput;
+
       const player = new Player({
         firstName,
         lastName,
         position,
         team,
       });
+
+      const premTeam = await PremTeam.findOne({ name: team });
+      if (premTeam) {
+        premTeam.players.push(player);
+        const upatedTeam = await premTeam.save();
+        console.log('team already exists, i will just add new player', upatedTeam);
+      } else if (!premTeam) {
+        const newPremTeam = new PremTeam({
+          name: team,
+        });
+        newPremTeam.players.push(player);
+        const createdPremTeam = await newPremTeam.save();
+        console.log('team doesnt exist, i will make one', createdPremTeam);
+      }
+
       const createdPlayer = await player.save();
+
       console.log(createdPlayer);
       return createdPlayer;
     } catch (error) {
