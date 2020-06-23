@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { premTeams } from '../utils/add-player-data';
 import findPlayers from '../data/find-players';
+import PlayersTable from './Players-table';
 
 const useStyles = makeStyles({
   root: {
@@ -27,34 +28,37 @@ const teamsDropDown = (): ReactNode => {
 const PlayerSelect: React.FC = () => {
   const classes = useStyles();
   const [searchTeam, setSearchTeam] = React.useState<string>('');
+  const [squadPlayers, setSquadPlayers] = React.useState<FFType.Player[]>([]);
 
-  const dropDownHandler = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
+  const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;
     const { value } = target;
     setSearchTeam(value as string);
 
-    findPlayers({ teamName: value });
-
-    // loads of logic to search the database and ombit results? or do this in a nother function?
+    const players = await findPlayers({ teamName: value });
+    setSquadPlayers(players);
   };
 
   return (
-    <form className={classes.root}>
-      <div>
-        <FormControl variant="outlined" className={classes.dropDown}>
-          <InputLabel id="demo-simple-select-outlined-label" className={classes.dropDown}>Team</InputLabel>
-          <Select
-            id="team"
-            value={searchTeam}
-            name="team"
-            onChange={dropDownHandler}
-          >
-            {teamsDropDown()}
-          </Select>
-        </FormControl>
-      </div>
-    </form>
-  )
+    <>
+      <form className={classes.root}>
+        <div>
+          <FormControl variant="outlined" className={classes.dropDown}>
+            <InputLabel id="demo-simple-select-outlined-label" className={classes.dropDown}>Team</InputLabel>
+            <Select
+              id="team"
+              value={searchTeam}
+              name="team"
+              onChange={dropDownHandler}
+            >
+              {teamsDropDown()}
+            </Select>
+          </FormControl>
+        </div>
+      </form>
+      <PlayersTable />
+    </>
+  );
 };
 
 export default PlayerSelect;
