@@ -37,7 +37,7 @@ export default buildSchema(`
   type RootQuery {
     login(email: String!, password: String!): AuthData!
     user: User!
-    getPlayers(teamName: String): Player[]!
+    getPlayers(teamName: String!): [Player]
   }
 
   type RootMutation {

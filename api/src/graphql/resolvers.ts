@@ -23,6 +23,10 @@ interface AddPlayerArgs {
   };
 }
 
+interface FindPlayersArgs {
+  teamName: string;
+}
+
 declare module 'express-serve-static-core' {
   interface Request {
     isAuth?: boolean;
@@ -127,6 +131,26 @@ export default {
 
       console.log(createdPlayer);
       return createdPlayer;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async getPlayers(args: FindPlayersArgs): Promise<FFType.Player[]> {
+
+    const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
+      console.log('variableToCheck', variableToCheck);
+      return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
+    };
+
+    const { teamName } = args;
+    try {
+      const team = await PremTeam.findOne({ name: teamName }).populate('players');
+      if (team && team.players && isPlayer(team.players)) {
+        return team.players;
+      }
+      throw new Error(`Could not find players for ${teamName}`);
     } catch (error) {
       console.log(error);
       throw error;

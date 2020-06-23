@@ -1,26 +1,23 @@
 import graphQL from './graph-ql';
 
-interface PlayerQlResult {
-  player: FFType.Player;
+interface FindPlayersQlResult {
+  playerIds: string[];
 }
 
-const addPlayer = async (variables: any): Promise<FFType.Player> => {
-  console.log('trying to add player on front end');
-  const response = await graphQL.query<PlayerQlResult>(`
-    mutation addNewPlayer($firstName: String!, $lastName: String!, $position: String!, $team: String!) {
-      addPlayer(playerInput: {firstName: $firstName, lastName: $lastName, position: $position, team: $team}) {
-        _id
+const findPlayers = async (variables: any): Promise<string[]> => {
+  console.log('trying to get players on front end');
+  const response = await graphQL.query<FindPlayersQlResult>(`
+    query findingPlayers($teamName: String!) {
+      getPlayers(teamName: $teamName){
         firstName
-        lastName
-        position
-        team
       }
     }
   `, variables);
   if (response === null) {
     throw new Error('There was a problem adding player');
   }
-  return response.player;
+  console.log(response);
+  return response.playerIds;
 };
 
-export default addPlayer;
+export default findPlayers;
