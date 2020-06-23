@@ -3,6 +3,7 @@ import { Router, Route, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import history from './history';
 import AddPlayer from './views/components/add-player';
+import PlayerSelect from './views/Players-search';
 import Nav from './views/Nav';
 import Login from './views/Login';
 import { logoutAction } from './actions/index';
@@ -26,6 +27,7 @@ const App: React.FC = (): JSX.Element => {
       <Nav />
       <div>
         <PrivateRoute exact path="/add-player" component={AddPlayer} />
+        <PrivateRoute exact path="/players" component={PlayerSelect} />
         <Route exact path="/login" component={Login} />
       </div>
     </Router>

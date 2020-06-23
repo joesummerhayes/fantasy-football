@@ -24,6 +24,14 @@ const playerSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+  premTeam: {
+    type: Schema.Types.ObjectId,
+    ref: 'PremTeams',
+  },
+  // userTeams: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Team',
+  // }],
 });
 
 export default mongoose.model<Player>('Player', playerSchema);
