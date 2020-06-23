@@ -1,12 +1,12 @@
 import graphQL from './graph-ql';
 
 interface FindPlayersQlResult {
-  playerIds: string[];
+  getPlayers: FFType.Player[];
 }
 
 const findPlayers = async (variables: any): Promise<FFType.Player[]> => {
   console.log('trying to get players on front end');
-  const response = await graphQL.query<FFType.Player[]>(`
+  const response = await graphQL.query<FindPlayersQlResult>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){
         firstName
@@ -20,7 +20,7 @@ const findPlayers = async (variables: any): Promise<FFType.Player[]> => {
   if (response === null) {
     throw new Error('There was a problem adding player');
   }
-  return response;
+  return response.getPlayers;
 };
 
 export default findPlayers;

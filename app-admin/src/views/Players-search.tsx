@@ -30,6 +30,8 @@ const PlayerSelect: React.FC = () => {
   const [searchTeam, setSearchTeam] = React.useState<string>('');
   const [squadPlayers, setSquadPlayers] = React.useState<FFType.Player[]>([]);
 
+  console.log('222', squadPlayers);
+
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;
     const { value } = target;
@@ -56,7 +58,7 @@ const PlayerSelect: React.FC = () => {
           </FormControl>
         </div>
       </form>
-      <PlayersTable />
+      <PlayersTable players={squadPlayers} />
     </>
   );
 };
