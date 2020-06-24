@@ -5,7 +5,6 @@ interface FindPlayersQlResult {
 }
 
 const findPlayers = async (variables: any): Promise<FFType.Player[]> => {
-  console.log('trying to get players on front end');
   const response = await graphQL.query<FindPlayersQlResult>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){

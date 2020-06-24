@@ -42,7 +42,6 @@ const Login: React.FC = () => {
 
   const loginUser = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(form);
     const formValues = {
       email: form.email.value,
       password: form.password.value,
@@ -61,8 +60,8 @@ const Login: React.FC = () => {
   };
 
   const handleError = (): ReactElement | void => {
-    if (isError.errorLocation === 'login') {
-      return <MuiAlert severity="error">{isError.specificError}</MuiAlert>;
+    if (isError.message) {
+      return <MuiAlert severity="error">{isError.message}</MuiAlert>;
     }
   };
 

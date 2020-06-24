@@ -5,11 +5,8 @@ import { AppState } from '../app-state';
 const userAuthReducer: Reducer = (state: AppState = {}, action: AnyAction) => {
   switch (action.type) {
     case LOGIN_USER: {
-      const { payload } = action;
-
       return {
         ...state,
-        user: payload,
         loggedIn: true,
       };
     }
