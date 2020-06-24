@@ -9,7 +9,6 @@ interface GetErrors extends Action {
 export const getErrorReducer: Reducer = (state: AppState = {}, action: AnyAction): AppState => {
   switch (action.type) {
     case GET_ERROR: {
-      console.log('11111');
       const { payload } = action as GetErrors;
       return {
         ...state,

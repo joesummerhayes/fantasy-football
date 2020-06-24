@@ -12,7 +12,7 @@ export const getErrorReducer: Reducer = (state: AppState = {}, action: AnyAction
       const { payload } = action as GetErrors;
       return {
         ...state,
-        ...payload,
+        message: payload,
       };
     }
     case CLEAR_ERROR: {

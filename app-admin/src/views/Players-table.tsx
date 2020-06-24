@@ -37,20 +37,7 @@ const PlayersTable: React.FC<Props> = (props: Props) => {
       ...state,
       data: playerRows,
     });
-  }, [props]);
-
-  const getPlayerRows = (): any => {
-    const data = players.map((player) => {
-      return { name: player.firstName, position: player.position, team: player.team };
-    });
-    return data;
-  };
-
-  // if (players.length < 1) {
-  //   return (
-  //     <div>No players for this team</div>
-  //   );
-  // }
+  }, [props?.players]);
 
   return (
     <MaterialTable

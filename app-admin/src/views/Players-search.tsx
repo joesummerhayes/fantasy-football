@@ -30,15 +30,17 @@ const PlayerSelect: React.FC = () => {
   const [searchTeam, setSearchTeam] = React.useState<string>('');
   const [squadPlayers, setSquadPlayers] = React.useState<FFType.Player[]>([]);
 
-  console.log('222', squadPlayers);
-
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;
     const { value } = target;
     setSearchTeam(value as string);
-
-    const players = await findPlayers({ teamName: value });
-    setSquadPlayers(players);
+    try {
+      const players = await findPlayers({ teamName: value });
+      setSquadPlayers(players);
+    } catch (error) {
+      setSquadPlayers([]);
+      console.log(error);
+    }
   };
 
   return (

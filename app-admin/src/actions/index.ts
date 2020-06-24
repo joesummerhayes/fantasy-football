@@ -6,7 +6,13 @@ import login from '../data/login';
 export interface ClearError extends Action {
   payload: {};
 }
+export interface GetError extends Action {
+  payload: {};
+}
+
 type ClearErrorDispatch = (actions: ClearError) => void;
+
+type GetErrorsDispatch = (actions: GetError) => void;
 
 export const loginAction = (loginInputData: FFType.LoginCredentials) => async (dispatch: any): Promise<void> => {
   try {
@@ -32,7 +38,7 @@ export const loginAction = (loginInputData: FFType.LoginCredentials) => async (d
   } catch (err) {
     dispatch({
       type: GET_ERROR,
-      payload: err,
+      payload: err.specificError,
     });
     return err;
   }
@@ -51,6 +57,13 @@ export const clearErrors = () => (dispatch: ClearErrorDispatch): void => {
   dispatch({
     type: CLEAR_ERROR,
     payload: {},
+  });
+};
+
+export const getErrorAction = (error: string) => (dispatch: GetErrorsDispatch): void => {
+  dispatch({
+    type: GET_ERROR,
+    payload: error,
   });
 };
 
