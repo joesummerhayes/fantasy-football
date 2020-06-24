@@ -91,8 +91,7 @@ export default {
 
   async user(_args: any, req: Request): Promise<FFType.User> {
     if (!req.isAuth) {
-      const error = new Error('not authenticated');
-      throw error;
+      throw new Error('not authenticated');
     }
     const user = await User.findById(req.userId);
     if (!user) {
@@ -101,8 +100,11 @@ export default {
     return user;
   },
 
-  async addPlayer(args: AddPlayerArgs): Promise<FFType.Player> {
+  async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
     try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
       const { playerInput } = args;
       const { firstName, lastName, position, team } = playerInput;
 
@@ -137,7 +139,10 @@ export default {
     }
   },
 
-  async getPlayers(args: FindPlayersArgs): Promise<FFType.Player[]> {
+  async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.Player[]> {
+    if (!req.isAuth) {
+      throw new Error('not authenticated');
+    }
 
     const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
       console.log('variableToCheck', variableToCheck);
