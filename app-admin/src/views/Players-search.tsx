@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -6,7 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { premTeams } from '../utils/add-player-data';
 import findPlayers from '../data/find-players';
-import PlayersTable from './Players-table';
+import PlayersTableNew from './Players-table';
 
 const useStyles = makeStyles({
   root: {
@@ -25,9 +25,16 @@ const teamsDropDown = (): ReactNode => {
   });
 };
 
-const PlayerSelect: React.FC = () => {
+interface Props {
+  location: {
+    state: string;
+  };
+}
+
+const PlayerSelect: React.FC<Props> = (props: Props) => {
+  const editedPlayerTeam = props?.location?.state;
   const classes = useStyles();
-  const [searchTeam, setSearchTeam] = React.useState<string>('');
+  const [searchTeam, setSearchTeam] = React.useState<string>(editedPlayerTeam || '');
   const [squadPlayers, setSquadPlayers] = React.useState<FFType.Player[]>([]);
 
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
@@ -42,6 +49,22 @@ const PlayerSelect: React.FC = () => {
       console.log(error);
     }
   };
+
+  const dropDownHandler2 = async() => {
+    try {
+      const players = await findPlayers({ teamName: editedPlayerTeam });
+      setSquadPlayers(players);
+    } catch (error) {
+      setSquadPlayers([]);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (editedPlayerTeam !== undefined) {
+      dropDownHandler2();
+    }
+  }, [editedPlayerTeam]);
 
   return (
     <>
@@ -60,7 +83,8 @@ const PlayerSelect: React.FC = () => {
           </FormControl>
         </div>
       </form>
-      <PlayersTable players={squadPlayers} />
+      {/* <PlayersTable players={squadPlayers} /> */}
+      <PlayersTableNew players={squadPlayers} editedPlayerTeam={editedPlayerTeam} />
     </>
   );
 };
