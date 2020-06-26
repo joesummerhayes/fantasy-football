@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
@@ -37,6 +37,7 @@ interface Props {
     state: {
       player: FFType.Player;
       editMode: boolean;
+      resetForm: boolean;
     };
   };
 }
@@ -62,6 +63,17 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     setPlayer(updatedPlayer);
   };
 
+  useEffect(() => {
+    if (!props?.location?.state?.editMode) {
+      setPlayer({
+        firstName: '',
+        lastName: '',
+        position: '',
+        team: '',
+      });
+    }
+  }, [props?.location?.state?.resetForm]);
+
   const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
     const { target } = event;
     const { value, name } = target;
@@ -86,9 +98,19 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    await addPlayer(player);
-    if (props?.location?.state?.editMode) {
-      setRedirect(true);
+    try {
+      await addPlayer(player);
+      setPlayer({
+        firstName: '',
+        lastName: '',
+        position: '',
+        team: '',
+      });
+      if (props?.location?.state?.editMode) {
+        setRedirect(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
