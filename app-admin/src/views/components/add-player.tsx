@@ -86,15 +86,19 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    await addPlayer(player);
-    setPlayer({
-      firstName: '',
-      lastName: '',
-      position: '',
-      team: '',
-    });
-    if (props?.location?.state?.editMode) {
-      setRedirect(true);
+    try {
+      await addPlayer(player);
+      setPlayer({
+        firstName: '',
+        lastName: '',
+        position: '',
+        team: '',
+      });
+      if (props?.location?.state?.editMode) {
+        setRedirect(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
