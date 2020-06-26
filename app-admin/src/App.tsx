@@ -8,6 +8,7 @@ import Nav from './views/Nav';
 import Login from './views/Login';
 import { logoutAction } from './actions/index';
 import PrivateRoute from './views/components/private-route';
+import EditPlayer from './views/Edit-player';
 
 const App: React.FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -25,11 +26,12 @@ const App: React.FC = (): JSX.Element => {
   return (
     <Router history={history}>
       <Nav />
-      <div>
+      <>
         <PrivateRoute exact path="/add-player" component={AddPlayer} />
         <PrivateRoute exact path="/players" component={PlayerSelect} />
+        <PrivateRoute exact path="/edit-player" component={EditPlayer} />
         <Route exact path="/login" component={Login} />
-      </div>
+      </>
     </Router>
   );
 };

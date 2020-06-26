@@ -1,5 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
-import User from '../../models/user';
+import { Request } from 'express';
 import Player from '../../models/player';
 import PremTeam from '../../models/prem-team';
 

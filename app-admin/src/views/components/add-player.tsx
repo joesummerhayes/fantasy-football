@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 import { premTeams, positions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 
@@ -31,16 +32,24 @@ interface PlayerForm {
   team: string;
 }
 
-const AddPlayer: React.FC = (): JSX.Element => {
+interface Props {
+  location: {
+    state: {
+      player: FFType.Player;
+      editMode: boolean;
+    };
+  };
+}
+
+const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
+  const [redirect, setRedirect] = React.useState(false);
   const [player, setPlayer] = React.useState<PlayerForm>({
-    firstName: '',
-    position: '',
-    team: '',
-    lastName: '',
+    firstName: props?.location?.state?.player?.firstName || '',
+    position: props?.location?.state?.player?.position || '',
+    team: props?.location?.state?.player?.team || '',
+    lastName: props?.location?.state?.player?.lastName || '',
   });
   const classes = useStyles();
-
-  console.log(player);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -75,10 +84,28 @@ const AddPlayer: React.FC = (): JSX.Element => {
     });
   };
 
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    await addPlayer(player);
+    if (props?.location?.state?.editMode) {
+      setRedirect(true);
+    }
+  };
+
+  if (redirect) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/players',
+          state: player.team,
+        }}
+      />
+    );
+  }
 
   return (
     <Box>
-      <form className={classes.root} onSubmit={() => addPlayer(player)}>
+      <form className={classes.root} onSubmit={onSubmit}>
         <div>
           <TextField
             className={classes.field}
@@ -128,7 +155,7 @@ const AddPlayer: React.FC = (): JSX.Element => {
             </Select>
           </FormControl>
         </div>
-        <Button variant="outlined" color="primary" type="submit">Enter</Button>
+        <Button variant="outlined" color="primary" type="submit">{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
       </form>
     </Box>
   );
