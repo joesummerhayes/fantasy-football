@@ -14,6 +14,7 @@ export default buildSchema(`
     lastName: String!
     position: String!
     team: String!
+    usedName: String!
   }
 
   type AuthData {
@@ -32,6 +33,7 @@ export default buildSchema(`
     lastName: String!
     position: String!
     team: String!
+    usedName: String!
   }
 
   type RootQuery {

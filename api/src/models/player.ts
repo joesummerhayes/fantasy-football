@@ -5,6 +5,7 @@ export interface Player extends Document {
   lastName: string;
   position: string;
   team: string;
+  usedName: string;
 }
 
 const playerSchema: Schema = new Schema({
@@ -24,14 +25,14 @@ const playerSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+  usedName: {
+    type: String,
+    required: true,
+  },
   premTeam: {
     type: Schema.Types.ObjectId,
     ref: 'PremTeams',
   },
-  // userTeams: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Team',
-  // }],
 });
 
 export default mongoose.model<Player>('Player', playerSchema);
