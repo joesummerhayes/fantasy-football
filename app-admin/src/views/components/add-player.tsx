@@ -26,13 +26,13 @@ const useStyles = makeStyles({
   },
 });
 
-// interface PlayerForm {
-//   firstName: string;
-//   lastName: string;
-//   position: string;
-//   team: string;
-//   usedName: string;
-// }
+interface PlayerForm {
+  firstName: string;
+  lastName: string;
+  position: string;
+  team: string;
+  usedName: string;
+}
 
 interface Props {
   location: {

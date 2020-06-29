@@ -5,6 +5,16 @@ import PremTeam from '../../models/prem-team';
 
 interface AddPlayerArgs {
   playerInput: {
+    firstName: string;
+    lastName: string;
+    position: string;
+    team: string;
+    usedName: string;
+  };
+}
+
+interface EditPlayerArgs {
+  playerInput: {
     _id: string;
     firstName: string;
     lastName: string;
@@ -32,7 +42,6 @@ export default {
     }
 
     const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
-      console.log('variableToCheck', variableToCheck);
       return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
     };
 
@@ -49,7 +58,7 @@ export default {
     }
   },
 
-  async player(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
+  async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
@@ -88,7 +97,7 @@ export default {
       throw error;
     }
   },
-  async editPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
+  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.Player> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
