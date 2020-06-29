@@ -37,6 +37,15 @@ export default buildSchema(`
     usedName: String!
   }
 
+  input editPlayerInputData {
+    _id: String
+    firstName: String!
+    lastName: String!
+    position: String!
+    team: String!
+    usedName: String!
+  }
+
   type RootQuery {
     login(email: String!, password: String!): AuthData!
     user: User!
@@ -46,6 +55,7 @@ export default buildSchema(`
   type RootMutation {
     createUser(userInput: UserInputData!): User!
     player(playerInput: PlayerInputData): Player!
+    editPlayer(playerInput: editPlayerInputData): Player!
   }
 
   schema {

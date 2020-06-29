@@ -55,20 +55,7 @@ export default {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName, _id } = playerInput;
-
-      if (_id !== '' && _id !== undefined) {
-        const id = mongoose.Types.ObjectId(_id);
-        const existingPlayer = await Player.findById(id);
-        if (!existingPlayer) throw new Error('Could not add or update player');
-        existingPlayer.firstName = firstName;
-        existingPlayer.lastName = lastName;
-        existingPlayer.position = position;
-        existingPlayer.team = team;
-        existingPlayer.usedName = usedName;
-        const updatedPlayer = existingPlayer.save();
-        return updatedPlayer;
-      }
+      const { firstName, lastName, position, team, usedName } = playerInput;
 
       const player = new Player({
         firstName,
@@ -99,6 +86,28 @@ export default {
     } catch (error) {
       console.log(error);
       throw error;
+    }
+  },
+  async editPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
+    try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
+      const { playerInput } = args;
+      const { firstName, lastName, position, team, usedName, _id } = playerInput;
+
+      const id = mongoose.Types.ObjectId(_id);
+      const existingPlayer = await Player.findById(id);
+      if (!existingPlayer) throw new Error('Could not add or update player');
+      existingPlayer.firstName = firstName;
+      existingPlayer.lastName = lastName;
+      existingPlayer.position = position;
+      existingPlayer.team = team;
+      existingPlayer.usedName = usedName;
+      const updatedPlayer = existingPlayer.save();
+      return updatedPlayer;
+    } catch (error) {
+      throw new Error('Problem updating player');
     }
   },
 };
