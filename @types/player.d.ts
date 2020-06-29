@@ -4,4 +4,5 @@ export interface Player {
   lastName: string;
   position: string;
   team: string;
+  usedName: string;
 }

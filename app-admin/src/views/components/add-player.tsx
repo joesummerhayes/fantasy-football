@@ -30,6 +30,7 @@ interface PlayerForm {
   lastName: string;
   position: string;
   team: string;
+  usedName: string;
 }
 
 interface Props {
@@ -47,6 +48,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const position = props?.location?.state?.player?.position || '';
   const team = props?.location?.state?.player?.team || '';
   const lastName = props?.location?.state?.player?.lastName || '';
+  const usedName = props?.location?.state?.player?.usedName || '';
 
   const [redirect, setRedirect] = React.useState({
     on: false,
@@ -57,6 +59,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     position,
     team,
     lastName,
+    usedName,
   });
   const classes = useStyles();
 
@@ -78,6 +81,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
         lastName: '',
         position: '',
         team: '',
+        usedName: '',
       });
     }
   }, [props?.location?.state?.resetForm]);
@@ -114,6 +118,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
         lastName: '',
         position: '',
         team: '',
+        usedName: '',
       });
       if (props?.location?.state?.editMode) {
         setRedirect({ on: true, team: teamToRedirect });
@@ -157,6 +162,17 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
             placeholder="Last Name"
             id="lastName"
             value={player.lastName}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <TextField
+            className={classes.field}
+            fullWidth
+            variant="outlined"
+            placeholder="Used Name"
+            id="usedName"
+            value={player.usedName}
             onChange={handleInputChange}
           />
         </div>
