@@ -43,12 +43,20 @@ interface Props {
 }
 
 const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
-  const [redirect, setRedirect] = React.useState(false);
+  const firstName = props?.location?.state?.player?.firstName || '';
+  const position = props?.location?.state?.player?.position || '';
+  const team = props?.location?.state?.player?.team || '';
+  const lastName = props?.location?.state?.player?.lastName || '';
+
+  const [redirect, setRedirect] = React.useState({
+    on: false,
+    team: '',
+  });
   const [player, setPlayer] = React.useState<PlayerForm>({
-    firstName: props?.location?.state?.player?.firstName || '',
-    position: props?.location?.state?.player?.position || '',
-    team: props?.location?.state?.player?.team || '',
-    lastName: props?.location?.state?.player?.lastName || '',
+    firstName,
+    position,
+    team,
+    lastName,
   });
   const classes = useStyles();
 
@@ -91,8 +99,8 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const positionDropDown = (): ReactNode => {
-    return positions.map((position: string) => {
-      return <MenuItem key={position} value={position}>{position}</MenuItem>;
+    return positions.map((pos: string) => {
+      return <MenuItem key={pos} value={pos}>{pos}</MenuItem>;
     });
   };
 
@@ -100,6 +108,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     e.preventDefault();
     try {
       await addPlayer(player);
+      const teamToRedirect = player.team;
       setPlayer({
         firstName: '',
         lastName: '',
@@ -107,19 +116,20 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
         team: '',
       });
       if (props?.location?.state?.editMode) {
-        setRedirect(true);
+        setRedirect({ on: true, team: teamToRedirect });
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  if (redirect) {
+  if (redirect.on) {
+    console.log('being passed as props', player.team);
     return (
       <Redirect
         to={{
           pathname: '/players',
-          state: player.team,
+          state: redirect.team,
         }}
       />
     );
