@@ -10,6 +10,7 @@ import { Box } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { premTeams, positions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
+import editPlayer from '../../data/edit-player';
 
 const useStyles = makeStyles({
   root: {
@@ -49,12 +50,22 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const team = props?.location?.state?.player?.team || '';
   const lastName = props?.location?.state?.player?.lastName || '';
   const usedName = props?.location?.state?.player?.usedName || '';
+  const _id = props?.location?.state?.player?._id || '';
+  const emptyPlayer = {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    position: '',
+    team: '',
+    usedName: '',
+  };
 
   const [redirect, setRedirect] = React.useState({
     on: false,
     team: '',
   });
-  const [player, setPlayer] = React.useState<PlayerForm>({
+  const [player, setPlayer] = React.useState<FFType.Player>({
+    _id,
     firstName,
     position,
     team,
@@ -76,13 +87,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
 
   useEffect(() => {
     if (!props?.location?.state?.editMode) {
-      setPlayer({
-        firstName: '',
-        lastName: '',
-        position: '',
-        team: '',
-        usedName: '',
-      });
+      setPlayer(emptyPlayer);
     }
   }, [props?.location?.state?.resetForm]);
 
@@ -111,25 +116,21 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await addPlayer(player);
-      const teamToRedirect = player.team;
-      setPlayer({
-        firstName: '',
-        lastName: '',
-        position: '',
-        team: '',
-        usedName: '',
-      });
       if (props?.location?.state?.editMode) {
+        await editPlayer(player);
+        const teamToRedirect = player.team;
+        setPlayer(emptyPlayer);
         setRedirect({ on: true, team: teamToRedirect });
+        return;
       }
+      await addPlayer(player);
+      setPlayer(emptyPlayer);
     } catch (error) {
       console.log(error);
     }
   };
 
   if (redirect.on) {
-    console.log('being passed as props', player.team);
     return (
       <Redirect
         to={{

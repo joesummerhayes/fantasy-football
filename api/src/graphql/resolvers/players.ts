@@ -1,9 +1,21 @@
 import { Request } from 'express';
+import mongoose from 'mongoose';
 import Player from '../../models/player';
 import PremTeam from '../../models/prem-team';
 
 interface AddPlayerArgs {
   playerInput: {
+    firstName: string;
+    lastName: string;
+    position: string;
+    team: string;
+    usedName: string;
+  };
+}
+
+interface EditPlayerArgs {
+  playerInput: {
+    _id: string;
     firstName: string;
     lastName: string;
     position: string;
@@ -30,7 +42,6 @@ export default {
     }
 
     const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
-      console.log('variableToCheck', variableToCheck);
       return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
     };
 
@@ -84,6 +95,28 @@ export default {
     } catch (error) {
       console.log(error);
       throw error;
+    }
+  },
+  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.Player> {
+    try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
+      const { playerInput } = args;
+      const { firstName, lastName, position, team, usedName, _id } = playerInput;
+
+      const id = mongoose.Types.ObjectId(_id);
+      const existingPlayer = await Player.findById(id);
+      if (!existingPlayer) throw new Error('Could not add or update player');
+      existingPlayer.firstName = firstName;
+      existingPlayer.lastName = lastName;
+      existingPlayer.position = position;
+      existingPlayer.team = team;
+      existingPlayer.usedName = usedName;
+      const updatedPlayer = existingPlayer.save();
+      return updatedPlayer;
+    } catch (error) {
+      throw new Error('Problem updating player');
     }
   },
 };
