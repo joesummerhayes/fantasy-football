@@ -8,11 +8,12 @@ const findPlayers = async (variables: any): Promise<FFType.Player[]> => {
   const response = await graphQL.query<FindPlayersQlResult>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){
+        _id
         firstName
         lastName
         position
         team
-        _id
+        usedName
       }
     }
   `, variables);

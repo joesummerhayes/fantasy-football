@@ -8,6 +8,7 @@ interface AddPlayerArgs {
     lastName: string;
     position: string;
     team: string;
+    usedName: string;
   };
 }
 
@@ -52,13 +53,14 @@ export default {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team } = playerInput;
+      const { firstName, lastName, position, team, usedName } = playerInput;
 
       const player = new Player({
         firstName,
         lastName,
         position,
         team,
+        usedName,
       });
 
       const premTeam = await PremTeam.findOne({ name: team });
