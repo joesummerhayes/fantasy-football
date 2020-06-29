@@ -50,7 +50,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
     }
   };
 
-  const dropDownHandler2 = async() => {
+  const dropDownHandlerAfterEdit = async (): Promise<void> => {
     try {
       const players = await findPlayers({ teamName: editedPlayerTeam });
       setSquadPlayers(players);
@@ -62,7 +62,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     if (editedPlayerTeam !== undefined) {
-      dropDownHandler2();
+      dropDownHandlerAfterEdit();
     }
   }, [editedPlayerTeam]);
 
@@ -83,7 +83,6 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
           </FormControl>
         </div>
       </form>
-      {/* <PlayersTable players={squadPlayers} /> */}
       <PlayersTableNew players={squadPlayers} editedPlayerTeam={editedPlayerTeam} />
     </>
   );
