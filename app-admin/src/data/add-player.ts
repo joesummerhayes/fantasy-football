@@ -7,8 +7,8 @@ interface PlayerQlResult {
 const addPlayer = async (variables: any): Promise<FFType.Player> => {
   console.log('trying to add player on front end');
   const response = await graphQL.query<PlayerQlResult>(`
-    mutation addNewPlayer($firstName: String!, $lastName: String!, $position: String!, $team: String!, $usedName: String!) {
-      addPlayer(playerInput: {firstName: $firstName, lastName: $lastName, position: $position, team: $team, usedName: $usedName}) {
+    mutation addNewPlayer($_id: String, $firstName: String!, $lastName: String!, $position: String!, $team: String!, $usedName: String!) {
+      player(playerInput: {_id: $_id, firstName: $firstName, lastName: $lastName, position: $position, team: $team, usedName: $usedName}) {
         _id
         firstName
         lastName

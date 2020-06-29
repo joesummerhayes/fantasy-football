@@ -29,6 +29,7 @@ export default buildSchema(`
   }
 
   input PlayerInputData {
+    _id: String
     firstName: String!
     lastName: String!
     position: String!
@@ -44,7 +45,7 @@ export default buildSchema(`
 
   type RootMutation {
     createUser(userInput: UserInputData!): User!
-    addPlayer(playerInput: PlayerInputData): Player!
+    player(playerInput: PlayerInputData): Player!
   }
 
   schema {

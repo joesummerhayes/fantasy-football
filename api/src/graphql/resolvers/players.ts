@@ -1,9 +1,11 @@
 import { Request } from 'express';
+import mongoose from 'mongoose';
 import Player from '../../models/player';
 import PremTeam from '../../models/prem-team';
 
 interface AddPlayerArgs {
   playerInput: {
+    _id: string;
     firstName: string;
     lastName: string;
     position: string;
@@ -47,13 +49,26 @@ export default {
     }
   },
 
-  async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
+  async player(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName } = playerInput;
+      const { firstName, lastName, position, team, usedName, _id } = playerInput;
+
+      if (_id !== '' && _id !== undefined) {
+        const id = mongoose.Types.ObjectId(_id);
+        const existingPlayer = await Player.findById(id);
+        if (!existingPlayer) throw new Error('Could not add or update player');
+        existingPlayer.firstName = firstName;
+        existingPlayer.lastName = lastName;
+        existingPlayer.position = position;
+        existingPlayer.team = team;
+        existingPlayer.usedName = usedName;
+        const updatedPlayer = existingPlayer.save();
+        return updatedPlayer;
+      }
 
       const player = new Player({
         firstName,

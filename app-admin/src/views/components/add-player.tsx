@@ -25,13 +25,13 @@ const useStyles = makeStyles({
   },
 });
 
-interface PlayerForm {
-  firstName: string;
-  lastName: string;
-  position: string;
-  team: string;
-  usedName: string;
-}
+// interface PlayerForm {
+//   firstName: string;
+//   lastName: string;
+//   position: string;
+//   team: string;
+//   usedName: string;
+// }
 
 interface Props {
   location: {
@@ -49,12 +49,14 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const team = props?.location?.state?.player?.team || '';
   const lastName = props?.location?.state?.player?.lastName || '';
   const usedName = props?.location?.state?.player?.usedName || '';
+  const _id = props?.location?.state?.player?._id || '';
 
   const [redirect, setRedirect] = React.useState({
     on: false,
     team: '',
   });
-  const [player, setPlayer] = React.useState<PlayerForm>({
+  const [player, setPlayer] = React.useState<FFType.Player>({
+    _id,
     firstName,
     position,
     team,
@@ -77,6 +79,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     if (!props?.location?.state?.editMode) {
       setPlayer({
+        _id: '',
         firstName: '',
         lastName: '',
         position: '',
@@ -114,6 +117,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
       await addPlayer(player);
       const teamToRedirect = player.team;
       setPlayer({
+        _id: '',
         firstName: '',
         lastName: '',
         position: '',
@@ -129,7 +133,6 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   if (redirect.on) {
-    console.log('being passed as props', player.team);
     return (
       <Redirect
         to={{
