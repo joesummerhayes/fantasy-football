@@ -69,7 +69,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     usedName,
   });
   const [ specPosition, setSpecPosition ] = React.useState<string[]>([]);
-  console.log(specPosition);
+  console.log('player', player);
   const classes = useStyles();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -93,7 +93,12 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     const { target } = event;
     const { value, name } = target;
     if (name === 'position') {
-      setSpecPosition([]);
+      setPlayer({
+        ...player,
+        ['specPositions' as any]: [],
+        [name as string]: value,
+      });
+      return;
     }
     setPlayer({
       ...player,
@@ -131,12 +136,31 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const onSpecPositionClick = (event: ChangeEvent<{}>, pos: string): void => {
-    if (specPosition.includes(pos)) {
-      const removePos = specPosition.filter((p) => p !== pos);
-      setSpecPosition(removePos);
+    // if (specPosition.includes(pos)) {
+    //   const removePos = specPosition.filter((p) => p !== pos);
+    //   setSpecPosition(removePos);
+    //   return;
+    // }
+    // setSpecPosition([...specPosition, pos]);
+
+    // split logic
+
+    if (player.specPositions.includes(pos)) {
+      const removePos = player.specPositions.filter((p) => p !== pos);
+      setPlayer({
+        ...player,
+        ['specPositions' as any]: removePos,
+      });
       return;
     }
-    setSpecPosition([...specPosition, pos]);
+
+
+    const newPositions = player.specPositions;
+    newPositions.push(pos);
+    setPlayer({
+      ...player,
+      ['specPositions' as any]: newPositions,
+    });
   };
 
   const populateCheckList = (): any => {
@@ -147,7 +171,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     return specificPositions.map((pos) => {
       return (
         <FormControlLabel
-          control={<Checkbox name={pos} checked={specPosition.includes(pos)} onChange={(e) => onSpecPositionClick(e, pos)} />}
+          control={<Checkbox name={pos} checked={player.specPositions.includes(pos)} onChange={(e) => onSpecPositionClick(e, pos)} />}
           label={pos}
           key={pos}
         />
