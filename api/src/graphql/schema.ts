@@ -43,6 +43,7 @@ export default buildSchema(`
     firstName: String!
     lastName: String!
     position: String!
+    specPositions: [String]!
     team: String!
     usedName: String!
   }

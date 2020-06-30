@@ -12,6 +12,7 @@ const findPlayers = async (variables: any): Promise<FFType.Player[]> => {
         firstName
         lastName
         position
+        specPositions
         team
         usedName
       }

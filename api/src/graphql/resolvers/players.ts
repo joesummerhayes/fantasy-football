@@ -20,6 +20,7 @@ interface EditPlayerArgs {
     firstName: string;
     lastName: string;
     position: string;
+    specPositions: [string];
     team: string;
     usedName: string;
   };
@@ -105,7 +106,7 @@ export default {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName, _id } = playerInput;
+      const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
 
       const id = mongoose.Types.ObjectId(_id);
       const existingPlayer = await Player.findById(id);
@@ -113,6 +114,7 @@ export default {
       existingPlayer.firstName = firstName;
       existingPlayer.lastName = lastName;
       existingPlayer.position = position;
+      existingPlayer.specPositions = specPositions;
       existingPlayer.team = team;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();

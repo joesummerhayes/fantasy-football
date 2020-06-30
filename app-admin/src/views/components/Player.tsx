@@ -40,9 +40,10 @@ interface Props {
 
 const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const firstName = props?.location?.state?.player?.firstName || '';
-  const position = props?.location?.state?.player?.position || '';
-  const team = props?.location?.state?.player?.team || '';
   const lastName = props?.location?.state?.player?.lastName || '';
+  const position = props?.location?.state?.player?.position || '';
+  const specPositions = props?.location?.state?.player?.specPositions || [];
+  const team = props?.location?.state?.player?.team || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -64,11 +65,10 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     firstName,
     lastName,
     position,
-    specPositions: [],
+    specPositions,
     team,
     usedName,
   });
-  console.log('player', player);
   const classes = useStyles();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
