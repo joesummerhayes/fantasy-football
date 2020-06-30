@@ -8,6 +8,7 @@ interface AddPlayerArgs {
     firstName: string;
     lastName: string;
     position: string;
+    specPositions: [string];
     team: string;
     usedName: string;
   };
@@ -64,12 +65,13 @@ export default {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName } = playerInput;
+      const { firstName, lastName, position, team, usedName, specPositions } = playerInput;
 
       const player = new Player({
         firstName,
         lastName,
         position,
+        specPositions,
         team,
         usedName,
       });
