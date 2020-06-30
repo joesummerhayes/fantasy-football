@@ -26,7 +26,7 @@ const App: React.FC = (): JSX.Element => {
     <Router history={history}>
       <Nav />
       <>
-        <PrivateRoute exact path="/add-player" component={AddPlayer} />
+        <PrivateRoute exact path="/player" component={AddPlayer} />
         <PrivateRoute exact path="/players" component={PlayerSelect} />
         <Route exact path="/login" component={Login} />
       </>
