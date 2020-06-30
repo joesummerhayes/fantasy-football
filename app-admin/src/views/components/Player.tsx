@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,8 +7,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Redirect } from 'react-router-dom';
-import { premTeams, positions } from '../../utils/add-player-data';
+import { premTeams, positions, findSpecPositions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 import editPlayer from '../../data/edit-player';
 
@@ -26,14 +28,6 @@ const useStyles = makeStyles({
   },
 });
 
-interface PlayerForm {
-  firstName: string;
-  lastName: string;
-  position: string;
-  team: string;
-  usedName: string;
-}
-
 interface Props {
   location: {
     state: {
@@ -46,9 +40,10 @@ interface Props {
 
 const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const firstName = props?.location?.state?.player?.firstName || '';
-  const position = props?.location?.state?.player?.position || '';
-  const team = props?.location?.state?.player?.team || '';
   const lastName = props?.location?.state?.player?.lastName || '';
+  const position = props?.location?.state?.player?.position || '';
+  const specPositions = props?.location?.state?.player?.specPositions || [];
+  const team = props?.location?.state?.player?.team || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -56,6 +51,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     firstName: '',
     lastName: '',
     position: '',
+    specPositions: [],
     team: '',
     usedName: '',
   };
@@ -67,9 +63,10 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const [player, setPlayer] = React.useState<FFType.Player>({
     _id,
     firstName,
-    position,
-    team,
     lastName,
+    position,
+    specPositions,
+    team,
     usedName,
   });
   const classes = useStyles();
@@ -94,7 +91,14 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
     const { target } = event;
     const { value, name } = target;
-
+    if (name === 'position') {
+      setPlayer({
+        ...player,
+        ['specPositions' as any]: [],
+        [name as string]: value,
+      });
+      return;
+    }
     setPlayer({
       ...player,
       [name as string]: value,
@@ -128,6 +132,41 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onSpecPositionClick = (event: ChangeEvent<{}>, pos: string): void => {
+    if (player.specPositions.includes(pos)) {
+      const removePos = player.specPositions.filter((p) => p !== pos);
+      setPlayer({
+        ...player,
+        ['specPositions' as any]: removePos,
+      });
+      return;
+    }
+
+
+    const newPositions = player.specPositions;
+    newPositions.push(pos);
+    setPlayer({
+      ...player,
+      ['specPositions' as any]: newPositions,
+    });
+  };
+
+  const populateCheckList = (): any => {
+    const specificPositions = findSpecPositions(player.position);
+    if (!specificPositions) {
+      return '';
+    }
+    return specificPositions.map((pos) => {
+      return (
+        <FormControlLabel
+          control={<Checkbox name={pos} checked={player.specPositions.includes(pos)} onChange={(e) => onSpecPositionClick(e, pos)} />}
+          label={pos}
+          key={pos}
+        />
+      );
+    });
   };
 
   if (redirect.on) {
@@ -191,6 +230,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
           </FormControl>
         </div>
         <div>
+          {populateCheckList()}
+        </div>
+        <div>
           <FormControl variant="outlined" className={classes.dropDown}>
             <InputLabel id="demo-simple-select-outlined-label" className={classes.dropDown}>Team</InputLabel>
             <Select
@@ -204,7 +246,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
             </Select>
           </FormControl>
         </div>
-        <Button variant="outlined" color="primary" type="submit">{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
+        <Button variant="outlined" color="primary" type="submit" style={{paddingTop: '10px'}}>{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
       </form>
     </Box>
   );

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Router, Route, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import history from './history';
-import AddPlayer from './views/components/add-player';
+import AddPlayer from './views/components/Player';
 import PlayerSelect from './views/Players-search';
 import Nav from './views/Nav';
 import Login from './views/Login';

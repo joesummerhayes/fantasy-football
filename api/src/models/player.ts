@@ -4,6 +4,7 @@ export interface Player extends Document {
   firstName: string;
   lastName: string;
   position: string;
+  specPositions: string[];
   team: string;
   usedName: string;
 }
@@ -19,6 +20,10 @@ const playerSchema: Schema = new Schema({
   },
   position: {
     type: String,
+    required: true,
+  },
+  specPositions: {
+    type: [String],
     required: true,
   },
   team: {
