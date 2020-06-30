@@ -58,6 +58,7 @@ export default buildSchema(`
     createUser(userInput: UserInputData!): User!
     addPlayer(playerInput: PlayerInputData): Player!
     editPlayer(playerInput: editPlayerInputData): Player!
+    deletePlayer(id: String): String!
   }
 
   schema {

@@ -30,6 +30,10 @@ interface FindPlayersArgs {
   teamName: string;
 }
 
+interface DeletePlayerArgs {
+  id: string;
+}
+
 declare module 'express-serve-static-core' {
   interface Request {
     isAuth?: boolean;
@@ -121,6 +125,23 @@ export default {
       return updatedPlayer;
     } catch (error) {
       throw new Error('Problem updating player');
+    }
+  },
+  async deletePlayer(args: DeletePlayerArgs, req: Request): Promise<string> {
+    try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
+      const { id } = args;
+      await Player.findByIdAndRemove(id);
+      const team = await PremTeam.findById(id);
+      if (team) {
+        team.players.pull(id);
+        await team.save();
+      }
+      return `deleted successfully for playerId ${id}`;
+    } catch (error) {
+      throw new Error('failed to delete player');
     }
   },
 };
