@@ -27,3 +27,16 @@ export const premTeams = [
   'West Ham United',
   'Wolverhampton Wanderers',
 ];
+
+export const findSpecPositions = (position: string): string[] | undefined => {
+  if (position.toLocaleLowerCase() === 'defender') {
+    return ['LB', 'RB', 'CB'];
+  }
+  if (position.toLocaleLowerCase() === 'midfielder') {
+    return ['LM', 'RM', 'CM', 'CDM', 'CAM'];
+  }
+
+  if (position.toLocaleLowerCase() === 'forward') {
+    return ['LW', 'RW', 'CF', 'SS'];
+  }
+};

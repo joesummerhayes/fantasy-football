@@ -3,6 +3,7 @@ export interface Player {
   firstName: string;
   lastName: string;
   position: string;
+  specPositions: string[];
   team: string;
   usedName: string;
 }

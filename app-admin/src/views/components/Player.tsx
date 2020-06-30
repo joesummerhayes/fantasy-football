@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,8 +7,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Redirect } from 'react-router-dom';
-import { premTeams, positions } from '../../utils/add-player-data';
+import { premTeams, positions, findSpecPositions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 import editPlayer from '../../data/edit-player';
 
@@ -25,14 +27,6 @@ const useStyles = makeStyles({
     paddingTop: '30px',
   },
 });
-
-interface PlayerForm {
-  firstName: string;
-  lastName: string;
-  position: string;
-  team: string;
-  usedName: string;
-}
 
 interface Props {
   location: {
@@ -56,6 +50,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     firstName: '',
     lastName: '',
     position: '',
+    specPositions: [],
     team: '',
     usedName: '',
   };
@@ -67,11 +62,14 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const [player, setPlayer] = React.useState<FFType.Player>({
     _id,
     firstName,
-    position,
-    team,
     lastName,
+    position,
+    specPositions: [],
+    team,
     usedName,
   });
+  const [ specPosition, setSpecPosition ] = React.useState<string[]>([]);
+  console.log(specPosition);
   const classes = useStyles();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -94,7 +92,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
     const { target } = event;
     const { value, name } = target;
-
+    if (name === 'position') {
+      setSpecPosition([]);
+    }
     setPlayer({
       ...player,
       [name as string]: value,
@@ -128,6 +128,31 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onSpecPositionClick = (event: ChangeEvent<{}>, pos: string): void => {
+    if (specPosition.includes(pos)) {
+      const removePos = specPosition.filter((p) => p !== pos);
+      setSpecPosition(removePos);
+      return;
+    }
+    setSpecPosition([...specPosition, pos]);
+  };
+
+  const populateCheckList = (): any => {
+    const specificPositions = findSpecPositions(player.position);
+    if (!specificPositions) {
+      return '';
+    }
+    return specificPositions.map((pos) => {
+      return (
+        <FormControlLabel
+          control={<Checkbox name={pos} checked={specPosition.includes(pos)} onChange={(e) => onSpecPositionClick(e, pos)} />}
+          label={pos}
+          key={pos}
+        />
+      );
+    });
   };
 
   if (redirect.on) {
@@ -191,6 +216,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
           </FormControl>
         </div>
         <div>
+          {populateCheckList()}
+        </div>
+        <div>
           <FormControl variant="outlined" className={classes.dropDown}>
             <InputLabel id="demo-simple-select-outlined-label" className={classes.dropDown}>Team</InputLabel>
             <Select
@@ -204,7 +232,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
             </Select>
           </FormControl>
         </div>
-        <Button variant="outlined" color="primary" type="submit">{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
+        <Button variant="outlined" color="primary" type="submit" style={{paddingTop: '10px'}}>{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
       </form>
     </Box>
   );
