@@ -68,7 +68,6 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     team,
     usedName,
   });
-  const [ specPosition, setSpecPosition ] = React.useState<string[]>([]);
   console.log('player', player);
   const classes = useStyles();
 
@@ -136,15 +135,6 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const onSpecPositionClick = (event: ChangeEvent<{}>, pos: string): void => {
-    // if (specPosition.includes(pos)) {
-    //   const removePos = specPosition.filter((p) => p !== pos);
-    //   setSpecPosition(removePos);
-    //   return;
-    // }
-    // setSpecPosition([...specPosition, pos]);
-
-    // split logic
-
     if (player.specPositions.includes(pos)) {
       const removePos = player.specPositions.filter((p) => p !== pos);
       setPlayer({
