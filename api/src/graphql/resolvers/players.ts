@@ -30,6 +30,11 @@ interface FindPlayersArgs {
   teamName: string;
 }
 
+interface DeletePlayerArgs {
+  id: string;
+  teamId: string;
+}
+
 declare module 'express-serve-static-core' {
   interface Request {
     isAuth?: boolean;
@@ -38,7 +43,7 @@ declare module 'express-serve-static-core' {
 }
 
 export default {
-  async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.Player[]> {
+  async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam[]> {
     if (!req.isAuth) {
       throw new Error('not authenticated');
     }
@@ -49,9 +54,26 @@ export default {
 
     const { teamName } = args;
     try {
-      const team = await PremTeam.findOne({ name: teamName }).populate('players');
-      if (team && team.players && isPlayer(team.players)) {
-        return team.players;
+      const premTeam = await PremTeam.findOne({ name: teamName }).populate('players');
+      if (premTeam && premTeam.players && isPlayer(premTeam.players)) {
+        const { players } = premTeam;
+        const teamId = premTeam._id;
+        const playersWithTeam = players.map((player) => {
+          const { firstName, lastName, position, specPositions, team, _id, usedName } = player;
+          return {
+            _id,
+            firstName,
+            lastName,
+            usedName,
+            position,
+            specPositions,
+            team: {
+              id: teamId,
+              name: team,
+            },
+          };
+        });
+        return playersWithTeam;
       }
       throw new Error(`Could not find players for ${teamName}`);
     } catch (error) {
@@ -121,6 +143,23 @@ export default {
       return updatedPlayer;
     } catch (error) {
       throw new Error('Problem updating player');
+    }
+  },
+  async deletePlayer(args: DeletePlayerArgs, req: Request): Promise<string> {
+    try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
+      const { id, teamId } = args;
+      await Player.findByIdAndRemove(id);
+      const team = await PremTeam.findById(teamId);
+      if (team) {
+        team.players.pull(id);
+        await team.save();
+      }
+      return `deleted successfully for playerId ${id}`;
+    } catch (error) {
+      throw new Error('failed to delete player');
     }
   },
 };

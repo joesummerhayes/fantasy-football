@@ -40,7 +40,7 @@ const Nav: React.FC = (): ReactElement => {
   return (
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
-        {isAuth && <Link to={{pathname: '/add-player', state: { resetForm: true }}}>Add Player</Link>}
+        {isAuth && <Link to={{pathname: '/player', state: { resetForm: true }}}>Add Player</Link>}
         {isAuth && <Link to="/players">Find Player</Link>}
       </div>
       <div className={classes.navRight}>

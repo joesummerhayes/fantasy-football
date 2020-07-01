@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 interface Props {
   location: {
     state: {
-      player: FFType.Player;
+      player: FFType.PlayerWithTeam;
       editMode: boolean;
       resetForm: boolean;
     };
@@ -43,7 +43,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const lastName = props?.location?.state?.player?.lastName || '';
   const position = props?.location?.state?.player?.position || '';
   const specPositions = props?.location?.state?.player?.specPositions || [];
-  const team = props?.location?.state?.player?.team || '';
+  const team = props?.location?.state?.player?.team.name || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -174,7 +174,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
       <Redirect
         to={{
           pathname: '/players',
-          state: redirect.team,
+          state: {
+            afterEdit: redirect.team,
+          },
         }}
       />
     );
