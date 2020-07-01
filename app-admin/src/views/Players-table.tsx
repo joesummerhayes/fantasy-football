@@ -15,6 +15,7 @@ import deletePlayer from '../data/delete-player';
 interface Props {
   players: FFType.PlayerWithTeam[];
   editedPlayerTeam: string;
+  onChange: () => void;
 }
 
 const useStyles = makeStyles({
@@ -52,7 +53,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
     setSearch(value);
   };
 
-  const { players } = props;
+  const { players, onChange } = props;
 
   const onModalClick = (player: FFType.PlayerWithTeam): void => {
     setPlayer({
@@ -111,6 +112,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
   const onDeleteClick = async (): Promise<any> => {
     await deletePlayer({ id: focusedPlayer.id, teamId: focusedPlayer.teamId });
     setModal(false);
+    onChange();
   };
 
   return (

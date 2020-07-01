@@ -6,7 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { premTeams } from '../utils/add-player-data';
 import findPlayers from '../data/find-players';
-import PlayersTableNew from './Players-table';
+import PlayersTable from './Players-table';
 
 const useStyles = makeStyles({
   root: {
@@ -38,6 +38,11 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [searchTeam, setSearchTeam] = React.useState<string>('');
   const [squadPlayers, setSquadPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
+
+  const handleRefresh = async (): Promise<void> => {
+    const players = await findPlayers({ teamName: searchTeam });
+    setSquadPlayers(players);
+  };
 
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;
@@ -85,7 +90,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
           </FormControl>
         </div>
       </form>
-      <PlayersTableNew players={squadPlayers} editedPlayerTeam={editedPlayerTeam} />
+      <PlayersTable players={squadPlayers} editedPlayerTeam={editedPlayerTeam} onChange={handleRefresh} />
     </>
   );
 };

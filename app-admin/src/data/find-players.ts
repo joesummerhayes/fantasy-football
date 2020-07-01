@@ -24,7 +24,6 @@ const findPlayers = async (variables: any): Promise<FFType.PlayerWithTeam[]> => 
   if (response === null) {
     throw new Error('There was a problem fetching players');
   }
-  console.log(response);
   return response.getPlayers;
 };
 
