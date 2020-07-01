@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
 import deletePlayer from '../data/delete-player';
 
@@ -16,11 +16,6 @@ interface Props {
   players: FFType.PlayerWithTeam[];
   editedPlayerTeam: string;
 }
-
-// interface DeletePlayerQuery {
-//   id: string;
-//   teamId: string;
-// }
 
 const useStyles = makeStyles({
   link: {
@@ -49,7 +44,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [search, setSearch] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
-  const [focusedPlayer, setPlayer] = useState({id: '', teamId: ''});
+  const [focusedPlayer, setPlayer] = useState({id: '', teamId: '', teamName: ''});
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -63,6 +58,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
     setPlayer({
       id: player._id,
       teamId: player.team.id,
+      teamName: player.team.name,
     });
     setModal(true);
   };
@@ -112,7 +108,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
     setModal(false);
   };
 
-  const onDeleteClick = async (): Promise<void> => {
+  const onDeleteClick = async (): Promise<any> => {
     await deletePlayer({ id: focusedPlayer.id, teamId: focusedPlayer.teamId });
     setModal(false);
   };

@@ -174,7 +174,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
       <Redirect
         to={{
           pathname: '/players',
-          state: redirect.team,
+          state: {
+            afterEdit: redirect.team,
+          },
         }}
       />
     );
