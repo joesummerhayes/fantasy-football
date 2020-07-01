@@ -10,11 +10,17 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
+import deletePlayer from '../data/delete-player';
 
 interface Props {
-  players: FFType.Player[];
+  players: FFType.PlayerWithTeam[];
   editedPlayerTeam: string;
 }
+
+// interface DeletePlayerQuery {
+//   id: string;
+//   teamId: string;
+// }
 
 const useStyles = makeStyles({
   link: {
@@ -43,7 +49,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [search, setSearch] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
-  const [focusedPlayer, setPlayer] = useState<string>('');
+  const [focusedPlayer, setPlayer] = useState({id: '', teamId: ''});
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -53,8 +59,11 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
 
   const { players } = props;
 
-  const onModalClick = (player: FFType.Player): void => {
-    setPlayer(player._id);
+  const onModalClick = (player: FFType.PlayerWithTeam): void => {
+    setPlayer({
+      id: player._id,
+      teamId: player.team.id,
+    });
     setModal(true);
   };
 
@@ -93,7 +102,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
           <TableCell>{player.firstName}</TableCell>
           <TableCell>{player.lastName}</TableCell>
           <TableCell>{player.position}</TableCell>
-          <TableCell>{player.team}</TableCell>
+          <TableCell>{player.team.name}</TableCell>
         </TableRow>
       );
     });
@@ -103,9 +112,8 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
     setModal(false);
   };
 
-  const onDeleteClick = (): void => {
-    console.log(focusedPlayer);
-
+  const onDeleteClick = async (): Promise<void> => {
+    await deletePlayer({ id: focusedPlayer.id, teamId: focusedPlayer.teamId });
     setModal(false);
   };
 
@@ -128,10 +136,10 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
           <div className={classes.innerModal}>
             <div className={classes.modalText}>Are You Sure You Want to Delete Player?</div>
             <Button variant="contained" color="primary" onClick={() => setModal(false)}>
-                Back
+              Back
             </Button>
             <Button variant="contained" color="secondary" onClick={() => onDeleteClick()} className={classes.deleteButton}>
-                Delete
+              Delete
             </Button>
           </div>
         </div>

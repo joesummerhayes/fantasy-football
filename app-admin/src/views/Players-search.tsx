@@ -35,7 +35,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
   const editedPlayerTeam = props?.location?.state;
   const classes = useStyles();
   const [searchTeam, setSearchTeam] = React.useState<string>(editedPlayerTeam || '');
-  const [squadPlayers, setSquadPlayers] = React.useState<FFType.Player[]>([]);
+  const [squadPlayers, setSquadPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
 
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;

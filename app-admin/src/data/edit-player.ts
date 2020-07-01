@@ -5,6 +5,7 @@ interface PlayerQlResult {
 }
 
 const editPlayer = async (variables: any): Promise<FFType.Player> => {
+  console.log(variables)
   const response = await graphQL.query<PlayerQlResult>(`
     mutation addNewPlayer($_id: String, $firstName: String!, $lastName: String!, $position: String!, $specPositions: [String]!, $team: String!, $usedName: String!) {
       editPlayer(playerInput: {_id: $_id, firstName: $firstName, lastName: $lastName, position: $position, specPositions: $specPositions, team: $team, usedName: $usedName}) {
