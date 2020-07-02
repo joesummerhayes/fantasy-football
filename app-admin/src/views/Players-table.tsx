@@ -51,7 +51,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [search, setSearch] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
-  const [focusedPlayer, setPlayer] = useState({id: '', teamId: '', teamName: ''});
+  const [focusedPlayer, setPlayer] = useState({ id: '', teamId: '', teamName: '' });
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -130,11 +130,13 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
       />
       <Table>
         <TableHead>
-          <TableCell />
-          <TableCell className={classes.header}>First Name</TableCell>
-          <TableCell className={classes.header}>Last Name</TableCell>
-          <TableCell className={classes.header}>Position</TableCell>
-          <TableCell />
+          <TableRow>
+            <TableCell />
+            <TableCell className={classes.header}>First Name</TableCell>
+            <TableCell className={classes.header}>Last Name</TableCell>
+            <TableCell className={classes.header}>Position</TableCell>
+            <TableCell />
+          </TableRow>
         </TableHead>
         <TableBody>
           {rows()}
