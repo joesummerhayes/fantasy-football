@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,12 +8,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Redirect } from 'react-router-dom';
 import { premTeams, positions, findSpecPositions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 import editPlayer from '../../data/edit-player';
+import { getErrorAction, clearErrors } from '../../actions/index';
 
 const useStyles = makeStyles({
   root: {
@@ -70,6 +73,8 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     usedName,
   });
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isError = useSelector((state: any) => state.error);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -85,6 +90,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     if (!props?.location?.state?.editMode) {
       setPlayer(emptyPlayer);
+    }
+    if (props?.location?.state?.editMode) {
+      dispatch(clearErrors());
     }
   }, [props?.location?.state?.resetForm]);
 
@@ -128,9 +136,11 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
         return;
       }
       await addPlayer(player);
+      dispatch(clearErrors());
       setPlayer(emptyPlayer);
     } catch (error) {
       console.log(error);
+      dispatch(getErrorAction(error.specificError));
     }
   };
 
@@ -143,7 +153,6 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
       });
       return;
     }
-
 
     const newPositions = player.specPositions;
     newPositions.push(pos);
@@ -167,6 +176,12 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
         />
       );
     });
+  };
+
+  const handleError = (): React.ReactElement | void => {
+    if (isError.message) {
+      return <MuiAlert severity="error">{isError.message}</MuiAlert>;
+    }
   };
 
   if (redirect.on) {
@@ -249,7 +264,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
           </FormControl>
         </div>
         <Button variant="outlined" color="primary" type="submit" style={{paddingTop: '10px'}}>{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
-
+        {handleError()}
       </form>
     </Box>
   );

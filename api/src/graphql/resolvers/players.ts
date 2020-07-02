@@ -119,7 +119,7 @@ export default {
       return createdPlayer;
     } catch (error) {
       console.log(error);
-      throw error;
+      throw new Error('Failed to create player, make sure all fields are filled out');
     }
   },
   async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.Player> {
