@@ -32,12 +32,18 @@ const useStyles = makeStyles({
   innerModal: {
     padding: '2rem',
   },
-  deleteButton: {
+  modalDeleteButton: {
     float: 'right',
   },
   modalText: {
     textAlign: 'center',
     paddingBottom: '20px',
+  },
+  deleteButton: {
+    float: 'right',
+  },
+  header: {
+    fontWeight: 'bold',
   },
 });
 
@@ -92,18 +98,20 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
                 Edit
               </Button>
             </Link>
-            <Button variant="contained" color="secondary" onClick={() => onModalClick(player)}>
-              Delete
-            </Button>
           </TableCell>
           <TableCell>{player.firstName}</TableCell>
           <TableCell>{player.lastName}</TableCell>
           <TableCell>{`${player.position} ${player.specPositions.length > 0 ? `(${player.specPositions.join(', ')})` : ''}`}</TableCell>
+          <TableCell>
+            <Button className={classes.deleteButton} variant="contained" color="secondary" onClick={() => onModalClick(player)}>
+              Delete
+            </Button>
+          </TableCell>
         </TableRow>
       );
     });
   };
-  
+
   const handleModalClose = (): void => {
     setModal(false);
   };
@@ -121,6 +129,13 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
         onChange={onChangeHandler}
       />
       <Table>
+        <TableHead>
+          <TableCell />
+          <TableCell className={classes.header}>First Name</TableCell>
+          <TableCell className={classes.header}>Last Name</TableCell>
+          <TableCell className={classes.header}>Position</TableCell>
+          <TableCell />
+        </TableHead>
         <TableBody>
           {rows()}
         </TableBody>
@@ -135,7 +150,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
             <Button variant="contained" color="primary" onClick={() => setModal(false)}>
               Back
             </Button>
-            <Button variant="contained" color="secondary" onClick={() => onDeleteClick()} className={classes.deleteButton}>
+            <Button variant="contained" color="secondary" onClick={() => onDeleteClick()} className={classes.modalDeleteButton}>
               Delete
             </Button>
           </div>
