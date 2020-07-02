@@ -249,6 +249,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
           </FormControl>
         </div>
         <Button variant="outlined" color="primary" type="submit" style={{paddingTop: '10px'}}>{props?.location?.state?.editMode ? 'Update' : 'Create Player'}</Button>
+
       </form>
     </Box>
   );

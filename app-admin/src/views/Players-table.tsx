@@ -98,13 +98,12 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
           </TableCell>
           <TableCell>{player.firstName}</TableCell>
           <TableCell>{player.lastName}</TableCell>
-          <TableCell>{player.position}</TableCell>
-          <TableCell>{player.team.name}</TableCell>
+          <TableCell>{`${player.position} ${player.specPositions.length > 0 ? `(${player.specPositions.join(', ')})` : ''}`}</TableCell>
         </TableRow>
       );
     });
   };
-
+  
   const handleModalClose = (): void => {
     setModal(false);
   };
