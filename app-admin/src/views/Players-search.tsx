@@ -59,6 +59,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
 
   const dropDownHandlerAfterEdit = async (): Promise<void> => {
     try {
+      setSearchTeam(editedPlayerTeam);
       const players = await findPlayers({ teamName: editedPlayerTeam });
       setSquadPlayers(players);
     } catch (error) {
