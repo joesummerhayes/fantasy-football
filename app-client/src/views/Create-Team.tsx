@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 const CreateTeam = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  // const isError = useSelector((state: any) => state.error);
+  const isError = useSelector((state: any) => state.error);
   const [formIsValid, validateForm] = React.useState(false);
   const [form, setForm] = React.useState<Record<string, FFType.FormItem>>({
     clubMotto: {
@@ -77,11 +77,11 @@ const CreateTeam = () => {
     });
   };
 
-  // const handleError = (): ReactElement | void => {
-  //   if (isError.errorLocation === 'createUser') {
-  //     return <MuiAlert severity="error">{isError.specificError}</MuiAlert>;
-  //   }
-  // };
+  const handleError = (): ReactElement | void => {
+    if (isError.errorLocation === 'createUser') {
+      return <MuiAlert severity="error">{isError.specificError}</MuiAlert>;
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -134,10 +134,10 @@ const CreateTeam = () => {
     setForm({
       ...form,
       [name]: {
+        ...form[name],
         value,
         touched: true,
         valid: true,
-        validators: [],
       },
     });
   };
@@ -227,7 +227,7 @@ const CreateTeam = () => {
             </Select>
           </FormControl>
         </div>
-        {/* {handleError()} */}
+        {handleError()}
         <Button
           variant="contained"
           className={classes.submitButton}
