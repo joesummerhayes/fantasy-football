@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
-import Landing from './views/Landing';
+import CreateTeam from './views/Create-Team';
 import Signup from './views/Signup';
 import Login from './views/Login';
 import Nav from './views/Nav';
@@ -27,7 +27,7 @@ const App: React.FC = () => {
     <Router history={history}>
       <Nav />
       <div>
-        <PrivateRoute path="/protectedRoute" component={Landing} />
+        <PrivateRoute path="/create-team" component={CreateTeam} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
       </div>
