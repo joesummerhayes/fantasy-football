@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { required, length, email, confirmPass } from '../utils/validation';
 import { createUserAction } from '../actions/index';
 import { stylesOfPlay, kitColours } from '../utils/create-team-data';
+import createTeam from '../data/create-team';
 
 const useStyles = makeStyles({
   root: {
@@ -66,6 +67,8 @@ const CreateTeam = () => {
       validators: [required],
     },
   });
+
+  console.log(form);
 
   const blurHandler = (inputField: string): void => {
     setForm({
@@ -146,18 +149,27 @@ const CreateTeam = () => {
     <Box display="flex">
       <form
         className={classes.root}
-        // onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
-        //   e.preventDefault();
-        //   if (formIsValid) {
-        //     dispatch(
-        //       createUserAction({
-        //         name: form.name.value,
-        //         email: form.email.value,
-        //         password: form.password.value,
-        //       }),
-        //     );
-        //   }
-        // }}
+        onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
+          e.preventDefault();
+          const foo = {
+            clubMotto: form.clubMotto.value,
+            styleOfPlay: form.styleOfPlay.value,
+            teamName: form.teamName.value,
+            kitColour: form.teamName.value,
+            stadiumName: form.stadiumName.value,
+          }
+          console.log('poop', foo);
+          createTeam(foo);
+          // if (formIsValid) {
+          //   dispatch(
+          //     createUserAction({
+          //       name: form.name.value,
+          //       email: form.email.value,
+          //       password: form.password.value,
+          //     }),
+          //   );
+          // }
+        }}
       >
         <div className={classes.inputField}>
           <TextField
