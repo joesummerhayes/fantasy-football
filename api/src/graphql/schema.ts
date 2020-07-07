@@ -18,7 +18,7 @@ export default buildSchema(`
     usedName: String!
   }
 
-  type Team {
+  type PremTeam {
     name: String!
     id: ID!
   }
@@ -29,8 +29,22 @@ export default buildSchema(`
     lastName: String!
     position: String!
     specPositions: [String]!
-    team: Team!
+    team: PremTeam!
     usedName: String!
+  }
+
+  type TeamInfo {
+      clubMotto: String!
+      kitColour: String!
+      teamName: String!
+      stadiumName: String!
+      styleOfPlay: String!
+  }
+
+  type Team {
+    _id: ID!
+    info: TeamInfo!
+    userId: String!
   }
 
   type AuthData {
@@ -53,7 +67,15 @@ export default buildSchema(`
     usedName: String!
   }
 
-  input editPlayerInputData {
+  input TeamInputData {
+    clubMotto: String!
+    kitColour: String!
+    teamName: String!
+    stadiumName: String!
+    styleOfPlay: String!
+  }
+
+  input EditPlayerInputData {
     _id: String
     firstName: String!
     lastName: String!
@@ -72,8 +94,9 @@ export default buildSchema(`
   type RootMutation {
     createUser(userInput: UserInputData!): User!
     addPlayer(playerInput: PlayerInputData): Player!
-    editPlayer(playerInput: editPlayerInputData): Player!
+    editPlayer(playerInput: EditPlayerInputData): Player!
     deletePlayer(id: String, teamId: String): String!
+    createTeam(teamInput: TeamInputData!): Team!
   }
 
   schema {

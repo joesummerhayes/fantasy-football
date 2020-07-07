@@ -101,16 +101,16 @@ export default {
 
       const premTeam = await PremTeam.findOne({ name: team });
       if (premTeam) {
+        console.log('team already exists, i will just add new player');
         premTeam.players.push(player);
-        const upatedTeam = await premTeam.save();
-        console.log('team already exists, i will just add new player', upatedTeam);
+        await premTeam.save();
       } else if (!premTeam) {
         const newPremTeam = new PremTeam({
           name: team,
         });
+        console.log('team doesnt exist, i will make one');
         newPremTeam.players.push(player);
-        const createdPremTeam = await newPremTeam.save();
-        console.log('team doesnt exist, i will make one', createdPremTeam);
+        await newPremTeam.save();
       }
 
       const createdPlayer = await player.save();
