@@ -9,6 +9,7 @@ const createTeam = async (variables: any): Promise<FFType.Team> => {
     mutation createNewTeam($clubMotto: String!, $kitColour: String!, $stadiumName: String!, $styleOfPlay: String!, $teamName: String!){
       createTeam(teamInput: {clubMotto: $clubMotto, kitColour: $kitColour, stadiumName: $stadiumName, styleOfPlay: $styleOfPlay, teamName: $teamName}) {
         _id
+        userId
         info {
           clubMotto
           kitColour
@@ -22,6 +23,7 @@ const createTeam = async (variables: any): Promise<FFType.Team> => {
   if (response === null) {
     throw new Error('There was a problem creating user');
   }
+  console.log('1111', response.createTeam);
   return response.createTeam;
 };
 

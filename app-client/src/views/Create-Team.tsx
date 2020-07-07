@@ -132,7 +132,6 @@ const CreateTeam = () => {
   const handleDropDownChange = (event: React.ChangeEvent<{ value: any; name?: string | undefined }>): void => {
     const { target } = event;
     const { value, name } = target;
-    console.log(value, name);
     if (!name) return undefined;
     setForm({
       ...form,
