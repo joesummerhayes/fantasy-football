@@ -155,10 +155,9 @@ const CreateTeam = () => {
             clubMotto: form.clubMotto.value,
             styleOfPlay: form.styleOfPlay.value,
             teamName: form.teamName.value,
-            kitColour: form.teamName.value,
+            kitColour: form.kitColour.value,
             stadiumName: form.stadiumName.value,
-          }
-          console.log('poop', foo);
+          };
           createTeam(foo);
           // if (formIsValid) {
           //   dispatch(

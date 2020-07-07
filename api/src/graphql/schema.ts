@@ -33,13 +33,18 @@ export default buildSchema(`
     usedName: String!
   }
 
+  type TeamInfo {
+      clubMotto: String!
+      kitColour: String!
+      teamName: String!
+      stadiumName: String!
+      styleOfPlay: String!
+  }
+
   type Team {
     _id: ID!
-    clubMotto: String!
-    kitColour: String!
-    teamName: String!
-    stadiumName: String!
-    styleOfPlay: String!
+    info: TeamInfo!
+    userId: String!
   }
 
   type AuthData {

@@ -9,11 +9,13 @@ const createTeam = async (variables: any): Promise<FFType.Team> => {
     mutation createNewTeam($clubMotto: String!, $kitColour: String!, $stadiumName: String!, $styleOfPlay: String!, $teamName: String!){
       createTeam(teamInput: {clubMotto: $clubMotto, kitColour: $kitColour, stadiumName: $stadiumName, styleOfPlay: $styleOfPlay, teamName: $teamName}) {
         _id
-        clubMotto
-        kitColour
-        stadiumName
-        styleOfPlay
-        teamName
+        info {
+          clubMotto
+          kitColour
+          stadiumName
+          styleOfPlay
+          teamName
+        }
       }
     }`,
   variables);
