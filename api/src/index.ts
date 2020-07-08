@@ -69,7 +69,7 @@ const mongoConfig = {
 
 mongoose.connect(`${process.env.MONGO_URL}`, mongoConfig)
   .then(() => {
-    app.listen(4000, () => console.log('express graphql server is now running on localhost:4000/graphql !'));
+    app.listen(4000, () => console.log('!express graphql server is now running on localhost:4000/graphql !'));
   })
   .catch((err) => {
     console.log(err);
