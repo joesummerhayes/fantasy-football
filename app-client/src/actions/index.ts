@@ -26,7 +26,13 @@ export interface ClearError extends Action {
   payload: {};
 }
 
+export interface GetError extends Action {
+  payload: {};
+}
+
 type ClearErrorDispatch = (actions: ClearError) => void;
+
+type GetErrorsDispatch = (actions: GetError) => void;
 
 export const createUserAction = (userInputData: FFType.SignupUser) => async (dispatch: any): Promise<void> => {
   try {
@@ -90,6 +96,13 @@ export const logoutAction = () => (dispatch: any) => {
   localStorage.removeItem('userId');
   dispatch({
     type: LOGOUT_USER,
+  });
+};
+
+export const getErrorAction = (error: string) => (dispatch: GetErrorsDispatch): void => {
+  dispatch({
+    type: GET_ERROR,
+    payload: error,
   });
 };
 
