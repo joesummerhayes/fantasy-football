@@ -4,6 +4,7 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
+  team?: string;
 }
 
 const userSchema: Schema = new Schema({
@@ -18,6 +19,10 @@ const userSchema: Schema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  team: {
+    type: Schema.Types.ObjectId,
+    ref: 'Team',
   },
 });
 
