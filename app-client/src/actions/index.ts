@@ -32,7 +32,7 @@ export interface GetError extends Action {
 }
 
 export interface GetUser extends Action {
-  payload: {};
+  payload: FFType.User;
 }
 
 type ClearErrorDispatch = (actions: ClearError) => void;
