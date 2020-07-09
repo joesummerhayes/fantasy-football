@@ -11,6 +11,15 @@ const getUser = async (): Promise<FFType.User> => {
         _id
         name
         email
+        team {
+          info {
+            clubMotto
+            kitColour
+            stadiumName
+            styleOfPlay
+            teamName
+          }
+        }
       }
     }`);
   if (response === null) {

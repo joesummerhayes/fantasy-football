@@ -4,7 +4,7 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
-  team?: string;
+  team?: FFType.Team;
 }
 
 const userSchema: Schema = new Schema({
