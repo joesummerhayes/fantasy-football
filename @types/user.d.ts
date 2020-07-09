@@ -2,6 +2,7 @@ export interface User {
   _id: string;
   name: string;
   email?: string;
+  team?: FFType.Team;
 }
 
 export interface LoggedInUser {

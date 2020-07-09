@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Team from '../../models/team';
+import User from '../../models/user';
 import { checkFieldsExist } from './utils';
 
 interface CreateTeamArgs {
@@ -22,6 +23,10 @@ export default {
     if (!userId) {
       throw new Error('User not authenticated');
     }
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User does not exist');
+    }
 
     const { teamInput } = args;
     const values = Object.values(teamInput);
@@ -36,7 +41,13 @@ export default {
       userId: userObjId,
     });
     const createdTeam = await team.save();
-    console.log(createdTeam);
+
+    // create reference to team on user
+    const teamId = createdTeam._id;
+
+    user.team = teamId;
+    await user.save();
+
     return createdTeam;
   },
 };

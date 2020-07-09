@@ -1,6 +1,7 @@
 import { Action } from 'redux';
 import createUser from '../data/create-user';
 import login from '../data/login';
+import getUser from '../data/get-user';
 import {
   GET_PREM_TEAMS,
   CLEAR_ERROR,
@@ -30,9 +31,15 @@ export interface GetError extends Action {
   payload: {};
 }
 
+export interface GetUser extends Action {
+  payload: FFType.User;
+}
+
 type ClearErrorDispatch = (actions: ClearError) => void;
 
 type GetErrorsDispatch = (actions: GetError) => void;
+
+type GetUserDispatch = (action: GetUser) => void;
 
 export const createUserAction = (userInputData: FFType.SignupUser) => async (dispatch: any): Promise<void> => {
   try {
@@ -59,6 +66,7 @@ export const loginAction = (loginInputData: FFType.LoginCredentials) => async (d
     if (!user) {
       throw new Error('no user found with these credentials');
     }
+
     localStorage.setItem('token', user.token);
     localStorage.setItem('userId', user.userId);
     const remainingMilliseconds = 60 * 60 * 1000;
@@ -66,13 +74,14 @@ export const loginAction = (loginInputData: FFType.LoginCredentials) => async (d
       new Date().getTime() + remainingMilliseconds,
     );
     localStorage.setItem('expiryDate', expiryDate.toISOString());
+    const userWithTeam = await getUser();
     history.push('/');
     dispatch({
       type: CLEAR_ERROR,
     });
     dispatch({
       type: LOGIN_USER,
-      payload: user,
+      payload: userWithTeam,
     });
   } catch (err) {
     dispatch({
@@ -103,6 +112,14 @@ export const getErrorAction = (error: string) => (dispatch: GetErrorsDispatch): 
   dispatch({
     type: GET_ERROR,
     payload: error,
+  });
+};
+
+export const getUserAction = () => async (dispatch: GetUserDispatch): Promise<void> => {
+  const user = await getUser();
+  dispatch({
+    type: LOGIN_USER,
+    payload: user,
   });
 };
 

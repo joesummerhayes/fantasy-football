@@ -4,8 +4,8 @@ export default buildSchema(`
   type User {
     _id: ID!
     name: String!
-    email: String!
-    password: String
+    email: String
+    team: Team
   }
 
   type Player {

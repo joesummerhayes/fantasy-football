@@ -71,7 +71,8 @@ export default {
     if (!req.isAuth) {
       throw new Error('not authenticated');
     }
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId).populate('team');
+
     if (!user) {
       throw new Error('no user found');
     }

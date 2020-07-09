@@ -5,7 +5,7 @@ import CreateTeam from './views/create-team/Create-Team';
 import Signup from './views/Signup';
 import Login from './views/Login';
 import Nav from './views/Nav';
-import { logoutAction } from './actions/index';
+import { logoutAction, getUserAction } from './actions/index';
 import './App.css';
 import history from './history';
 import PrivateRoute from './views/components/private-route';
@@ -18,6 +18,7 @@ const App: React.FC = () => {
     if (!token || !expiryDate) {
       return;
     }
+    dispatch(getUserAction());
     if (new Date(expiryDate) <= new Date()) {
       dispatch(logoutAction());
     }
@@ -32,7 +33,7 @@ const App: React.FC = () => {
         <Route exact path="/signup" component={Signup} />
       </div>
     </Router>
-  )
+  );
 };
 
 export default App;
