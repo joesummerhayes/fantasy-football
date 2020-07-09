@@ -9,10 +9,11 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { required, length, email, confirmPass } from '../utils/validation';
-import { createUserAction } from '../actions/index';
-import { stylesOfPlay, kitColours } from '../utils/create-team-data';
-import createTeam from '../data/create-team';
+import { required, length, email, confirmPass } from '../../utils/validation';
+import { getErrorAction } from '../../actions/index';
+import { stylesOfPlay, kitColours } from '../../utils/create-team-data';
+import createTeam from '../../data/create-team';
+import { formValudationCheck } from './utils';
 
 const useStyles = makeStyles({
   root: {
@@ -68,8 +69,6 @@ const CreateTeam = () => {
     },
   });
 
-  console.log(form);
-
   const blurHandler = (inputField: string): void => {
     setForm({
       ...form,
@@ -104,23 +103,9 @@ const CreateTeam = () => {
         value,
       },
     };
-
-    const formEntries: [string, FFType.FormItem][] = Object.entries(updatedForm);
-
-    const validations = formEntries.map((item: [string, FFType.FormItem]) => {
-      return item[1].valid;
-    });
-    const reducer = (acc: boolean, item: boolean): boolean => {
-      if (acc && item) {
-        return item;
-      }
-      return false;
-    };
-
-    const isFormValid = validations.reduce(reducer, true);
-
-    validateForm(isFormValid);
     setForm(updatedForm);
+    const validForm = formValudationCheck(updatedForm);
+    validateForm(validForm);
   };
 
   const styleOfPlayDropDown = (listItems: string[]): React.ReactNode => {
@@ -133,7 +118,7 @@ const CreateTeam = () => {
     const { target } = event;
     const { value, name } = target;
     if (!name) return undefined;
-    setForm({
+    const newForm = {
       ...form,
       [name]: {
         ...form[name],
@@ -141,7 +126,10 @@ const CreateTeam = () => {
         touched: true,
         valid: true,
       },
-    });
+    };
+    const validForm = formValudationCheck(newForm);
+    setForm(newForm);
+    validateForm(validForm);
   };
 
   return (
@@ -150,23 +138,30 @@ const CreateTeam = () => {
         className={classes.root}
         onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
           e.preventDefault();
-          const foo = {
-            clubMotto: form.clubMotto.value,
-            styleOfPlay: form.styleOfPlay.value,
-            teamName: form.teamName.value,
-            kitColour: form.kitColour.value,
-            stadiumName: form.stadiumName.value,
-          };
-          createTeam(foo);
-          // if (formIsValid) {
-          //   dispatch(
-          //     createUserAction({
-          //       name: form.name.value,
-          //       email: form.email.value,
-          //       password: form.password.value,
-          //     }),
-          //   );
-          // }
+          setForm({
+            ...form,
+            styleOfPlay: {
+              ...form.styleOfPlay,
+              touched: true,
+            },
+            kitColour: {
+              ...form.kitColour,
+              touched: true,
+            },
+          });
+
+          if (formIsValid) {
+            const validTeamValues = {
+              clubMotto: form.clubMotto.value,
+              styleOfPlay: form.styleOfPlay.value,
+              teamName: form.teamName.value,
+              kitColour: form.kitColour.value,
+              stadiumName: form.stadiumName.value,
+            };
+            createTeam(validTeamValues);
+          } else {
+            // call the error action creator so i can display error at the bottom of form?
+          }
         }}
       >
         <div className={classes.inputField}>
@@ -212,7 +207,7 @@ const CreateTeam = () => {
           />
         </div>
         <div className={classes.inputField}>
-          <FormControl variant="outlined" className={classes.dropDown}>
+          <FormControl variant="outlined" className={classes.dropDown} error={form.styleOfPlay.valid === false && form.styleOfPlay.touched === true}>
             <InputLabel id="demo-simple-select-outlined-label">Style Of Play</InputLabel>
             <Select
               id="style of play"
@@ -225,7 +220,7 @@ const CreateTeam = () => {
           </FormControl>
         </div>
         <div className={classes.inputField}>
-          <FormControl variant="outlined" className={classes.dropDown}>
+          <FormControl variant="outlined" className={classes.dropDown} error={form.kitColour.valid === false && form.kitColour.touched === true}>
             <InputLabel id="demo-simple-select-outlined-label">Kit Colour</InputLabel>
             <Select
               id="kit colour"

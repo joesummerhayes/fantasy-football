@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
-import CreateTeam from './views/Create-Team';
+import CreateTeam from './views/create-team/Create-Team';
 import Signup from './views/Signup';
 import Login from './views/Login';
 import Nav from './views/Nav';

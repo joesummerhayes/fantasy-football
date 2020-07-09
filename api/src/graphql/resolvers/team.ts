@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Team from '../../models/team';
+import { checkFieldsExist } from './utils';
 
 interface CreateTeamArgs {
   teamInput: {
@@ -22,8 +23,14 @@ export default {
       throw new Error('User not authenticated');
     }
 
-    const userObjId = mongoose.Types.ObjectId(userId);
     const { teamInput } = args;
+    const values = Object.values(teamInput);
+    if (!checkFieldsExist(values)) {
+      throw new Error('Some fields for creating a team were empty');
+    }
+
+    const userObjId = mongoose.Types.ObjectId(userId);
+
     const team = new Team({
       info: { ...teamInput },
       userId: userObjId,
