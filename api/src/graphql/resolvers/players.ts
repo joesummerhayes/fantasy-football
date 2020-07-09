@@ -55,7 +55,7 @@ export default {
     const { teamName } = args;
     try {
       const premTeam = await PremTeam.findOne({ name: teamName }).populate('players');
-      if (premTeam && premTeam.players && isPlayer(premTeam.players)) {
+      if (premTeam?.players && isPlayer(premTeam?.players)) {
         const { players } = premTeam;
         const teamId = premTeam._id;
         const playersWithTeam = players.map((player) => {
