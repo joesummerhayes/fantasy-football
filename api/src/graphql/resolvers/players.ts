@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import mongoose from 'mongoose';
+import mongoose, {Mongoose} from 'mongoose';
 import Player from '../../models/player';
 import PremTeam from '../../models/prem-team';
 
@@ -54,22 +54,17 @@ export default {
 
     const { teamName } = args;
     try {
-      const premTeam = await PremTeam.findOne({ name: teamName }).populate('players');
-      if (premTeam && premTeam.players && isPlayer(premTeam.players)) {
+      const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
+      const premTeam = premTeamCursor?.toObject();
+      if (premTeam?.players && isPlayer(premTeam?.players)) {
         const { players } = premTeam;
         const teamId = premTeam._id;
-        const playersWithTeam = players.map((player) => {
-          const { firstName, lastName, position, specPositions, team, _id, usedName } = player;
+        const playersWithTeam = players.map((player: FFType.Player) => {
           return {
-            _id,
-            firstName,
-            lastName,
-            usedName,
-            position,
-            specPositions,
+            ...player,
             team: {
               id: teamId,
-              name: team,
+              name: player.team,
             },
           };
         });
@@ -146,10 +141,10 @@ export default {
     }
   },
   async deletePlayer(args: DeletePlayerArgs, req: Request): Promise<string> {
+    if (!req.isAuth) {
+      throw new Error('not authenticated');
+    }
     try {
-      if (!req.isAuth) {
-        throw new Error('not authenticated');
-      }
       const { id, teamId } = args;
       await Player.findByIdAndRemove(id);
       const team = await PremTeam.findById(teamId);
