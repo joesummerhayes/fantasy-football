@@ -41,6 +41,7 @@ const Nav = (): ReactElement => {
     <div className={classes.navContainer}>
       <div className={classes.navLeft}>
         {isAuth && <Link to="/create-team">Create Team</Link>}
+        {isAuth && <Link to="/my-team">My Team</Link>}
       </div>
       <div className={classes.navRight}>
         {!isAuth && <Link to="/login">Login</Link>}
