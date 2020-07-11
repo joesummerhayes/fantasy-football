@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import mongoose from 'mongoose';
+import mongoose, {Mongoose} from 'mongoose';
 import Player from '../../models/player';
 import PremTeam from '../../models/prem-team';
 
@@ -42,6 +42,8 @@ declare module 'express-serve-static-core' {
   }
 }
 
+type Foo = FFType.Player[] & Document;
+
 export default {
   async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam[]> {
     if (!req.isAuth) {
@@ -54,22 +56,17 @@ export default {
 
     const { teamName } = args;
     try {
-      const premTeam = await PremTeam.findOne({ name: teamName }).populate('players');
+      const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
+      const premTeam = premTeamCursor?.toObject();
       if (premTeam?.players && isPlayer(premTeam?.players)) {
         const { players } = premTeam;
         const teamId = premTeam._id;
-        const playersWithTeam = players.map((player) => {
-          const { firstName, lastName, position, specPositions, team, _id, usedName } = player;
+        const playersWithTeam = players.map((player: FFType.Player) => {
           return {
-            _id,
-            firstName,
-            lastName,
-            usedName,
-            position,
-            specPositions,
+            ...player,
             team: {
               id: teamId,
-              name: team,
+              name: player.team,
             },
           };
         });
