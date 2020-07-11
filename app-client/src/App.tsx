@@ -9,6 +9,7 @@ import { logoutAction, getUserAction } from './actions/index';
 import './App.css';
 import history from './history';
 import PrivateRoute from './views/components/private-route';
+import MyTeam from './views/my-team';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const App: React.FC = () => {
       <Nav />
       <div>
         <PrivateRoute path="/create-team" component={CreateTeam} />
+        <PrivateRoute path="/my-team" component={MyTeam} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
       </div>
