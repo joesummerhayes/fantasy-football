@@ -42,8 +42,6 @@ declare module 'express-serve-static-core' {
   }
 }
 
-type Foo = FFType.Player[] & Document;
-
 export default {
   async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam[]> {
     if (!req.isAuth) {
@@ -143,10 +141,10 @@ export default {
     }
   },
   async deletePlayer(args: DeletePlayerArgs, req: Request): Promise<string> {
+    if (!req.isAuth) {
+      throw new Error('not authenticated');
+    }
     try {
-      if (!req.isAuth) {
-        throw new Error('not authenticated');
-      }
       const { id, teamId } = args;
       await Player.findByIdAndRemove(id);
       const team = await PremTeam.findById(teamId);
