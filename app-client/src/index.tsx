@@ -8,11 +8,13 @@ import {
   Store,
 } from 'redux';
 import reduxThunk from 'redux-thunk';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import reducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { LOGIN_USER } from './actions/types';
+import theme from './theme';
 
 declare global {
   interface Window {
@@ -37,7 +39,9 @@ if (token) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root'),
 );
