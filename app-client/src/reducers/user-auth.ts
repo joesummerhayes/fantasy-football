@@ -17,6 +17,7 @@ const userAuthReducer: Reducer = (state: AppState = {}, action: AnyAction) => {
       return {
         ...state,
         loggedIn: false,
+        user: {},
       };
     }
     default:

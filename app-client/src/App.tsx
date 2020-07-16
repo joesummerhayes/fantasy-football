@@ -11,6 +11,7 @@ import history from './history';
 import PrivateRoute from './views/components/private-route';
 import MyTeam from './views/my-team';
 import PlayerSearch from './views/player-search';
+import Header from './views/components/Header';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const App: React.FC = () => {
 
   return (
     <Router history={history}>
+      <Header />
       <Nav />
       <div>
         <PrivateRoute path="/create-team" component={CreateTeam} />
