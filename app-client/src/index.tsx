@@ -14,7 +14,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { LOGIN_USER } from './actions/types';
-import theme from './theme';
+import { muiTheme } from './theme';
 
 declare global {
   interface Window {
@@ -39,7 +39,7 @@ if (token) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={muiTheme}>
       <App />
     </MuiThemeProvider>
   </Provider>,
