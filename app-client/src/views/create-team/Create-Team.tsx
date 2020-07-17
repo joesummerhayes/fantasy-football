@@ -14,6 +14,7 @@ import { stylesOfPlay, kitColours } from '../../utils/create-team-data';
 import createTeam from '../../data/create-team';
 import { formValudationCheck } from './utils';
 import Button from '../components/Button';
+import Title from '../components/Title';
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles({
   },
   inputText: {
     color: 'black',
+  },
+  title: {
+    paddingTop: '3rem',
   },
 });
 
@@ -167,6 +171,7 @@ const CreateTeam = () => {
           }
         }}
       >
+        <Title text="Create Your Team" className={classes.title} />
         <div className={classes.inputField}>
           <TextField
             id="teamName"
