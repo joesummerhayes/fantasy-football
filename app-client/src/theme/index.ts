@@ -5,6 +5,7 @@ export const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: COLORS.primary,
+      light: COLORS.primaryLight,
       dark: COLORS.primaryDark,
     },
     secondary: {
