@@ -29,6 +29,9 @@ const useStyles = makeStyles({
   dropDown: {
     width: '100%',
   },
+  inputText: {
+    color: 'black',
+  },
 });
 
 const CreateTeam = () => {
@@ -168,7 +171,8 @@ const CreateTeam = () => {
           <TextField
             id="teamName"
             variant="outlined"
-            placeholder="team name"
+            label="Team Name"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.teamName.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('teamName')}
@@ -182,7 +186,8 @@ const CreateTeam = () => {
           <TextField
             id="clubMotto"
             variant="outlined"
-            placeholder="club motto"
+            label="Club Motto"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.clubMotto.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('clubMotto')}
@@ -196,7 +201,8 @@ const CreateTeam = () => {
           <TextField
             id="stadiumName"
             variant="outlined"
-            placeholder="stadium name"
+            label="Stadium Name"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.stadiumName.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('stadiumName')}
@@ -208,12 +214,12 @@ const CreateTeam = () => {
         </div>
         <div className={classes.inputField}>
           <FormControl variant="outlined" className={classes.dropDown} error={form.styleOfPlay.valid === false && form.styleOfPlay.touched === true}>
-            <InputLabel id="demo-simple-select-outlined-label">Style Of Play</InputLabel>
+            <InputLabel required className={classes.inputText}>Style Of Play</InputLabel>
             <Select
-              id="style of play"
               value={form.styleOfPlay.value}
               onChange={handleDropDownChange}
               name="styleOfPlay"
+              label="Style of Play"
             >
               {styleOfPlayDropDown(stylesOfPlay)}
             </Select>
@@ -221,12 +227,12 @@ const CreateTeam = () => {
         </div>
         <div className={classes.inputField}>
           <FormControl variant="outlined" className={classes.dropDown} error={form.kitColour.valid === false && form.kitColour.touched === true}>
-            <InputLabel id="demo-simple-select-outlined-label">Kit Colour</InputLabel>
+            <InputLabel required className={classes.inputText}>Kit Colour</InputLabel>
             <Select
-              id="kit colour"
               value={form.kitColour.value}
               onChange={handleDropDownChange}
               name="kitColour"
+              label="Kit Colour"
             >
               {styleOfPlayDropDown(kitColours)}
             </Select>

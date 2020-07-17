@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import history from '../../history';
 import { logoutAction } from '../../actions/index';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'black',
     minWidth: '7rem',
     fontFamily: theme.typography.fontFamily,
-    fontSize: '1rem',
+    fontSize: '0.9rem',
   },
   copy: {
-    padding: '0.7rem 0.8rem 0.7rem 0.8rem',
+    padding: '0.9rem 1rem 0.9rem 1rem',
     textTransform: 'capitalize',
   },
   active: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'black',
     minWidth: '7rem',
     fontFamily: theme.typography.fontFamily,
-    fontSize: '1rem',
+    fontSize: '0.9rem',
   },
 }));
 
