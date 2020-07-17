@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     backgroundColor: theme.palette.primary.light,
     fontSize: '1.1rem',
-    letterSpacing: '0.8px',
+    letterSpacing: '1px',
     width: '10rem',
     height: '3.5rem',
   },
