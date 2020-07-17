@@ -14,8 +14,9 @@ export const muiTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto sans-serif',
+    fontFamily: 'Roboto, sans-serif',
   },
+  spacing: 1,
 });
 
 export const cssVariables = {

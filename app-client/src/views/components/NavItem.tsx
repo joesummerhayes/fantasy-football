@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   copy: {
     padding: '0.9rem 1rem 0.9rem 1rem',
     textTransform: 'capitalize',
+    letterSpacing: theme.spacing(1),
   },
   active: {
     backgroundColor: theme.palette.primary.light,

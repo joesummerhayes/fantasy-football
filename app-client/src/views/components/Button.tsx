@@ -13,9 +13,16 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     backgroundColor: theme.palette.primary.light,
     fontSize: '1.1rem',
-    letterSpacing: '1px',
+    letterSpacing: '1.2px',
     width: '10rem',
     height: '3.5rem',
+    boxShadow: 'none',
+    fontWeight: 400,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: 'white',
+      boxShadow: 'none',
+    },
   },
 }));
 
