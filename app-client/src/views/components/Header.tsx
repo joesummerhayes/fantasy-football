@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountIcon from '@material-ui/icons/Person';
 import navImage from '../../images/topnav.png';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   header: {
     backgroundImage: `url(${navImage})`,
     backgroundSize: '100%',
@@ -14,8 +14,9 @@ const useStyles = makeStyles({
     float: 'right',
     padding: '10px',
     fontWeight: 'lighter',
+    letterSpacing: theme.spacing(1),
   },
-});
+}));
 
 const Header: React.FC = (): ReactElement => {
   const classes = useStyles();
