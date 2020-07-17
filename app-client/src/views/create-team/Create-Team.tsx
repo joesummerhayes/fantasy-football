@@ -4,16 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import MuiAlert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { required, length, email, confirmPass } from '../../utils/validation';
+import { required } from '../../utils/validation';
 import { getErrorAction } from '../../actions/index';
 import { stylesOfPlay, kitColours } from '../../utils/create-team-data';
 import createTeam from '../../data/create-team';
 import { formValudationCheck } from './utils';
+import Button from '../components/Button';
+import Title from '../components/Title';
 
 const useStyles = makeStyles({
   root: {
@@ -24,10 +25,16 @@ const useStyles = makeStyles({
     paddingTop: '1rem',
   },
   submitButton: {
-    marginTop: '1rem',
+    marginTop: '2rem',
   },
   dropDown: {
     width: '100%',
+  },
+  inputText: {
+    color: 'black',
+  },
+  title: {
+    paddingTop: '3rem',
   },
 });
 
@@ -164,11 +171,13 @@ const CreateTeam = () => {
           }
         }}
       >
+        <Title text="Create Your Team" className={classes.title} />
         <div className={classes.inputField}>
           <TextField
             id="teamName"
             variant="outlined"
-            placeholder="team name"
+            label="Team Name"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.teamName.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('teamName')}
@@ -182,7 +191,8 @@ const CreateTeam = () => {
           <TextField
             id="clubMotto"
             variant="outlined"
-            placeholder="club motto"
+            label="Club Motto"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.clubMotto.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('clubMotto')}
@@ -196,7 +206,8 @@ const CreateTeam = () => {
           <TextField
             id="stadiumName"
             variant="outlined"
-            placeholder="stadium name"
+            label="Stadium Name"
+            InputLabelProps={{ className: classes.inputText }}
             value={form.stadiumName.value}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('stadiumName')}
@@ -208,12 +219,12 @@ const CreateTeam = () => {
         </div>
         <div className={classes.inputField}>
           <FormControl variant="outlined" className={classes.dropDown} error={form.styleOfPlay.valid === false && form.styleOfPlay.touched === true}>
-            <InputLabel id="demo-simple-select-outlined-label">Style Of Play</InputLabel>
+            <InputLabel required className={classes.inputText}>Style Of Play</InputLabel>
             <Select
-              id="style of play"
               value={form.styleOfPlay.value}
               onChange={handleDropDownChange}
               name="styleOfPlay"
+              label="Style of Play"
             >
               {styleOfPlayDropDown(stylesOfPlay)}
             </Select>
@@ -221,25 +232,19 @@ const CreateTeam = () => {
         </div>
         <div className={classes.inputField}>
           <FormControl variant="outlined" className={classes.dropDown} error={form.kitColour.valid === false && form.kitColour.touched === true}>
-            <InputLabel id="demo-simple-select-outlined-label">Kit Colour</InputLabel>
+            <InputLabel required className={classes.inputText}>Kit Colour</InputLabel>
             <Select
-              id="kit colour"
               value={form.kitColour.value}
               onChange={handleDropDownChange}
               name="kitColour"
+              label="Kit Colour"
             >
               {styleOfPlayDropDown(kitColours)}
             </Select>
           </FormControl>
         </div>
         {handleError()}
-        <Button
-          variant="contained"
-          className={classes.submitButton}
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button text="Create Team" onClick={() => console.log('click')} className={classes.submitButton} />
       </form>
     </Box>
   );

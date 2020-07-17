@@ -8,12 +8,12 @@ export const stylesOfPlay = [
 ];
 
 export const kitColours = [
-  'red',
-  'black',
-  'white',
-  'blue',
-  'green',
-  'orange',
+  'Red',
+  'Black',
+  'White',
+  'Blue',
+  'Green',
+  'Orange',
 ];
 
 export default {};
