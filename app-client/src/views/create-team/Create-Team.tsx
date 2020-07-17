@@ -4,16 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import MuiAlert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import { Box } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { required, length, email, confirmPass } from '../../utils/validation';
+import { required } from '../../utils/validation';
 import { getErrorAction } from '../../actions/index';
 import { stylesOfPlay, kitColours } from '../../utils/create-team-data';
 import createTeam from '../../data/create-team';
 import { formValudationCheck } from './utils';
+import Button from '../components/Button';
 
 const useStyles = makeStyles({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     paddingTop: '1rem',
   },
   submitButton: {
-    marginTop: '1rem',
+    marginTop: '2rem',
   },
   dropDown: {
     width: '100%',
@@ -239,13 +239,7 @@ const CreateTeam = () => {
           </FormControl>
         </div>
         {handleError()}
-        <Button
-          variant="contained"
-          className={classes.submitButton}
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button text="Create Team" onClick={() => console.log('click')} className={classes.submitButton} />
       </form>
     </Box>
   );
