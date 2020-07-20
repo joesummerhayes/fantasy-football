@@ -1,24 +1,51 @@
 import React, { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { Box } from '@material-ui/core';
+import { TextField, Box, Typography } from '@material-ui/core';
+import Arrow from '@material-ui/icons/ArrowForward';
 import MuiAlert from '@material-ui/lab/Alert';
 import { loginAction } from '../actions/index';
 import { required, email } from '../utils/validation';
-
+import hero from '../images/loginHero.png';
+import Button from './components/Button';
 
 const useStyles = makeStyles({
   root: {
     margin: 'auto',
-    width: '50%',
+    width: '40%',
   },
   inputField: {
     paddingTop: '1rem',
   },
   submitButton: {
-    marginTop: '1rem',
+    margin: '1rem 0 1rem 0',
+    backgroundColor: 'black',
+    color: 'white',
+    borderRadius: 'inherit',
+  },
+  box: {
+    backgroundImage: `url(${hero})`,
+    height: '100vh',
+    width: '100vw',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
+  },
+  inputText: {
+    color: 'black',
+  },
+  textField: {
+    backgroundColor: 'rgba(343, 342, 324, 0.5)',
+  },
+  helperActions: {
+    paddingBottom: '1rem',
+    letterSpacing: '0.1px',
+  },
+  arrowIcon: {
+    height: '0.7em',
+  },
+  header: {
+    fontSize: '1.5rem',
+    letterSpacing: '0.1px',
   },
 });
 
@@ -90,19 +117,24 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Box display="flex">
+    <Box display="flex" className={classes.box}>
       <form className={classes.root} onSubmit={loginUser}>
+        <Typography className={classes.header}>
+          Sign In
+        </Typography>
         <div className={classes.inputField}>
           <TextField
             fullWidth
             variant="outlined"
             value={form.email.value}
-            placeholder="email"
+            label="Email"
+            InputLabelProps={{ className: classes.inputText }}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('email')}
             id="email"
             helperText={form.email.touched && !form.email.valid ? 'Must provide an email' : ''}
             error={form.email.touched && !form.email.valid}
+            className={classes.textField}
           />
         </div>
         <div className={classes.inputField}>
@@ -110,23 +142,27 @@ const Login: React.FC = () => {
             fullWidth
             variant="outlined"
             value={form.password.value}
-            placeholder="password"
+            label="Password"
+            InputLabelProps={{ className: classes.inputText }}
             onChange={handleInputChange}
             onBlur={(): void => blurHandler('password')}
             id="password"
             type="password"
             helperText={form.password.touched && !form.password.valid ? 'Enter your password' : ''}
             error={form.password.touched && !form.password.valid}
+            className={classes.textField}
           />
         </div>
         {handleError()}
-        <Button
-          variant="contained"
-          className={classes.submitButton}
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button text="Login" onClick={() => loginUser} className={classes.submitButton} />
+        <Typography className={classes.helperActions}>
+          Forgot your password?
+          <Arrow className={classes.arrowIcon} />
+        </Typography>
+        <Typography className={classes.helperActions}>
+          Sign up?
+          <Arrow className={classes.arrowIcon} />
+        </Typography>
       </form>
     </Box>
   );
