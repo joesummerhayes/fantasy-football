@@ -7,7 +7,7 @@ import { Box } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { loginAction } from '../actions/index';
 import { required, email } from '../utils/validation';
-
+import hero from '../images/loginHero.png';
 
 const useStyles = makeStyles({
   root: {
@@ -19,6 +19,13 @@ const useStyles = makeStyles({
   },
   submitButton: {
     marginTop: '1rem',
+  },
+  box: {
+    backgroundImage: `url(${hero})`,
+    height: '100vh',
+    width: '100vw',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
   },
 });
 
@@ -90,7 +97,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Box display="flex">
+    <Box display="flex" className={classes.box}>
       <form className={classes.root} onSubmit={loginUser}>
         <div className={classes.inputField}>
           <TextField

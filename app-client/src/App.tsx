@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
 import CreateTeam from './views/create-team/Create-Team';
 import Signup from './views/Signup';
@@ -15,9 +15,11 @@ import Header from './views/components/Header';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
+  const signedIn = useSelector((state: any) => state.user.loggedIn);
+  const token = localStorage.getItem('token');
+  const expiryDate = localStorage.getItem('expiryDate');
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const expiryDate = localStorage.getItem('expiryDate');
     if (!token || !expiryDate) {
       return;
     }
@@ -25,12 +27,12 @@ const App: React.FC = () => {
     if (new Date(expiryDate) <= new Date()) {
       dispatch(logoutAction());
     }
-  });
+  }, [token]);
 
   return (
     <Router history={history}>
-      <Header />
-      <Nav />
+      {signedIn && <Header />}
+      {signedIn && <Nav />}
       <div>
         <PrivateRoute path="/create-team" component={CreateTeam} />
         <PrivateRoute path="/my-team" component={MyTeam} />
