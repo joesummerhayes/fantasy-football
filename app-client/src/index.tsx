@@ -8,12 +8,13 @@ import {
   Store,
 } from 'redux';
 import reduxThunk from 'redux-thunk';
+import { batchedSubscribe } from 'redux-batched-subscribe';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import reducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { LOGIN_USER } from './actions/types';
+import { ActionTypes } from './actions/types';
 import { muiTheme } from './theme';
 
 declare global {
@@ -29,12 +30,15 @@ const store: Store = createStore(
   compose(
     applyMiddleware(reduxThunk),
     composeEnhancers(),
+    batchedSubscribe((notify) => {
+      notify();
+    }),
   ),
 );
 
 const token = localStorage.getItem('token');
 if (token) {
-  store.dispatch({ type: LOGIN_USER });
+  store.dispatch({ type: ActionTypes.loginUser });
 }
 
 ReactDOM.render(

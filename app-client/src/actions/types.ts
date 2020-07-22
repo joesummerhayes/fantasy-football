@@ -1,6 +1,18 @@
-export const GET_PREM_TEAMS = 'GET_PREM_TEAMS';
-export const CREATE_USER = 'CREATE_USER';
-export const GET_ERROR = 'GET_ERROR';
-export const LOGIN_USER = 'LOGIN_USER';
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const CLEAR_ERROR = 'CLEAR_ERROR';
+import { ClearErrorsAction, GetErrorAction } from './error';
+import { ClearErrorAction } from './user';
+import { LoginUserAction, LogoutUserAction } from './auth';
+
+export enum ActionTypes {
+  createUser,
+  getError,
+  loginUser,
+  logoutUser,
+  clearError,
+}
+
+export type Action =
+  ClearErrorAction |
+  ClearErrorsAction |
+  GetErrorAction |
+  LoginUserAction |
+  LogoutUserAction;

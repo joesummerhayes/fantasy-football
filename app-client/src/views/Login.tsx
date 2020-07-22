@@ -71,7 +71,6 @@ const Login: React.FC = () => {
 
   const loginUser = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(form);
     const formValues = {
       email: form.email.value,
       password: form.password.value,

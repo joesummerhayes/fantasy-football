@@ -40,7 +40,6 @@ const Nav = (): ReactElement => {
 
   const location = useLocation();
   const { pathname } = location;
-  console.log(activeTab);
 
   useEffect(() => {
     if (pathname === '/my-team') {

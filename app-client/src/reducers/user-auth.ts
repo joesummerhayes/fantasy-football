@@ -1,23 +1,28 @@
-import { Reducer, AnyAction } from 'redux';
-import { LOGIN_USER, LOGOUT_USER } from '../actions/types';
-import { AppState } from '../app-state';
+import { ActionTypes, Action } from '../actions/types';
 
-const userAuthReducer: Reducer = (state: AppState = {}, action: AnyAction) => {
+interface UserState {
+  userDetails?: FFType.User;
+  loggedIn: boolean;
+}
+
+const userAuthReducer = (state: UserState = { loggedIn: false }, action: Action): UserState => {
   switch (action.type) {
-    case LOGIN_USER: {
+    case ActionTypes.loginUser: {
       const { payload } = action;
-
       return {
         ...state,
-        user: payload,
+        userDetails: payload,
         loggedIn: true,
       };
     }
-    case LOGOUT_USER: {
+    case ActionTypes.logoutUser: {
       return {
         ...state,
+        userDetails: {
+          _id: '',
+          name: '',
+        },
         loggedIn: false,
-        user: {},
       };
     }
     default:

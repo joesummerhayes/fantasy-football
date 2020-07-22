@@ -16,7 +16,6 @@ const getPremTeam = async (teamId: string): Promise<PremTeam> => {
       image
     }
   }`);
-  console.log('111', response.premTeam);
   return response.premTeam;
 };
 

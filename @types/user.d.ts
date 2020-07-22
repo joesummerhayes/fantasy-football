@@ -1,8 +1,10 @@
+import { Team } from './team';
+
 export interface User {
   _id: string;
   name: string;
   email?: string;
-  team?: FFType.Team;
+  team?: Team;
 }
 
 export interface LoggedInUser {
