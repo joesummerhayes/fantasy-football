@@ -1,4 +1,15 @@
-export const LOGIN_USER = 'LOGIN_USER';
-export const GET_ERROR = 'GET_ERROR';
-export const CLEAR_ERROR = 'CLEAR_ERROR';
-export const LOGOUT_USER = 'LOGOUT_USER';
+import { LoginUserAction, LogoutUserAction } from './auth';
+import { ClearErrorsAction, GetErrorAction } from './error';
+
+export enum ActionTypes {
+  loginUser,
+  logoutUser,
+  getError,
+  clearErrors,
+}
+
+export type Action =
+  ClearErrorsAction |
+  GetErrorAction |
+  LoginUserAction |
+  LogoutUserAction;
