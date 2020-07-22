@@ -4,7 +4,6 @@ import { AppState } from '../../app-state';
 
 const MyTeam: React.FC = (): ReactElement => {
   const { user } = useSelector((state: AppState) => state);
-  console.log(user);
 
   return (
     <div>

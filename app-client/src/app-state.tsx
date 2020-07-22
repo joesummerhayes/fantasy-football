@@ -1,6 +1,6 @@
 export interface AppState {
   user?: {
-    user?: FFType.LoggedInUser;
+    userDetails?: FFType.User;
     loggedIn: boolean;
   };
   error?: {
@@ -10,4 +10,3 @@ export interface AppState {
     errorLocation: string;
   };
 }
-
