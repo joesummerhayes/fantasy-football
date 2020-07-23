@@ -52,26 +52,26 @@ const ClubInfo: React.FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={6}>
           <div className={`${classes.sameLine} ${classes.floatLeft}`}>
-            <Typography variant="body2">Club Motto: </Typography>
-            <Typography variant="body2" className={classes.bold}>{clubMotto}</Typography>
+            <Typography>Club Motto: </Typography>
+            <Typography className={classes.bold}>{clubMotto}</Typography>
           </div>
         </Grid>
         <Grid item xs={6}>
           <div className={`${classes.sameLine} ${classes.floatRight}`}>
             <Typography>Overall Points: </Typography>
-            <Typography variant="body2" className={classes.bold}>236</Typography>
+            <Typography className={classes.bold}>236</Typography>
           </div>
         </Grid>
         <Grid item xs={6}>
           <div className={`${classes.sameLine} ${classes.floatLeft}`}>
             <Typography>Style of Play: </Typography>
-            <Typography variant="body2" className={classes.bold}>{styleOfPlay}</Typography>
+            <Typography className={classes.bold}>{styleOfPlay}</Typography>
           </div>
         </Grid>
         <Grid item xs={6}>
           <div className={`${classes.sameLine} ${classes.floatRight}`}>
             <Typography>Gameweek Points: </Typography>
-            <Typography variant="body2" className={classes.bold}>35</Typography>
+            <Typography className={classes.bold}>35</Typography>
           </div>
         </Grid>
       </Grid>
