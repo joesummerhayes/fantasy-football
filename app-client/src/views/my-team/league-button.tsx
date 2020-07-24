@@ -7,6 +7,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'black',
     color: 'white',
     borderRadius: 'inherit',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark,
+      color: 'black',
+    },
   },
 }));
 

@@ -6,7 +6,6 @@ import { AppState } from '../../app-state';
 import ClubInfo from './club-info';
 import LineUpField from './line-up-field';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '5vw',
