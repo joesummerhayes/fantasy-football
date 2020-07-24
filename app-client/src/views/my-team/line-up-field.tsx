@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LeagueButton from './league-button';
+import Center from '../components/Center';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,9 +22,9 @@ const LineUpField: React.FC = (): JSX.Element => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <div className={classes.leagueButton}>
+      <Center>
         <LeagueButton />
-      </div>
+      </Center>
     </Box>
   );
 };
