@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     fontSize: '1.1rem',
     letterSpacing: '1.2px',
-    width: '10rem',
+    minWidth: '10rem',
     height: '3.5rem',
     boxShadow: 'none',
     fontWeight: 400,
