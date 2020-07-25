@@ -12,6 +12,7 @@ import PrivateRoute from './views/components/private-route';
 import MyTeam from './views/my-team';
 import PlayerSearch from './views/player-search';
 import Header from './views/components/Header';
+import PlayerAuction from './views/player-auction';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const App: React.FC = () => {
         <PrivateRoute path="/create-team" component={CreateTeam} />
         <PrivateRoute path="/my-team" component={MyTeam} />
         <PrivateRoute path="/players" component={PlayerSearch} />
+        <PrivateRoute path="/auction-room" component={PlayerAuction} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
       </div>
