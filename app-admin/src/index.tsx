@@ -9,7 +9,7 @@ import {
 } from 'redux';
 import reduxThunk from 'redux-thunk';
 import reducer from './reducers';
-import { LOGIN_USER } from './actions/types';
+import { ActionTypes } from './actions/types';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
@@ -31,7 +31,7 @@ const store: Store = createStore(
 
 const token = localStorage.getItem('token');
 if (token) {
-  store.dispatch({ type: LOGIN_USER });
+  store.dispatch({ type: ActionTypes.loginUser });
 }
 
 ReactDOM.render(

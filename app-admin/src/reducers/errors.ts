@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { ActionTypes, Action } from '../actions/types';
 
 interface ErrorState {
@@ -7,7 +8,7 @@ interface ErrorState {
   errorLocation?: string;
 }
 
-export const getErrorReducer = (state: ErrorState = {}, action: Action): ErrorState => {
+export const getErrorReducer: Reducer = (state: ErrorState = {}, action: Action): ErrorState => {
   switch (action.type) {
     case ActionTypes.getError: {
       const { payload } = action;
