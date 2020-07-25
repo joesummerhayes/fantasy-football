@@ -6,33 +6,75 @@ interface ButtonProps {
   text: string;
   onClick: () => void;
   className?: string;
+  smallButtonSecondary?: boolean;
+  bigButtonDark?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textTransform: 'capitalize',
-    backgroundColor: theme.palette.primary.light,
-    fontSize: '1.1rem',
     letterSpacing: '1.2px',
-    minWidth: '10rem',
-    height: '3.5rem',
     boxShadow: 'none',
     fontWeight: 400,
+    borderRadius: 'inherit',
+    '&:hover': {
+      boxShadow: 'none',
+    },
+  },
+  smallButtonSecondary: {
+    backgroundColor: theme.palette.secondary.dark,
+    margin: '5px',
+    minWidth: '6rem',
+    height: '3rem',
+    fontSize: '0.9rem',
+    textTransform: 'capitalize',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: 'white',
-      boxShadow: 'none',
+    },
+  },
+  bigButtonPrimary: {
+    textTransform: 'capitalize',
+    backgroundColor: theme.palette.primary.light,
+    fontSize: '1.1rem',
+    minWidth: '10rem',
+    height: '3.5rem',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: 'white',
+    },
+  },
+  bigButtonDark: {
+    backgroundColor: 'black',
+    color: 'white',
+    minWidth: '10rem',
+    fontSize: '1.1rem',
+    height: '3.5rem',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark,
+      color: 'black',
     },
   },
 }));
 
 const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   const classes = useStyles();
-  const { text, onClick, className = '' } = props;
+  const { text, onClick, className = '', smallButtonSecondary, bigButtonDark } = props;
+
+  const getClass = () => {
+    if (smallButtonSecondary) {
+      return `${classes.root} ${classes.smallButtonSecondary} ${className}`;
+    }
+    if (bigButtonDark) {
+      return `${classes.root} ${classes.bigButtonDark} ${className}`;
+    }
+    return `${classes.root} ${classes.bigButtonPrimary} ${className}`;
+  };
+
   return (
     <MuiButton
       onClick={onClick}
-      className={`${classes.root} ${className}`}
+      className={getClass()}
       variant="contained"
       type="submit"
     >
