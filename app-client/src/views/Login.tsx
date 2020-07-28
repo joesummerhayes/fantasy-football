@@ -69,7 +69,7 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.error);
 
-  const loginUser = (e: React.FormEvent<HTMLFormElement>): void => {
+  const loginUser = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     const formValues = {
       email: form.email.value,
@@ -117,7 +117,7 @@ const Login: React.FC = () => {
 
   return (
     <Box display="flex" className={classes.box}>
-      <form className={classes.root} onSubmit={loginUser}>
+      <form className={classes.root}>
         <Typography className={classes.header}>
           Sign In
         </Typography>
@@ -153,7 +153,7 @@ const Login: React.FC = () => {
           />
         </div>
         {handleError()}
-        <Button text="Login" onClick={() => loginUser} className={classes.submitButton} />
+        <Button text="Login" clickHandler={loginUser} className={classes.submitButton} />
         <Typography className={classes.helperActions}>
           Forgot your password?
           <Arrow className={classes.arrowIcon} />

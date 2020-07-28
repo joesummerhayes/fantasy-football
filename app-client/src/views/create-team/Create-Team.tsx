@@ -138,6 +138,11 @@ const CreateTeam = () => {
     validateForm(validForm);
   };
 
+  const onSubmitHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    console.log('clicked');
+  };
+
   return (
     <Box display="flex">
       <form
@@ -243,7 +248,7 @@ const CreateTeam = () => {
           </FormControl>
         </div>
         {handleError()}
-        <Button text="Create Team" onClick={() => console.log('click')} className={classes.submitButton} />
+        <Button text="Create Team" clickHandler={onSubmitHandler} className={classes.submitButton} />
       </form>
     </Box>
   );
