@@ -9,7 +9,7 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 
 interface CreateLeagueForm {
-  selectedDate: Date | null;
+  draftDate: Date | null;
   gameweekStart: string;
   leagueName: string;
 }
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateLeague: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState<LeagueStartDate>({
+  const [draftDate, setSelectedDate] = React.useState<LeagueStartDate>({
     value: getDateInAWeek(),
     touched: false,
     valid: false,
@@ -137,7 +137,7 @@ const CreateLeague: React.FC = (): JSX.Element => {
       ...leagueName,
       touched: true,
     });
-    if (gameweekStart.valid && leagueName.valid && selectedDate.valid) {
+    if (gameweekStart.valid && leagueName.valid && draftDate.valid) {
       // send form to back end
       console.log('passed');
       return;
@@ -178,13 +178,13 @@ const CreateLeague: React.FC = (): JSX.Element => {
               id="date-picker-inline"
               label="Draft Date"
               fullWidth
-              value={selectedDate.value}
+              value={draftDate.value}
               onChange={handleDateChange}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
               required
-              error={!selectedDate.valid && selectedDate.touched}
+              error={!draftDate.valid && draftDate.touched}
             />
           </MuiPickersUtilsProvider>
         </Grid>
@@ -197,13 +197,13 @@ const CreateLeague: React.FC = (): JSX.Element => {
               ampm={false}
               id="time-picker"
               label="Draft Start Time"
-              value={selectedDate.value}
+              value={draftDate.value}
               onChange={handleDateChange}
               KeyboardButtonProps={{
                 'aria-label': 'change time',
               }}
               required
-              error={!selectedDate.valid && selectedDate.touched}
+              error={!draftDate.valid && draftDate.touched}
             />
           </MuiPickersUtilsProvider>
         </Grid>
