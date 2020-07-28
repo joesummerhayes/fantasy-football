@@ -1,8 +1,24 @@
 import React from 'react';
-import { Box, TextField } from '@material-ui/core';
+import { TextField, FormControl, InputLabel, Select, MenuItem, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { required } from '../../utils/validation';
+import { gameweeks, getDateInAWeek } from './utils';
 import Title from '../components/Title';
+import Button from '../components/Button';
+
+interface CreateLeagueForm {
+  selectedDate: Date | null;
+  gameweekStart: string;
+  leagueName: string;
+}
+
+interface LeagueStartDate {
+  value: Date | null;
+  valid: boolean;
+  touched: boolean;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
   },
   inputField: {
-    paddingTop: '1rem',
+    paddingTop: '2rem',
   },
   submitButton: {
     marginTop: '2rem',
@@ -21,66 +37,196 @@ const useStyles = makeStyles((theme) => ({
   inputText: {
     color: 'black',
   },
+  errorInputText: {
+    color: '#f44336',
+  },
   title: {
     paddingTop: '3rem',
+  },
+  draftStartTime: {
+    paddingLeft: '10px',
+  },
+  draftDate: {
+    paddingRight: '10px',
+  },
+  draftDateMargin: {
+    marginTop: '0',
+  },
+  paddingTop: {
+    paddingTop: '20px',
   },
 }));
 
 const CreateLeague: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const [formIsValid, validateForm] = React.useState(false);
-  const [form, setForm] = React.useState<Record<string, FFType.FormItem>>({
-    leagueName: {
-      value: '',
-      touched: false,
-      valid: false,
-      validators: [required],
-    },
-    draftStart: {
-      value: '',
-      touched: false,
-      valid: false,
-      validators: [required],
-    },
-    gameweekStart: {
-      value: '',
-      touched: false,
-      valid: false,
-      validators: [required],
-    },
+  const [selectedDate, setSelectedDate] = React.useState<LeagueStartDate>({
+    value: getDateInAWeek(),
+    touched: false,
+    valid: false,
+  });
+  const [gameweekStart, setGameweekStart] = React.useState<FFType.FormItem>({
+    value: '',
+    touched: false,
+    valid: false,
+    validators: [required],
+  });
+  const [leagueName, setLeagueName] = React.useState<FFType.FormItem>({
+    value: '',
+    touched: false,
+    valid: false,
+    validators: [required],
   });
 
   const blurHandler = (inputField: string): void => {
-    setForm({
-      ...form,
-      [inputField]: {
-        ...form[inputField],
+    if (inputField === 'leagueName') {
+      setLeagueName({
+        ...leagueName,
         touched: true,
-      },
+      });
+    }
+  };
+
+  const handleDateChange = (date: Date | null): void => {
+    setSelectedDate({
+      touched: true,
+      valid: date !== null,
+      value: date,
     });
   };
 
+  const dropDownOutput = (listItems: string[]): React.ReactNode => {
+    return listItems.map((pos: string) => {
+      return <MenuItem key={pos} value={pos}>{pos}</MenuItem>;
+    });
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = event;
+    const input = target.getAttribute('id') || '';
+    const { value } = target;
+    if (input === 'leagueName') {
+      const updatedLeagueName = {
+        ...leagueName,
+        value,
+        touched: true,
+        valid: required(value),
+      };
+      setLeagueName(updatedLeagueName);
+    }
+  };
+
+  const handleDropDownChange = (event: React.ChangeEvent<{ value: any }>): void => {
+    const { target } = event;
+    const { value } = target;
+    const updatedGameWeekStart = {
+      ...gameweekStart,
+      touched: true,
+      valid: true,
+      value,
+    };
+    setGameweekStart(updatedGameWeekStart);
+  };
+
+  const onFormSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    setGameweekStart({
+      ...gameweekStart,
+      touched: true,
+    });
+    setLeagueName({
+      ...leagueName,
+      touched: true,
+    });
+    if (gameweekStart.valid && leagueName.valid && selectedDate.valid) {
+      // send form to back end
+      console.log('passed');
+      return;
+    }
+    console.log('failed');
+  };
+
   return (
-    <Box display="flex">
-      <form className={classes.root}>
-        <Title text="Create Your Team" className={classes.title} />
-        <div className={classes.inputField}>
+    <form className={classes.root}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Title text="Create Your League" className={classes.title} />
+        </Grid>
+        <Grid item xs={12} className={classes.inputField}>
           <TextField
             id="leagueName"
             variant="outlined"
             label="League Name"
             InputLabelProps={{ className: classes.inputText }}
-            value={form.leagueName.value}
-            // onChange={handleInputChange}
+            value={leagueName.value}
+            onChange={handleInputChange}
             onBlur={(): void => blurHandler('leagueName')}
-            // error={form.teamName.touched && !form.teamName.valid}
+            error={leagueName.touched && !leagueName.valid}
             required
             fullWidth
-            // helperText={form.teamName.touched && !form.teamName.valid ? 'Must provide user team name' : ''}
+            helperText={leagueName.touched && !leagueName.valid ? 'You must give your league a name' : ''}
           />
-        </div>
-      </form>
-    </Box>
+        </Grid>
+        <Grid item xs={6} className={`${classes.draftDate} ${classes.inputField}`}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              className={classes.draftDateMargin}
+              disablePast
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Draft Date"
+              fullWidth
+              value={selectedDate.value}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+              required
+              error={!selectedDate.valid && selectedDate.touched}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={6} className={`${classes.draftStartTime} ${classes.inputField}`}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardTimePicker
+              className={classes.draftDateMargin}
+              margin="normal"
+              fullWidth
+              ampm={false}
+              id="time-picker"
+              label="Draft Start Time"
+              value={selectedDate.value}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+              required
+              error={!selectedDate.valid && selectedDate.touched}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12} className={classes.inputField}>
+          <FormControl variant="outlined" className={classes.dropDown}>
+            <InputLabel
+              required
+              className={!gameweekStart.valid && gameweekStart.touched ? classes.errorInputText : classes.inputText}
+            >
+              First Gameweek
+            </InputLabel>
+            <Select
+              onChange={handleDropDownChange}
+              value={gameweekStart.value}
+              error={!gameweekStart.valid && gameweekStart.touched}
+            >
+              {dropDownOutput(gameweeks)}
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
+      <Button text="Create League" clickHandler={onFormSubmit} bigButtonDark className={classes.submitButton} />
+    </form>
   );
 };
 
