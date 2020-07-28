@@ -52,6 +52,20 @@ export default buildSchema(`
     userId: String!
   }
 
+  type League {
+    _id: ID!
+    draftDate: Date!
+    gameweekStart: String!
+    leagueName: String!
+    members: [User]!
+  }
+
+  input LeagueInputData {
+    draftDate: Date!
+    gameweekStart: String!
+    leagueName: String!
+  }
+
   input UserInputData {
     name: String!
     email: String!
@@ -97,6 +111,7 @@ export default buildSchema(`
     editPlayer(playerInput: EditPlayerInputData): Player!
     deletePlayer(id: String, teamId: String): String!
     createTeam(teamInput: TeamInputData!): Team!
+    createLeague(leagueInput: LeagueInputData!): League!
   }
 
   schema {
