@@ -4,7 +4,7 @@ import MuiButton from '@material-ui/core/Button';
 
 interface ButtonProps {
   text: string;
-  onClick: () => void;
+  clickHandler: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   smallButtonSecondary?: boolean;
   bigButtonDark?: boolean;
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   const classes = useStyles();
-  const { text, onClick, className = '', smallButtonSecondary, bigButtonDark } = props;
+  const { text, clickHandler, className = '', smallButtonSecondary, bigButtonDark } = props;
 
   const getClass = () => {
     if (smallButtonSecondary) {
@@ -73,7 +73,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
 
   return (
     <MuiButton
-      onClick={onClick}
+      onClick={clickHandler}
       className={getClass()}
       variant="contained"
       type="submit"
