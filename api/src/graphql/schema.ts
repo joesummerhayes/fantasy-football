@@ -54,14 +54,14 @@ export default buildSchema(`
 
   type League {
     _id: ID!
-    draftDate: Date!
+    draftDate: DateTime!
     gameweekStart: String!
     leagueName: String!
     members: [User]!
   }
 
   input LeagueInputData {
-    draftDate: Date!
+    draftDate: DateTime!
     gameweekStart: String!
     leagueName: String!
   }
@@ -113,6 +113,8 @@ export default buildSchema(`
     createTeam(teamInput: TeamInputData!): Team!
     createLeague(leagueInput: LeagueInputData!): League!
   }
+
+  scalar DateTime
 
   schema {
     query: RootQuery
