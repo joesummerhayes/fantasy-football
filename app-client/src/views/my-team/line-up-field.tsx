@@ -22,7 +22,7 @@ const LineUpField: React.FC = (): JSX.Element => {
   return (
     <Box className={classes.root}>
       <Center>
-        <Button text="Join / Create League" onClick={onButtonClick} bigButtonDark />
+        <Button text="Join / Create League" clickHandler={onButtonClick} bigButtonDark />
       </Center>
     </Box>
   );

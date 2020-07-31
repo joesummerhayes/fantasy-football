@@ -52,8 +52,8 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
           <TableCell><Typography>{player.specPositions.length > 0 ? `${player.specPositions.join(', ')}` : ''}</Typography></TableCell>
           <TableCell><Typography>£XXXX.XX</Typography></TableCell>
           <TableCell>
-            <Button text="Make Bid" onClick={makeBidOnClick} smallButtonSecondary />
-            <Button text="Details" onClick={makeBidOnClick} smallButtonSecondary />
+            <Button text="Make Bid" clickHandler={makeBidOnClick} smallButtonSecondary />
+            <Button text="Details" clickHandler={makeBidOnClick} smallButtonSecondary />
           </TableCell>
         </TableRow>
       );

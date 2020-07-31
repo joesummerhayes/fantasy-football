@@ -8,11 +8,10 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { required } from '../../utils/validation';
+import { required, formValidationCheck } from '../../utils/validation';
 import { getErrorAction } from '../../actions/index';
 import { stylesOfPlay, kitColours } from '../../utils/create-team-data';
 import createTeam from '../../data/create-team';
-import { formValudationCheck } from './utils';
 import Button from '../components/Button';
 import Title from '../components/Title';
 
@@ -111,7 +110,7 @@ const CreateTeam = () => {
       },
     };
     setForm(updatedForm);
-    const validForm = formValudationCheck(updatedForm);
+    const validForm = formValidationCheck(updatedForm);
     validateForm(validForm);
   };
 
@@ -134,9 +133,14 @@ const CreateTeam = () => {
         valid: true,
       },
     };
-    const validForm = formValudationCheck(newForm);
+    const validForm = formValidationCheck(newForm);
     setForm(newForm);
     validateForm(validForm);
+  };
+
+  const onSubmitHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    console.log('clicked');
   };
 
   return (
@@ -244,7 +248,7 @@ const CreateTeam = () => {
           </FormControl>
         </div>
         {handleError()}
-        <Button text="Create Team" onClick={() => console.log('click')} className={classes.submitButton} />
+        <Button text="Create Team" clickHandler={onSubmitHandler} className={classes.submitButton} />
       </form>
     </Box>
   );

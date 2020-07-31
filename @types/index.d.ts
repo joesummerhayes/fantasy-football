@@ -4,10 +4,12 @@ import { MongoUser as IMongoUser } from './mongo-user';
 import { Validator as IValidator, FormItem as IFormItem } from './form';
 import { Player as IPlayer, PlayerWithTeam as IPlayerWithTeam } from './player';
 import { Team as ITeam } from './team';
+import { League as ILeague } from './league';
 
 declare namespace FFType {
   export type FormItem = IFormItem;
   export type MongoUser = IMongoUser;
+  export type League = ILeague;
   export type LoginCredentials = ILoginCredentials;
   export type LoggedInUser = ILoggedInUser;
   export type Player = IPlayer;
