@@ -50,6 +50,9 @@ export default {
 
     const { _id } = savedLeague;
 
+    user.league = _id;
+    await user.save();
+
     const leagueWithMembers = await League.findById(_id).populate('members');
     if (!leagueWithMembers) throw new Error('failed to create league with members');
     return leagueWithMembers;

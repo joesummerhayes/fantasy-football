@@ -6,6 +6,7 @@ export default buildSchema(`
     name: String!
     email: String
     team: Team
+    league: League
   }
 
   type Player {

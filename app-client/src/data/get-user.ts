@@ -11,6 +11,10 @@ const getUser = async (): Promise<FFType.User> => {
         _id
         name
         email
+        league {
+          _id
+          leagueName
+        }
         team {
           _id
           userId
@@ -27,6 +31,7 @@ const getUser = async (): Promise<FFType.User> => {
   if (response === null) {
     throw new Error('could not get user details');
   }
+  console.log(response.user);
   return response.user;
 };
 

@@ -5,6 +5,7 @@ export interface User extends Document {
   email: string;
   password: string;
   team?: FFType.Team;
+  league?: FFType.League;
 }
 
 const userSchema: Schema = new Schema({
@@ -23,6 +24,10 @@ const userSchema: Schema = new Schema({
   team: {
     type: Schema.Types.ObjectId,
     ref: 'Team',
+  },
+  league: {
+    type: Schema.Types.ObjectId,
+    ref: 'League',
   },
 });
 

@@ -1,10 +1,12 @@
 import { Team } from './team';
+import { League } from './league';
 
 export interface User {
   _id: string;
-  name: string;
   email?: string;
+  league?: League;
   team?: Team;
+  name: string;
 }
 
 export interface LoggedInUser {
