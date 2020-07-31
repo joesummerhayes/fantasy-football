@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../../models/user';
 import League from '../../models/league';
-import { checkFieldsExist } from './utils';
+import { checkFieldsExist, generatePassword } from './utils';
 
 interface RequestWithUser extends Request {
   userId: string;
@@ -37,11 +37,14 @@ export default {
 
     const userObjId = mongoose.Types.ObjectId(userId);
 
+    const passcode = await generatePassword(10);
+
     const league = new League({
       draftDate,
       gameweekStart,
       leagueName,
       members: [userObjId],
+      passcode,
     });
     const savedLeague = await league.save();
 

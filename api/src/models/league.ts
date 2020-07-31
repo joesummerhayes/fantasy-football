@@ -26,6 +26,10 @@ const leagueSchema: Schema = new Schema({
       ref: 'User',
     },
   ],
+  passcode: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model<League>('League', leagueSchema);
