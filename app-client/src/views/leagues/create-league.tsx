@@ -7,6 +7,7 @@ import { required } from '../../utils/validation';
 import { gameweeks, getDateInAWeek } from './utils';
 import Title from '../components/Title';
 import Button from '../components/Button';
+import createLeague from '../../data/create-league';
 
 interface CreateLeagueForm {
   draftDate: Date | null;
@@ -14,7 +15,7 @@ interface CreateLeagueForm {
   leagueName: string;
 }
 
-interface LeagueStartDate {
+interface DraftStartDate {
   value: Date | null;
   valid: boolean;
   touched: boolean;
@@ -59,10 +60,10 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateLeague: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const [draftDate, setSelectedDate] = React.useState<LeagueStartDate>({
+  const [draftDate, setSelectedDate] = React.useState<DraftStartDate>({
     value: getDateInAWeek(),
-    touched: false,
-    valid: false,
+    touched: true,
+    valid: true,
   });
   const [gameweekStart, setGameweekStart] = React.useState<FFType.FormItem>({
     value: '',
@@ -140,6 +141,12 @@ const CreateLeague: React.FC = (): JSX.Element => {
     if (gameweekStart.valid && leagueName.valid && draftDate.valid) {
       // send form to back end
       console.log('passed');
+      if (draftDate.value === null) return;
+      createLeague({
+        draftDate: draftDate.value,
+        gameweekStart: gameweekStart.value,
+        leagueName: leagueName.value,
+      });
       return;
     }
     console.log('failed');
@@ -203,7 +210,7 @@ const CreateLeague: React.FC = (): JSX.Element => {
                 'aria-label': 'change time',
               }}
               required
-              error={!draftDate.valid && draftDate.touched}
+              error={!draftDate.valid}
             />
           </MuiPickersUtilsProvider>
         </Grid>

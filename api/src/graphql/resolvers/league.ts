@@ -19,6 +19,7 @@ interface CreateLeagueArgs {
 export default {
   async createLeague(args: CreateLeagueArgs, req: RequestWithUser): Promise<FFType.League> {
     const { leagueInput } = args;
+    console.log('leagueInput', leagueInput);
     const { userId, isAuth } = req;
     if (!isAuth) {
       throw new Error('User not authenticated');
@@ -43,6 +44,11 @@ export default {
       members: [userObjId],
     });
     const savedLeague = await league.save();
-    return savedLeague;
+
+    const { _id } = savedLeague;
+
+    const leagueWithMembers = await League.findById(_id).populate('members');
+    if (!leagueWithMembers) throw new Error('failed to create league with members');
+    return leagueWithMembers;
   },
 };
