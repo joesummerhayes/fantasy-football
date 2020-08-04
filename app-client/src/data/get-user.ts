@@ -14,6 +14,7 @@ const getUser = async (): Promise<FFType.User> => {
         league {
           _id
           leagueName
+          passcode
         }
         team {
           _id
