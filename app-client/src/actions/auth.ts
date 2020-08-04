@@ -13,28 +13,32 @@ export interface LoginUserAction {
   payload: FFType.User;
 }
 
+export interface FetchingDataAction {
+  type: ActionTypes.fetchingData;
+}
+
 export const loginAction = (loginInputData: FFType.LoginCredentials) => async (dispatch: Dispatch): Promise<void> => {
   try {
-    const user = await login(loginInputData);
-    if (!user) {
+    const loggedInUser = await login(loginInputData);
+    if (!loggedInUser) {
       throw new Error('no user found with these credentials');
     }
 
-    localStorage.setItem('token', user.token);
-    localStorage.setItem('userId', user.userId);
+    localStorage.setItem('token', loggedInUser.token);
+    localStorage.setItem('userId', loggedInUser.userId);
     const remainingMilliseconds = 60 * 60 * 1000;
     const expiryDate = new Date(
       new Date().getTime() + remainingMilliseconds,
     );
     localStorage.setItem('expiryDate', expiryDate.toISOString());
-    const userWithTeam = await getUser();
+    const user = await getUser();
     history.push('/');
     dispatch({
       type: ActionTypes.clearError,
     });
     dispatch<LoginUserAction>({
       type: ActionTypes.loginUser,
-      payload: userWithTeam,
+      payload: user,
     });
   } catch (err) {
     dispatch({

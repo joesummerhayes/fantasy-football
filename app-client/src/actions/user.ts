@@ -3,7 +3,7 @@ import { ActionTypes } from './types';
 import history from '../history';
 import createUser from '../data/create-user';
 import getUser from '../data/get-user';
-import { LoginUserAction } from './auth';
+import { LoginUserAction, FetchingDataAction } from './auth';
 import { GetErrorAction } from './error';
 
 export interface ClearErrorAction {
@@ -31,6 +31,9 @@ export const createUserAction = (userInputData: FFType.SignupUser) => async (dis
 
 export const getUserAction = () => async (dispatch: Dispatch): Promise<void> => {
   const user = await getUser();
+  dispatch<FetchingDataAction>({
+    type: ActionTypes.fetchingData,
+  });
   dispatch<LoginUserAction>({
     type: ActionTypes.loginUser,
     payload: user,
