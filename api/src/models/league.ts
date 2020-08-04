@@ -5,6 +5,7 @@ export interface League extends Document {
   gameweekStart: string;
   leagueName: string;
   members: FFType.User[];
+  passcode: string;
 }
 
 const leagueSchema: Schema = new Schema({

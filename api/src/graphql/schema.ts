@@ -59,6 +59,7 @@ export default buildSchema(`
     gameweekStart: String!
     leagueName: String!
     members: [User]!
+    passcode: String!
   }
 
   input LeagueInputData {
