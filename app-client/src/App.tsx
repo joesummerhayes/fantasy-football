@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
 import CreateTeam from './views/create-team/Create-Team';
@@ -14,6 +14,7 @@ import PlayerSearch from './views/player-search';
 import Header from './views/components/Header';
 import PlayerAuction from './views/player-auction';
 import Leagues from './views/leagues';
+import { AppState } from './app-state';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,8 @@ const App: React.FC = () => {
   return (
     <Router history={history}>
       {signedIn && <Header />}
-      {signedIn && <Nav />}
-      <div>
+      <div style={{ paddingRight: '3rem', paddingLeft: '3rem' }}>
+        {signedIn && <Nav />}
         <PrivateRoute path="/create-team" component={CreateTeam} />
         <PrivateRoute path="/my-team" component={MyTeam} />
         <PrivateRoute path="/leagues" component={Leagues} />
