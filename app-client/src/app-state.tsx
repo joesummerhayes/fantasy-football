@@ -2,6 +2,7 @@ export interface AppState {
   user?: {
     userDetails?: FFType.User;
     loggedIn: boolean;
+    isFetching: boolean;
   };
   error?: {
     message: string;
