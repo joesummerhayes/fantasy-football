@@ -6,4 +6,5 @@ export interface League {
   gameweekStart: string;
   leagueName: string;
   members: User[];
+  passcode: string;
 }
