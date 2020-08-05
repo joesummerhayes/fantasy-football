@@ -88,9 +88,30 @@ export default {
     const newLeague = await leagueToJoin?.save();
     console.log(newLeague);
 
-    // add league reference to use
     user.league = newLeague._id;
     await user.save();
     return true;
+  },
+
+  async getLeague(args: any, req: RequestWithUser): Promise<FFType.League> {
+    const { userId, isAuth } = req;
+    if (!isAuth) {
+      throw new Error('User not authenticated');
+    }
+    const user = await User.findById(userId).populate('league');
+    if (!user) {
+      throw new Error('Could not find user');
+    }
+    const { league } = user;
+    if (!league) {
+      throw new Error('User has not joined a league yet');
+    }
+    const { _id } = league;
+    const leagueWithMembersDetails = await League.findById(_id).populate('members');
+    if (!leagueWithMembersDetails) {
+      throw new Error('failed to get league with valid members');
+    }
+    console.log(leagueWithMembersDetails);
+    return leagueWithMembersDetails;
   },
 };
