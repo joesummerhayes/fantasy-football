@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 import LeagueDetails from './league-details';
 import Center from '../components/Center';
 import Button from '../components/Button';
+import LinkButton from '../components/LinkButton';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,18 +27,10 @@ const Leagues = (): JSX.Element | null => {
     return <Loading />;
   }
 
-  const joinLeagueClick = () => {
-    console.log('direct to join league page');
-  }
-
-  const createLeagueClick = () => {
-    console.log('direct to create league page');
-  }
-
   return (
     <div className={classes.root}>
-      <Button text="Join League" clickHandler={joinLeagueClick} className={classes.button} />
-      <Button text="Create League" clickHandler={createLeagueClick} className={classes.button} />
+      <LinkButton text="Join League" to="/join-league" className={classes.button} />
+      <LinkButton text="Create League" to="/create-league" className={classes.button} />
       { league && <Center><LeagueDetails /></Center> }
       { !league && <CreateLeague /> }
     </div>

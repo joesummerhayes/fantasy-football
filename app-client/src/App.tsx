@@ -14,6 +14,8 @@ import PlayerSearch from './views/player-search';
 import Header from './views/components/Header';
 import PlayerAuction from './views/player-auction';
 import Leagues from './views/leagues';
+import CreateLeague from './views/leagues/create-league';
+import JoinLeague from './views/leagues/join-league';
 import { AppState } from './app-state';
 
 const App: React.FC = () => {
@@ -40,6 +42,8 @@ const App: React.FC = () => {
         <PrivateRoute path="/create-team" component={CreateTeam} />
         <PrivateRoute path="/my-team" component={MyTeam} />
         <PrivateRoute path="/leagues" component={Leagues} />
+        <PrivateRoute path="/create-league" component={CreateLeague} />
+        <PrivateRoute path="/join-league" component={JoinLeague} />
         <PrivateRoute path="/players" component={PlayerSearch} />
         <PrivateRoute path="/auction-room" component={PlayerAuction} />
         <Route exact path="/login" component={Login} />
