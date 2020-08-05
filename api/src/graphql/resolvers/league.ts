@@ -13,7 +13,11 @@ interface CreateLeagueArgs {
     draftDate: Date;
     gameweekStart: string;
     leagueName: string;
-  }
+  };
+}
+
+interface JoinLeagueArgs {
+  passcode: string;
 }
 
 export default {
@@ -56,5 +60,37 @@ export default {
     const leagueWithMembers = await League.findById(_id).populate('members');
     if (!leagueWithMembers) throw new Error('failed to create league with members');
     return leagueWithMembers;
+  },
+
+  async joinLeague(args: JoinLeagueArgs, req: RequestWithUser): Promise<boolean> {
+    const { userId, isAuth } = req;
+    if (!isAuth) {
+      throw new Error('User not authenticated');
+    }
+    const { passcode } = args;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('no user found');
+    }
+
+    if (user.league) {
+      console.log('user is already a member of a league');
+      return false;
+    }
+
+    const leagueToJoin = await League.findOne({ passcode });
+    if (!leagueToJoin) {
+      return false;
+    }
+
+    leagueToJoin?.members.push(userId);
+    const newLeague = await leagueToJoin?.save();
+    console.log(newLeague);
+
+    // add league reference to use
+    user.league = newLeague._id;
+    await user.save();
+    return true;
   },
 };

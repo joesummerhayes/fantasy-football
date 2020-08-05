@@ -114,6 +114,7 @@ export default buildSchema(`
     deletePlayer(id: String, teamId: String): String!
     createTeam(teamInput: TeamInputData!): Team!
     createLeague(leagueInput: LeagueInputData!): League!
+    joinLeague(passcode: String!): Boolean
   }
 
   scalar DateTime
