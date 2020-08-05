@@ -105,6 +105,7 @@ export default buildSchema(`
     login(email: String!, password: String!): AuthData!
     user: User!
     getPlayers(teamName: String!): [PlayerWithTeam]
+    getLeague: League!
   }
 
   type RootMutation {
