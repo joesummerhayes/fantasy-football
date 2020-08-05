@@ -1,5 +1,4 @@
 import validator from 'validator';
-import bcrypt from 'bcrypt';
 
 export const checkFieldsExist = (values: string[]): boolean => {
   const errors = values.filter((value) => {
@@ -14,8 +13,7 @@ export const generatePassword = async (length: number): Promise<string> => {
   for (let i = 0; i < length; i += 1) {
     password += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  const hashedPw = await bcrypt.hash(password, 12);
-  return hashedPw;
+  return password;
 };
 
 export default {};

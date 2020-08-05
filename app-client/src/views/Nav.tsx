@@ -9,8 +9,6 @@ import NavItem from './components/NavItem';
 
 const useStyles = makeStyles({
   navContainer: {
-    paddingLeft: '3rem',
-    paddingRight: '3rem',
     fontSize: '17px',
     height: '60px',
     '& a': {
@@ -20,11 +18,10 @@ const useStyles = makeStyles({
   },
   navLeft: {
     float: 'left',
-    padding: '0 .5rem 0 .5rem',
+    paddingRight: '1rem',
   },
   navRight: {
     float: 'right',
-    padding: '0 .5rem 0 .5rem',
   },
 });
 

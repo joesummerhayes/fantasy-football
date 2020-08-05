@@ -1,6 +1,6 @@
 import { ClearErrorsAction, GetErrorAction } from './error';
 import { ClearErrorAction } from './user';
-import { LoginUserAction, LogoutUserAction } from './auth';
+import { LoginUserAction, LogoutUserAction, FetchingDataAction } from './auth';
 
 export enum ActionTypes {
   createUser,
@@ -8,6 +8,7 @@ export enum ActionTypes {
   loginUser,
   logoutUser,
   clearError,
+  fetchingData,
 }
 
 export type Action =
@@ -15,4 +16,5 @@ export type Action =
   ClearErrorsAction |
   GetErrorAction |
   LoginUserAction |
-  LogoutUserAction;
+  LogoutUserAction |
+  FetchingDataAction;

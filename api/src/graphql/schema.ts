@@ -6,6 +6,7 @@ export default buildSchema(`
     name: String!
     email: String
     team: Team
+    league: League
   }
 
   type Player {
@@ -58,6 +59,7 @@ export default buildSchema(`
     gameweekStart: String!
     leagueName: String!
     members: [User]!
+    passcode: String!
   }
 
   input LeagueInputData {
@@ -112,6 +114,7 @@ export default buildSchema(`
     deletePlayer(id: String, teamId: String): String!
     createTeam(teamInput: TeamInputData!): Team!
     createLeague(leagueInput: LeagueInputData!): League!
+    joinLeague(passcode: String!): Boolean
   }
 
   scalar DateTime

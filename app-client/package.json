@@ -29,7 +29,8 @@
     "redux": "^4.0.5",
     "redux-batched-subscribe": "^0.1.6",
     "redux-thunk": "^2.3.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "utility-types": "^3.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
