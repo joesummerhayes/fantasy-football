@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, Box, Paper, Typography, Table, TableContainer, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { AppState } from '../../app-state';
+import getLeague from '../../data/get-league';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,6 +21,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 const LeagueDetails: React.FC = (): JSX.Element => {
   const classes = useStyles();
   const leagueInfo = useSelector((state: AppState) => state.user?.userDetails?.league);
+  const [poo, setPoo] = React.useState({});
+
+  useEffect(() => {
+    const fetchData = async (): Promise<any> => {
+      const foo = await getLeague();
+      setPoo(foo);
+    };
+    fetchData();
+  }, []);
+
+  console.log(poo);
+
   return (
     <div className={classes.root}>
       <Typography className={classes.leagueName}>
