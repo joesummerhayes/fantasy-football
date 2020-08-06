@@ -44,9 +44,9 @@ export default {
 
     // create reference to team on user
     const teamId = createdTeam._id;
-
-    user.team = teamId;
+    user.draftLeague.team = teamId;
     await user.save();
+
 
     return createdTeam;
   },

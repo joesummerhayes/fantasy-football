@@ -44,17 +44,19 @@ export default {
     const passcode = await generatePassword(10);
 
     const league = new League({
-      draftDate,
-      gameweekStart,
-      leagueName,
-      members: [userObjId],
-      passcode,
+      leagueInfo: {
+        draftDate,
+        gameweekStart,
+        leagueName,
+        members: [userObjId],
+        passcode,
+      },
     });
     const savedLeague = await league.save();
 
     const { _id } = savedLeague;
 
-    user.league = _id;
+    user.draftLeague.league = _id;
     await user.save();
 
     const leagueWithMembers = await League.findById(_id).populate('members');
@@ -74,23 +76,45 @@ export default {
       throw new Error('no user found');
     }
 
-    if (user.league) {
+    if (user.draftLeague.league) {
       console.log('user is already a member of a league');
       return false;
     }
 
-    const leagueToJoin = await League.findOne({ passcode });
+    const leagueToJoin = await League.findOne({ 'leagueInfo.passcode': passcode });
     if (!leagueToJoin) {
       return false;
     }
 
-    leagueToJoin?.members.push(userId);
+    // eslint-disable-next-line no-unused-expressions
+    leagueToJoin?.leagueInfo?.members.push(user);
     const newLeague = await leagueToJoin?.save();
     console.log(newLeague);
 
-    // add league reference to use
-    user.league = newLeague._id;
+    user.draftLeague.league = newLeague._id;
     await user.save();
     return true;
+  },
+
+  async getLeague(args: any, req: RequestWithUser): Promise<FFType.League> {
+    const { userId, isAuth } = req;
+    if (!isAuth) {
+      throw new Error('User not authenticated');
+    }
+    const user = await User.findById(userId).populate('league');
+    if (!user) {
+      throw new Error('Could not find user');
+    }
+    const { draftLeague: { league } } = user;
+    if (!league) {
+      throw new Error('User has not joined a league yet');
+    }
+    const { _id } = league;
+    const leagueWithMembersDetails = await League.findById(_id).populate('leagueInfo.members');
+    if (!leagueWithMembersDetails) {
+      throw new Error('failed to get league with valid members');
+    }
+    console.log(leagueWithMembersDetails);
+    return leagueWithMembersDetails;
   },
 };

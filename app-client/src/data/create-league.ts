@@ -15,12 +15,14 @@ const leagueTeam = async (variables: CreateLeagueVariables): Promise<FFType.Leag
     mutation createNewLeague($draftDate: DateTime!, $gameweekStart: String!, $leagueName: String!){
       createLeague(leagueInput: {draftDate: $draftDate, gameweekStart: $gameweekStart, leagueName: $leagueName}) {
         _id
-        draftDate
+        leagueInfo {
+          draftDate
         gameweekStart
         leagueName
         members {
           _id
           email
+        }
         }
       }
     }`,

@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Leagues = (): JSX.Element | null => {
   const classes = useStyles();
-  const league = useSelector((state: AppState) => state?.user?.userDetails?.league);
+  const league = useSelector((state: AppState) => state?.user?.userDetails?.draftLeague?.league);
 
-  if (league === undefined) {
-    return <Loading />;
-  }
+  // if (league === undefined) {
+  //   return <Loading />;
+  // }
 
   return (
     <div className={classes.root}>

@@ -6,7 +6,12 @@ export default buildSchema(`
     name: String!
     email: String
     team: Team
-    league: League
+    draftLeague: DraftLeague
+  }
+
+  type DraftLeague {
+    league: League!
+    team: Team
   }
 
   type Player {
@@ -53,13 +58,17 @@ export default buildSchema(`
     userId: String!
   }
 
-  type League {
-    _id: ID!
+  type LeagueInfo {
     draftDate: DateTime!
     gameweekStart: String!
     leagueName: String!
     members: [User]!
     passcode: String!
+  }
+
+  type League {
+    _id: ID!
+    leagueInfo: LeagueInfo
   }
 
   input LeagueInputData {
@@ -105,6 +114,7 @@ export default buildSchema(`
     login(email: String!, password: String!): AuthData!
     user: User!
     getPlayers(teamName: String!): [PlayerWithTeam]
+    getLeague: League!
   }
 
   type RootMutation {
