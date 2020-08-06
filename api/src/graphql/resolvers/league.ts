@@ -44,11 +44,13 @@ export default {
     const passcode = await generatePassword(10);
 
     const league = new League({
-      draftDate,
-      gameweekStart,
-      leagueName,
-      members: [userObjId],
-      passcode,
+      leagueInfo: {
+        draftDate,
+        gameweekStart,
+        leagueName,
+        members: [userObjId],
+        passcode,
+      },
     });
     const savedLeague = await league.save();
 
@@ -79,12 +81,12 @@ export default {
       return false;
     }
 
-    const leagueToJoin = await League.findOne({ passcode });
+    const leagueToJoin = await League.findOne({ 'leagueInfo.passcode': passcode });
     if (!leagueToJoin) {
       return false;
     }
 
-    leagueToJoin?.members.push(userId);
+    leagueToJoin?.leagueInfo?.members.push(userId);
     const newLeague = await leagueToJoin?.save();
     console.log(newLeague);
 
@@ -107,7 +109,7 @@ export default {
       throw new Error('User has not joined a league yet');
     }
     const { _id } = league;
-    const leagueWithMembersDetails = await League.findById(_id).populate('members');
+    const leagueWithMembersDetails = await League.findById(_id).populate('leagueInfo.members');
     if (!leagueWithMembersDetails) {
       throw new Error('failed to get league with valid members');
     }

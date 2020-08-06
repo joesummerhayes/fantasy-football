@@ -13,8 +13,10 @@ const getUser = async (): Promise<FFType.User> => {
         email
         league {
           _id
-          leagueName
-          passcode
+          leagueInfo {
+            leagueName
+            passcode
+          }
         }
         team {
           _id

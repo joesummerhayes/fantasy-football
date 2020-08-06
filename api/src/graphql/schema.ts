@@ -53,13 +53,17 @@ export default buildSchema(`
     userId: String!
   }
 
-  type League {
-    _id: ID!
+  type LeagueInfo {
     draftDate: DateTime!
     gameweekStart: String!
     leagueName: String!
     members: [User]!
     passcode: String!
+  }
+
+  type League {
+    _id: ID!
+    leagueInfo: LeagueInfo!
   }
 
   input LeagueInputData {

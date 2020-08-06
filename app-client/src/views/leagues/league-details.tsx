@@ -36,10 +36,10 @@ const LeagueDetails: React.FC = (): JSX.Element => {
   return (
     <div className={classes.root}>
       <Typography className={classes.leagueName}>
-        {leagueInfo?.leagueName}
+        {leagueInfo?.leagueInfo?.leagueName}
       </Typography>
       <Typography>
-        {`League passcode: ${leagueInfo?.passcode}`}
+        {`League passcode: ${leagueInfo?.leagueInfo?.passcode}`}
       </Typography>
       <Table>
         <TableHead>

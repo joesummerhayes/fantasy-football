@@ -9,13 +9,15 @@ const getLeague = async (): Promise<FFType.League> => {
   query {
     getLeague {
       _id
-      draftDate
-      gameweekStart
-      leagueName
-      members {
-        _id
-        name
-        email     
+      leagueInfo {
+        draftDate
+        gameweekStart
+        leagueName
+        members {
+          _id
+          name
+          email     
+        }
       }
     }
   }`);
