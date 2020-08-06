@@ -20,26 +20,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const LeagueDetails: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const leagueInfo = useSelector((state: AppState) => state.user?.userDetails?.draftLeague?.league);
-  const [poo, setPoo] = React.useState({});
+  const leagueInfo = useSelector((state: AppState) => state.user?.userDetails?.draftLeague?.league.leagueInfo);
+  // const [poo, setPoo] = React.useState({});
 
-  useEffect(() => {
-    const fetchData = async (): Promise<any> => {
-      const foo = await getLeague();
-      setPoo(foo);
-    };
-    fetchData();
-  }, []);
 
-  console.log(poo);
+  // useEffect(() => {
+  //   const fetchData = async (): Promise<any> => {
+  //     const foo = await getLeague();
+  //     setPoo(foo);
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // console.log('joe', poo);
 
   return (
     <div className={classes.root}>
       <Typography className={classes.leagueName}>
-        {leagueInfo?.leagueInfo?.leagueName}
+        {leagueInfo?.leagueName}
       </Typography>
       <Typography>
-        {`League passcode: ${leagueInfo?.leagueInfo?.passcode}`}
+        {`League passcode: ${leagueInfo?.passcode}`}
       </Typography>
       <Table>
         <TableHead>

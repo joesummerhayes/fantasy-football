@@ -6,7 +6,12 @@ export default buildSchema(`
     name: String!
     email: String
     team: Team
-    league: League
+    draftLeague: DraftLeague
+  }
+
+  type DraftLeague {
+    league: League!
+    team: Team
   }
 
   type Player {
@@ -63,7 +68,7 @@ export default buildSchema(`
 
   type League {
     _id: ID!
-    leagueInfo: LeagueInfo!
+    leagueInfo: LeagueInfo
   }
 
   input LeagueInputData {

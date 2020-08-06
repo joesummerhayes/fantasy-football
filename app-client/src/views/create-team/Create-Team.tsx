@@ -142,6 +142,18 @@ const CreateTeam = () => {
     event.preventDefault();
     setForm({
       ...form,
+      teamName: {
+        ...form.teamName,
+        touched: true,
+      },
+      clubMotto: {
+        ...form.clubMotto,
+        touched: true,
+      },
+      stadiumName: {
+        ...form.stadiumName,
+        touched: true,
+      },
       styleOfPlay: {
         ...form.styleOfPlay,
         touched: true,
@@ -162,7 +174,7 @@ const CreateTeam = () => {
       };
       createTeam(validTeamValues);
     } else {
-      // call the error action creator so i can display error at the bottom of form?
+      console.error('must fill out all fields to submit form');
     }
   };
 
