@@ -3,8 +3,7 @@ import bodyParser from 'body-parser';
 import graphqlHttp from 'express-graphql';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
-
-import graphqlSchema from './graphql/schema';
+import graphqlSchema from './graphql/schemas';
 import graphiqlResolver from './graphql/resolvers/index';
 
 import authMiddleware from './middleware/auth';
