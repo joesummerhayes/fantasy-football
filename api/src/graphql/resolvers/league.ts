@@ -56,7 +56,7 @@ export default {
 
     const { _id } = savedLeague;
 
-    user.league = _id;
+    user.draftLeague.league = _id;
     await user.save();
 
     const leagueWithMembers = await League.findById(_id).populate('members');
@@ -76,7 +76,7 @@ export default {
       throw new Error('no user found');
     }
 
-    if (user.league) {
+    if (user.draftLeague.league) {
       console.log('user is already a member of a league');
       return false;
     }
@@ -86,11 +86,12 @@ export default {
       return false;
     }
 
-    leagueToJoin?.leagueInfo?.members.push(userId);
+    // eslint-disable-next-line no-unused-expressions
+    leagueToJoin?.leagueInfo?.members.push(user);
     const newLeague = await leagueToJoin?.save();
     console.log(newLeague);
 
-    user.league = newLeague._id;
+    user.draftLeague.league = newLeague._id;
     await user.save();
     return true;
   },
@@ -104,7 +105,7 @@ export default {
     if (!user) {
       throw new Error('Could not find user');
     }
-    const { league } = user;
+    const { draftLeague: { league } } = user;
     if (!league) {
       throw new Error('User has not joined a league yet');
     }

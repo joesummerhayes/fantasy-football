@@ -4,8 +4,11 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
-  team?: FFType.Team;
-  league?: FFType.League;
+  draftLeague: {
+    league: FFType.League;
+    team?: FFType.Team;
+    data?: FFType.LeagueData;
+  };
 }
 
 const userSchema: Schema = new Schema({
@@ -21,13 +24,19 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  team: {
-    type: Schema.Types.ObjectId,
-    ref: 'Team',
-  },
-  league: {
-    type: Schema.Types.ObjectId,
-    ref: 'League',
+  draftLeague: {
+    team: {
+      type: Schema.Types.ObjectId,
+      ref: 'Team',
+    },
+    league: {
+      type: Schema.Types.ObjectId,
+      ref: 'League',
+    },
+    data: {
+      type: Schema.Types.ObjectId,
+      ref: 'LeagueData',
+    },
   },
 });
 

@@ -35,7 +35,7 @@ const userStyles = makeStyles((theme) => ({
 const ClubInfo: React.FC = (): JSX.Element => {
   const classes = userStyles();
   const { user } = useSelector((appState: AppState) => appState);
-  const teamInfo = user?.userDetails?.team?.info;
+  const teamInfo = user?.userDetails?.draftLeague?.team?.info;
 
   if (!teamInfo) return <div>No Team Found</div>;
 

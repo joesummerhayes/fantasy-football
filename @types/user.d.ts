@@ -1,11 +1,9 @@
-import { Team } from './team';
-import { League } from './league';
+import { DraftLeague } from './league';
 
 export interface User {
   _id: string;
   email?: string;
-  league?: League;
-  team?: Team;
+  draftLeague?: DraftLeague;
   name: string;
 }
 

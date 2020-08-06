@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const LeagueDetails: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const leagueInfo = useSelector((state: AppState) => state.user?.userDetails?.league);
+  const leagueInfo = useSelector((state: AppState) => state.user?.userDetails?.draftLeague?.league);
   const [poo, setPoo] = React.useState({});
 
   useEffect(() => {

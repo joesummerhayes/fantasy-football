@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Team } from './team';
 
 export interface League {
   _id: string;
@@ -9,4 +10,18 @@ export interface League {
     members: User[];
     passcode: string;
   };
+}
+
+export interface DraftLeague {
+  league: League;
+  data?: LeagueData;
+  team?: Team;
+}
+
+export interface LeagueData {
+  gameweekPoints: number;
+  nextFixture: string;
+  totalPoints: number;
+  leaguePoints: number;
+  prevFixture: string;
 }

@@ -140,40 +140,37 @@ const CreateTeam = () => {
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
-    console.log('clicked');
+    setForm({
+      ...form,
+      styleOfPlay: {
+        ...form.styleOfPlay,
+        touched: true,
+      },
+      kitColour: {
+        ...form.kitColour,
+        touched: true,
+      },
+    });
+
+    if (formIsValid) {
+      const validTeamValues = {
+        clubMotto: form.clubMotto.value,
+        styleOfPlay: form.styleOfPlay.value,
+        teamName: form.teamName.value,
+        kitColour: form.kitColour.value,
+        stadiumName: form.stadiumName.value,
+      };
+      createTeam(validTeamValues);
+    } else {
+      // call the error action creator so i can display error at the bottom of form?
+    }
   };
 
   return (
     <Box display="flex">
       <form
         className={classes.root}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
-          e.preventDefault();
-          setForm({
-            ...form,
-            styleOfPlay: {
-              ...form.styleOfPlay,
-              touched: true,
-            },
-            kitColour: {
-              ...form.kitColour,
-              touched: true,
-            },
-          });
-
-          if (formIsValid) {
-            const validTeamValues = {
-              clubMotto: form.clubMotto.value,
-              styleOfPlay: form.styleOfPlay.value,
-              teamName: form.teamName.value,
-              kitColour: form.kitColour.value,
-              stadiumName: form.stadiumName.value,
-            };
-            createTeam(validTeamValues);
-          } else {
-            // call the error action creator so i can display error at the bottom of form?
-          }
-        }}
+        onSubmit={() => onSubmitHandler}
       >
         <Title text="Create Your Team" className={classes.title} />
         <div className={classes.inputField}>

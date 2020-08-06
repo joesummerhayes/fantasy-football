@@ -4,14 +4,16 @@ import { MongoUser as IMongoUser } from './mongo-user';
 import { Validator as IValidator, FormItem as IFormItem } from './form';
 import { Player as IPlayer, PlayerWithTeam as IPlayerWithTeam } from './player';
 import { Team as ITeam } from './team';
-import { League as ILeague } from './league';
+import { League as ILeague, LeagueData as ILeagueData, DraftLeague as IDraftLeague } from './league';
 
 declare namespace FFType {
+  export type DraftLeague = IDraftLeague;
   export type FormItem = IFormItem;
-  export type MongoUser = IMongoUser;
   export type League = ILeague;
+  export type LeagueData = ILeagueData;
   export type LoginCredentials = ILoginCredentials;
   export type LoggedInUser = ILoggedInUser;
+  export type MongoUser = IMongoUser;
   export type Player = IPlayer;
   export type PlayerWithTeam = IPlayerWithTeam;
   export type PremTeam = IPremTeam;
