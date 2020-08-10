@@ -4,8 +4,16 @@ interface TeamQLResult {
   createTeam: FFType.Team;
 }
 
-const createTeam = async (variables: any): Promise<FFType.Team> => {
-  const response = await graphQL.query<TeamQLResult>(`
+interface CreateTeamVariables {
+  clubMotto: string;
+  styleOfPlay: string;
+  teamName: string;
+  kitColour: string;
+  stadiumName: string;
+}
+
+const createTeam = async (variables: CreateTeamVariables): Promise<FFType.Team> => {
+  const response = await graphQL.query<TeamQLResult, CreateTeamVariables>(`
     mutation createNewTeam($clubMotto: String!, $kitColour: String!, $stadiumName: String!, $styleOfPlay: String!, $teamName: String!){
       createTeam(teamInput: {clubMotto: $clubMotto, kitColour: $kitColour, stadiumName: $stadiumName, styleOfPlay: $styleOfPlay, teamName: $teamName}) {
         _id

@@ -4,8 +4,12 @@ interface FindPlayersQlResult {
   getPlayers: FFType.PlayerWithTeam[];
 }
 
-const findPlayers = async (variables: any): Promise<FFType.PlayerWithTeam[]> => {
-  const response = await graphQL.query<FindPlayersQlResult>(`
+interface FindPlayersVariables {
+  teamName: string;
+}
+
+const findPlayers = async (variables: FindPlayersVariables): Promise<FFType.PlayerWithTeam[]> => {
+  const response = await graphQL.query<FindPlayersQlResult, FindPlayersVariables>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){
         _id

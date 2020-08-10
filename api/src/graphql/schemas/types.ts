@@ -3,7 +3,6 @@ export const types = `
     _id: ID!
     name: String!
     email: String
-    team: Team
     draftLeague: DraftLeague
   }
 
