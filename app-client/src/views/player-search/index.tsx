@@ -43,7 +43,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
     const { value } = target;
     setSearchTeam(value as string);
     try {
-      const players = await findPlayers({ teamName: value });
+      const players = await findPlayers({ teamName: value as string });
       setSquadPlayers(players);
     } catch (error) {
       setSquadPlayers([]);
@@ -52,7 +52,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
   };
 
   const handleRefresh = async (): Promise<void> => {
-    const players = await findPlayers({ teamName: searchTeam });
+    const players = await findPlayers({ teamName: searchTeam as string });
     setSquadPlayers(players);
   };
 
