@@ -19,17 +19,17 @@ const getUser = async (): Promise<FFType.User> => {
               passcode
             }
           }
-        }
-        team {
-          _id
-          userId
-          info {
-            clubMotto
-            kitColour
-            stadiumName
-            styleOfPlay
-            teamName
-          }
+          team {
+            _id
+            userId
+            info {
+              clubMotto
+              kitColour
+              stadiumName
+              styleOfPlay
+              teamName
+            }
+          }  
         }
       }
     }`);
