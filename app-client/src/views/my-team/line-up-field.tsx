@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Center from '../components/Center';
-import Button from '../components/Button';
+import LinkButton from '../components/LinkButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,19 +10,19 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '70vh',
   },
+  button: {
+    margin: '1rem',
+  },
 }));
 
 const LineUpField: React.FC = (): JSX.Element => {
   const classes = useStyles();
 
-  const onButtonClick = (): void => {
-    console.log('click');
-  };
-
   return (
     <Box className={classes.root}>
       <Center>
-        <Button text="Join / Create League" clickHandler={onButtonClick} bigButtonDark />
+        <LinkButton text="Join League" to="/join-league" bigButtonDark className={classes.button} />
+        <LinkButton text="Create League" to="/create-league" bigButtonDark className={classes.button} />
       </Center>
     </Box>
   );
