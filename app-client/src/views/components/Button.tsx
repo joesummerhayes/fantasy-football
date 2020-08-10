@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   },
   smallButtonSecondary: {
     backgroundColor: theme.palette.secondary.dark,
-    margin: '5px',
     minWidth: '6rem',
     height: '3rem',
     fontSize: '0.9rem',

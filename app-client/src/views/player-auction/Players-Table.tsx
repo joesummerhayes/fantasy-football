@@ -1,6 +1,8 @@
 import React, { ReactElement, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Grid, Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { AppState } from '../../app-state';
 import Button from '../components/Button';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -18,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   searchBar: {
     padding: '0',
   },
+  marginRight: {
+    marginRight: '5px',
+  },
 }));
 
 interface PlayersTableProps {
@@ -26,6 +31,7 @@ interface PlayersTableProps {
 
 const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => {
   const classes = useStyles();
+  const league = useSelector((state: AppState) => state?.user?.userDetails?.draftLeague?.league);
   const [searchTerm, setSearch] = useState<string>('');
   const { players } = props;
   console.log(players);
@@ -52,7 +58,7 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
           <TableCell><Typography>{player.specPositions.length > 0 ? `${player.specPositions.join(', ')}` : ''}</Typography></TableCell>
           <TableCell><Typography>£XXXX.XX</Typography></TableCell>
           <TableCell>
-            <Button text="Make Bid" clickHandler={makeBidOnClick} smallButtonSecondary />
+            {league && <Button text="Make Bid" clickHandler={makeBidOnClick} smallButtonSecondary className={classes.marginRight} />}
             <Button text="Details" clickHandler={makeBidOnClick} smallButtonSecondary />
           </TableCell>
         </TableRow>
