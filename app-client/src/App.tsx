@@ -39,8 +39,8 @@ const App: React.FC = () => {
       {signedIn && <Header />}
       <div style={{ paddingRight: '3rem', paddingLeft: '3rem' }}>
         {signedIn && <Nav />}
+        <PrivateRoute exact path="/" component={MyTeam} />
         <PrivateRoute path="/create-team" component={CreateTeam} />
-        <PrivateRoute path="/my-team" component={MyTeam} />
         <PrivateRoute path="/leagues" component={Leagues} />
         <PrivateRoute path="/create-league" component={CreateLeague} />
         <PrivateRoute path="/join-league" component={JoinLeague} />
