@@ -8,6 +8,7 @@ import { loginAction } from '../actions/index';
 import { required, email } from '../utils/validation';
 import hero from '../images/loginHero.png';
 import Button from './components/Button';
+import { AppState } from '../app-state';
 
 const useStyles = makeStyles({
   root: {
@@ -67,7 +68,7 @@ const Login: React.FC = () => {
   });
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isError = useSelector((state: any) => state.error);
+  const isError = useSelector((state: AppState) => state.error);
 
   const loginUser = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
@@ -89,7 +90,7 @@ const Login: React.FC = () => {
   };
 
   const handleError = (): ReactElement | void => {
-    if (isError.errorLocation === 'login') {
+    if (isError?.errorLocation === 'login') {
       return <MuiAlert severity="error">{isError.specificError}</MuiAlert>;
     }
   };
