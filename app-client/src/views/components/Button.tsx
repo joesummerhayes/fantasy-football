@@ -8,6 +8,7 @@ interface ButtonProps {
   className?: string;
   smallButtonSecondary?: boolean;
   bigButtonDark?: boolean;
+  smallButtonCancel?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -54,11 +55,23 @@ const useStyles = makeStyles((theme) => ({
       color: 'black',
     },
   },
+  smallButtonCancel: {
+    backgroundColor: 'red',
+    color: 'white',
+    minWidth: '6rem',
+    height: '3rem',
+    fontSize: '0.9rem',
+    textTransform: 'capitalize',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: 'white',
+    },
+  },
 }));
 
 const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   const classes = useStyles();
-  const { text, clickHandler, className = '', smallButtonSecondary, bigButtonDark } = props;
+  const { text, clickHandler, className = '', smallButtonSecondary, bigButtonDark, smallButtonCancel } = props;
 
   const getClass = () => {
     if (smallButtonSecondary) {
@@ -66,6 +79,9 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     }
     if (bigButtonDark) {
       return `${classes.root} ${classes.bigButtonDark} ${className}`;
+    }
+    if (smallButtonCancel) {
+      return `${classes.root} ${classes.smallButtonCancel} ${className}`;
     }
     return `${classes.root} ${classes.bigButtonPrimary} ${className}`;
   };

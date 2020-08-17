@@ -41,6 +41,15 @@ const PlayerAuction: React.FC = (): JSX.Element => {
   const [activeTeam, selectTeam] = useState('');
   const [teamPlayers, setteamPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
 
+  const [success, setSuccess] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const onClick = () => {
+    if (!success) {
+      setOpen(true);
+    }
+  };
+
   const onTeamSelect = async (team: string): Promise<void> => {
     selectTeam(team);
     const dbPlayers = await findPlayers({ teamName: team });
