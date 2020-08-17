@@ -2,8 +2,10 @@ import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
 import { AppState } from '../../app-state';
 import Button from '../components/Button';
+import PlayerBidModal from './Player-Bid-Modal';
 
 const useStyles = makeStyles((theme: Theme) => ({
   header: {
@@ -23,6 +25,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginRight: {
     marginRight: '5px',
   },
+  modal: {
+    margin: '20% 30% 25% 30%',
+    background: 'white',
+    height: '20%',
+    outline: 'none',
+  },
+  innerModal: {
+    padding: '2rem',
+  },
+  bigInput: {
+    paddingBottom: '5px',
+  },
+  placeBidButton: {
+    float: 'right',
+  },
 }));
 
 interface PlayersTableProps {
@@ -33,11 +50,20 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
   const classes = useStyles();
   const league = useSelector((state: AppState) => state?.user?.userDetails?.draftLeague?.league);
   const [searchTerm, setSearch] = useState<string>('');
+  const [model, setModal] = useState<boolean>(false);
+
+  const [open, setOpen] = useState(false);
+
   const { players } = props;
-  console.log(players);
 
   const makeBidOnClick = (): void => {
+    // setModal(true);
+    setOpen(true);
     console.log('make bid');
+  };
+
+  const getDetailsOnClick = (): void => {
+    console.log('get details');
   };
 
   const rows = (): ReactElement[] => {
@@ -59,7 +85,7 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
           <TableCell><Typography>£XXXX.XX</Typography></TableCell>
           <TableCell>
             {league && <Button text="Make Bid" clickHandler={makeBidOnClick} smallButtonSecondary className={classes.marginRight} />}
-            <Button text="Details" clickHandler={makeBidOnClick} smallButtonSecondary />
+            <Button text="Details" clickHandler={getDetailsOnClick} smallButtonSecondary />
           </TableCell>
         </TableRow>
       );
@@ -73,50 +99,46 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
   };
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell className={classes.header}>
-            <Typography className={classes.bold}>
-              Player
-            </Typography>
-          </TableCell>
-          <TableCell className={classes.header}>
-            <Typography className={classes.bold}>
-              Position
-            </Typography>
-          </TableCell>
-          <TableCell className={classes.header}>
-            <Typography className={classes.bold}>
-              Role
-            </Typography>
-          </TableCell>
-          <TableCell className={classes.header}>
-            <Typography className={classes.bold}>
-              Min Bid
-            </Typography>
-          </TableCell>
-          <TableCell className={classes.header}>
-            <TextField
-              className={classes.searchBar}
-              onChange={onChangeHandler}
-              value={searchTerm}
-              inputProps={{ style: {padding: '0'} }}
-              // label="Search for Player"
-              // InputLabelProps={{ className: classes.labelProps }}
-            />
-          </TableCell>
-          {/* <TableCell className={classes.header}>
-            <Typography className={classes.bold}>
-              Search for player
-            </Typography>
-          </TableCell> */}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows()}
-      </TableBody>
-    </Table>
+    <>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell className={classes.header}>
+              <Typography className={classes.bold}>
+                Player
+              </Typography>
+            </TableCell>
+            <TableCell className={classes.header}>
+              <Typography className={classes.bold}>
+                Position
+              </Typography>
+            </TableCell>
+            <TableCell className={classes.header}>
+              <Typography className={classes.bold}>
+                Role
+              </Typography>
+            </TableCell>
+            <TableCell className={classes.header}>
+              <Typography className={classes.bold}>
+                Min Bid
+              </Typography>
+            </TableCell>
+            <TableCell className={classes.header}>
+              <TextField
+                className={classes.searchBar}
+                onChange={onChangeHandler}
+                value={searchTerm}
+                inputProps={{ style: { padding: '0' } }}
+              />
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows()}
+        </TableBody>
+      </Table>
+      <PlayerBidModal setOpen={setOpen} open={open} />
+    </>
   );
 };
 
