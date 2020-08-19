@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const PlayerAuction: React.FC = (): JSX.Element => {
   const classes = useStyles();
   const [activeTeam, selectTeam] = useState('');
-  const [teamPlayers, setteamPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
+  const [teamPlayers, setteamPlayers] = React.useState<FFType.LeaguePlayer[]>([]);
 
   const [success, setSuccess] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -53,6 +53,7 @@ const PlayerAuction: React.FC = (): JSX.Element => {
   const onTeamSelect = async (team: string): Promise<void> => {
     selectTeam(team);
     const dbPlayers = await findPlayers({ teamName: team });
+    console.log('222', dbPlayers)
     setteamPlayers(dbPlayers);
   };
 

@@ -69,11 +69,11 @@ export default {
         throw new Error('user is not member of a league');
       }
       const filteredPlayers = league.players.filter((player) => {
-        console.log(player, teamName);
-        return player.playerInfo === teamName;
+        console.log(player.playerInfo.team.name, teamName);
+        return player.playerInfo.team.name === teamName;
       });
 
-      console.log(filteredPlayers);
+      console.log('filtered players', filteredPlayers);
       return filteredPlayers;
     } catch (error) {
       console.log(error);
@@ -116,6 +116,7 @@ export default {
       let player;
 
       if (premTeam) {
+        // team already exists on database, simply add player to team
         player = new Player({
           firstName,
           lastName,
@@ -130,6 +131,7 @@ export default {
         premTeam.players.push(player);
         await premTeam.save();
       } else if (!premTeam) {
+        // team doesnt exists on database and must be created
         const newPremTeam = new PremTeam({
           name: team,
         });
@@ -150,7 +152,7 @@ export default {
         await newPremTeam.save();
       }
       if (!player) {
-        throw new Error('failed to create player');
+        throw new Error('there was a problem creating player');
       }
 
       const createdPlayer = await player.save();

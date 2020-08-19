@@ -1,17 +1,19 @@
 import graphQL from './graph-ql';
 
 interface FindPlayersQlResult {
-  getPlayers: FFType.PlayerWithTeam[];
+  getPlayers: FFType.LeaguePlayer[];
 }
 
 interface FindPlayersVariables {
   teamName: string;
 }
 
-const findPlayers = async (variables: FindPlayersVariables): Promise<FFType.PlayerWithTeam[]> => {
+const findPlayers = async (variables: FindPlayersVariables): Promise<FFType.LeaguePlayer[]> => {
   const response = await graphQL.query<FindPlayersQlResult, FindPlayersVariables>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){
+        numberOfTransfers
+        minFeeRelease
         playerInfo {
           _id
           firstName
