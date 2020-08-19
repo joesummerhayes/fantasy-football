@@ -24,6 +24,15 @@ const leagueTeam = async (variables: CreateLeagueVariables): Promise<FFType.Leag
           email
         }
         }
+        players {
+          playerInfo {
+            _id
+            firstName
+            lastName
+          }
+          numberOfTransfers
+          minFeeRelease
+        }
       }
     }`,
   variables);

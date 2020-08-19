@@ -8,6 +8,7 @@ export interface League extends Document {
     members: FFType.User[];
     passcode: string;
   };
+  players: FFType.LeaguePlayer[];
 }
 
 const leagueSchema: Schema = new Schema({
@@ -34,39 +35,23 @@ const leagueSchema: Schema = new Schema({
       type: String,
       required: true,
     },
-    players: [
-      {
-        firstName: {
-          type: String,
-          required: true,
-        },
-        lastName: {
-          type: String,
-          required: true,
-        },
-        position: {
-          type: String,
-          required: true,
-        },
-        specPositions: {
-          type: [String],
-          required: true,
-        },
-        team: {
-          type: String,
-          required: true,
-        },
-        usedName: {
-          type: String,
-          required: true,
-        },
-        premTeam: {
-          type: Schema.Types.ObjectId,
-          ref: 'PremTeams',
-        },
-      },
-    ],
   },
+  players: [
+    {
+      playerInfo: {
+        type: Schema.Types.ObjectId,
+        ref: 'Player',
+      },
+      numberOfTransfers: {
+        type: Number,
+        requred: true,
+      },
+      minFeeRelease: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 export default mongoose.model<League>('League', leagueSchema);
