@@ -12,22 +12,25 @@ const findPlayers = async (variables: FindPlayersVariables): Promise<FFType.Play
   const response = await graphQL.query<FindPlayersQlResult, FindPlayersVariables>(`
     query findingPlayers($teamName: String!) {
       getPlayers(teamName: $teamName){
-        _id
-        firstName
-        lastName
-        position
-        specPositions
-        team {
-          name
-          id
-        }
+        playerInfo {
+          _id
+          firstName
+          lastName
+          position
+          specPositions
+          team {
+            name
+            id
+          }
         usedName
+        }
       }
     }
   `, variables);
   if (response === null) {
     throw new Error('There was a problem fetching players');
   }
+  console.log(response);
   return response.getPlayers;
 };
 

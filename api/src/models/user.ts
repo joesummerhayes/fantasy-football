@@ -4,11 +4,7 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
-  draftLeague: {
-    league: FFType.League;
-    team?: FFType.Team;
-    data?: FFType.LeagueData;
-  };
+  draftLeague: FFType.DraftLeague;
 }
 
 const userSchema: Schema = new Schema({

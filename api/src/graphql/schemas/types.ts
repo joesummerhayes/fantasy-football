@@ -63,7 +63,7 @@ export const types = `
     passcode: String!
   }
 
-  type LeaguePlayers {
+  type LeaguePlayer {
     playerInfo: PlayerWithTeam!
     numberOfTransfers: Int!
     minFeeRelease: Int!
@@ -72,7 +72,7 @@ export const types = `
   type League {
     _id: ID!
     leagueInfo: LeagueInfo
-    players: [LeaguePlayers]
+    players: [LeaguePlayer]
   }
 `;
 

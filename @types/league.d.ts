@@ -1,6 +1,7 @@
 import { User } from './user';
 import { Team } from './team';
 import { PlayerWithTeam, LeaguePlayer } from './player';
+import {Types} from 'mongoose';
 
 export interface League {
   _id: string;
