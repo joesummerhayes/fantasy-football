@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Team } from './team';
+import { PlayerWithTeam, LeaguePlayer } from './player';
 
 export interface League {
   _id: string;
@@ -10,6 +11,7 @@ export interface League {
     members: User[];
     passcode: string;
   };
+  players: LeaguePlayer[];
 }
 
 export interface DraftLeague {

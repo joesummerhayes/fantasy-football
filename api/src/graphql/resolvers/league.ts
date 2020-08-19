@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../../models/user';
 import League from '../../models/league';
+import Player from '../../models/player';
 import { checkFieldsExist, generatePassword } from './utils';
 
 interface RequestWithUser extends Request {
@@ -43,6 +44,15 @@ export default {
 
     const passcode = await generatePassword(10);
 
+    const players = await Player.find({});
+    const playersData = players.map((player) => {
+      return {
+        playerInfo: player._id,
+        numberOfTransfers: 0,
+        minFeeRelease: 0,
+      };
+    });
+
     const league = new League({
       leagueInfo: {
         draftDate,
@@ -51,6 +61,7 @@ export default {
         members: [userObjId],
         passcode,
       },
+      players: playersData,
     });
     const savedLeague = await league.save();
 
@@ -59,8 +70,10 @@ export default {
     user.draftLeague.league = _id;
     await user.save();
 
-    const leagueWithMembers = await League.findById(_id).populate('members');
+    const leagueWithMembers = await League.findById(_id).populate('members').populate('players.playerInfo');
+
     if (!leagueWithMembers) throw new Error('failed to create league with members');
+
     return leagueWithMembers;
   },
 

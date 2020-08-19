@@ -20,3 +20,9 @@ export interface PlayerWithTeam {
   };
   usedName: string;
 }
+
+export interface LeaguePlayer {
+  playerInfo: PlayerWithTeam;
+  minFeeRelease: number;
+  numberOfTransfers: number;
+}

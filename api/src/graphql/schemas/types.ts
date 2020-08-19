@@ -63,9 +63,16 @@ export const types = `
     passcode: String!
   }
 
+  type LeaguePlayers {
+    playerInfo: PlayerWithTeam!
+    numberOfTransfers: Int!
+    minFeeRelease: Int!
+  }
+
   type League {
     _id: ID!
     leagueInfo: LeagueInfo
+    players: [LeaguePlayers]
   }
 `;
 
