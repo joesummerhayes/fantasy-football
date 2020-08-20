@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 interface Props {
-  players: FFType.PlayerWithTeam[];
+  players: FFType.LeaguePlayer[];
   onChange: () => void;
 }
 
@@ -60,17 +60,17 @@ const PlayersTable: React.FC<Props> = (props: Props) => {
     if (search !== '') {
       filteredPlayers = players.filter(
         (player) => {
-          return player.firstName.toLowerCase().includes(search.toLowerCase())
-            || player.lastName.toLowerCase().includes(search.toLowerCase());
+          return player.playerInfo.firstName.toLowerCase().includes(search.toLowerCase())
+            || player.playerInfo.lastName.toLowerCase().includes(search.toLowerCase());
         },
       );
     }
     return filteredPlayers.map((player) => {
       return (
-        <TableRow key={player.lastName}>
-          <TableCell>{player.firstName}</TableCell>
-          <TableCell>{player.lastName}</TableCell>
-          <TableCell>{`${player.position} ${player.specPositions.length > 0 ? `(${player.specPositions.join(', ')})` : ''}`}</TableCell>
+        <TableRow key={player.playerInfo.lastName}>
+          <TableCell>{player.playerInfo.firstName}</TableCell>
+          <TableCell>{player.playerInfo.lastName}</TableCell>
+          <TableCell>{`${player.playerInfo.position} ${player.playerInfo.specPositions.length > 0 ? `(${player.playerInfo.specPositions.join(', ')})` : ''}`}</TableCell>
         </TableRow>
       );
     });

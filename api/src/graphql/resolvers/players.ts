@@ -1,7 +1,9 @@
 import { Request } from 'express';
-import mongoose, {Mongoose} from 'mongoose';
+import mongoose, {Mongoose, Types} from 'mongoose';
 import Player from '../../models/player';
+import User from '../../models/user';
 import PremTeam from '../../models/prem-team';
+import League from '../../models/league';
 
 interface AddPlayerArgs {
   playerInput: {
@@ -43,41 +45,65 @@ declare module 'express-serve-static-core' {
 }
 
 export default {
-  async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam[]> {
+  async getPlayers(args: FindPlayersArgs, req: Request): Promise<FFType.LeaguePlayer[]> {
     if (!req.isAuth) {
       throw new Error('not authenticated');
     }
 
-    const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
-      return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
-    };
+    // const isPlayer = (variableToCheck: any): variableToCheck is FFType.Player[] => {
+    //   return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
+    // };
 
     const { teamName } = args;
+    const { userId } = req;
+
     try {
-      const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
-      const premTeam = premTeamCursor?.toObject();
-      if (premTeam?.players && isPlayer(premTeam?.players)) {
-        const { players } = premTeam;
-        const teamId = premTeam._id;
-        const playersWithTeam = players.map((player: FFType.Player) => {
-          return {
-            ...player,
-            team: {
-              id: teamId,
-              name: player.team,
-            },
-          };
-        });
-        return playersWithTeam;
+      const user = await User.findById(userId);
+      if (!user) {
+        throw new Error('user does not exist');
       }
-      throw new Error(`Could not find players for ${teamName}`);
+      const leagueId = user.draftLeague.league;
+
+      const league = await League.findById(leagueId, 'players').populate('players.playerInfo').exec();
+      if (!league) {
+        throw new Error('user is not member of a league');
+      }
+      const filteredPlayers = league.players.filter((player) => {
+        console.log(player.playerInfo.team.name, teamName);
+        return player.playerInfo.team.name === teamName;
+      });
+
+      console.log('filtered players', filteredPlayers);
+      return filteredPlayers;
     } catch (error) {
       console.log(error);
-      throw error;
+      throw new Error('could not find players for this club');
     }
+    // try {
+    //   const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
+    //   const premTeam = premTeamCursor?.toObject();
+    //   if (premTeam?.players && isPlayer(premTeam?.players)) {
+    //     const { players } = premTeam;
+    //     const teamId = premTeam._id;
+    //     const playersWithTeam = players.map((player: FFType.Player) => {
+    //       return {
+    //         ...player,
+    //         team: {
+    //           id: teamId,
+    //           name: player.team,
+    //         },
+    //       };
+    //     });
+    //     return playersWithTeam;
+    //   }
+    //   throw new Error(`Could not find players for ${teamName}`);
+    // } catch (error) {
+    //   console.log(error);
+    //   throw error;
+    // }
   },
 
-  async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.Player> {
+  async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
@@ -85,33 +111,55 @@ export default {
       const { playerInput } = args;
       const { firstName, lastName, position, team, usedName, specPositions } = playerInput;
 
-      const player = new Player({
-        firstName,
-        lastName,
-        position,
-        specPositions,
-        team,
-        usedName,
-      });
-
       const premTeam = await PremTeam.findOne({ name: team });
+
+      let player;
+
       if (premTeam) {
-        console.log('team already exists, i will just add new player');
+        // team already exists on database, simply add player to team
+        player = new Player({
+          firstName,
+          lastName,
+          position,
+          specPositions,
+          team: {
+            id: premTeam._id.toString(),
+            name: team,
+          },
+          usedName,
+        });
         premTeam.players.push(player);
         await premTeam.save();
       } else if (!premTeam) {
+        // team doesnt exists on database and must be created
         const newPremTeam = new PremTeam({
           name: team,
         });
-        console.log('team doesnt exist, i will make one');
+        const premTeamWithId = await newPremTeam.save();
+
+        player = new Player({
+          firstName,
+          lastName,
+          position,
+          specPositions,
+          team: {
+            id: premTeamWithId._id.toString(),
+            name: team,
+          },
+          usedName,
+        });
         newPremTeam.players.push(player);
         await newPremTeam.save();
+      }
+      if (!player) {
+        throw new Error('there was a problem creating player');
       }
 
       const createdPlayer = await player.save();
 
       console.log(createdPlayer);
       return createdPlayer;
+
     } catch (error) {
       console.log(error);
       throw new Error('Failed to create player, make sure all fields are filled out');

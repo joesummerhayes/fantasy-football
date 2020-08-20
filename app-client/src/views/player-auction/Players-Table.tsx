@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface PlayersTableProps {
-  players: FFType.PlayerWithTeam[];
+  players: FFType.LeaguePlayer[];
 }
 
 const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => {
@@ -71,17 +71,17 @@ const PlayersTable: React.FC<PlayersTableProps> = (props: PlayersTableProps) => 
     if (searchTerm !== '') {
       filteredPlayers = players.filter(
         (player) => {
-          return player.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-            || player.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+          return player.playerInfo.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+            || player.playerInfo.lastName.toLowerCase().includes(searchTerm.toLowerCase());
         },
       );
     }
     return filteredPlayers.map((player) => {
       return (
-        <TableRow key={player._id}>
-          <TableCell><Typography>{player.lastName}</Typography></TableCell>
-          <TableCell><Typography>{player.position}</Typography></TableCell>
-          <TableCell><Typography>{player.specPositions.length > 0 ? `${player.specPositions.join(', ')}` : ''}</Typography></TableCell>
+        <TableRow key={player.playerInfo._id}>
+          <TableCell><Typography>{player.playerInfo.lastName}</Typography></TableCell>
+          <TableCell><Typography>{player.playerInfo.position}</Typography></TableCell>
+          <TableCell><Typography>{player.playerInfo.specPositions.length > 0 ? `${player.playerInfo.specPositions.join(', ')}` : ''}</Typography></TableCell>
           <TableCell><Typography>£XXXX.XX</Typography></TableCell>
           <TableCell>
             {league && <Button text="Make Bid" clickHandler={makeBidOnClick} smallButtonSecondary className={classes.marginRight} />}

@@ -36,7 +36,7 @@ interface Props {
 const PlayerSelect: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [searchTeam, setSearchTeam] = React.useState<string>('');
-  const [squadPlayers, setSquadPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
+  const [squadPlayers, setSquadPlayers] = React.useState<FFType.LeaguePlayer[]>([]);
 
   const dropDownHandler = async (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): Promise<void> => {
     const { target } = event;

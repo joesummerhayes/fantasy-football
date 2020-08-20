@@ -5,7 +5,10 @@ export interface Player extends Document {
   lastName: string;
   position: string;
   specPositions: string[];
-  team: string;
+  team: {
+    id: string;
+    name: string;
+  };
   usedName: string;
 }
 
@@ -27,16 +30,18 @@ const playerSchema: Schema = new Schema({
     required: true,
   },
   team: {
-    type: String,
-    required: true,
+    id: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   usedName: {
     type: String,
     required: true,
-  },
-  premTeam: {
-    type: Schema.Types.ObjectId,
-    ref: 'PremTeams',
   },
 });
 
