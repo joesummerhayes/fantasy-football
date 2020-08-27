@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { premTeams } from '../utils/add-player-data';
 import findPlayers from '../data/find-players';
+import getCorePlayers from '../data/get-core-players';
 import PlayersTable from './Players-table';
 
 const useStyles = makeStyles({
@@ -49,7 +50,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
     const { value } = target;
     setSearchTeam(value as string);
     try {
-      const players = await findPlayers({ teamName: value });
+      const players = await getCorePlayers({ teamName: value });
       setSquadPlayers(players);
     } catch (error) {
       setSquadPlayers([]);
@@ -60,7 +61,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
   const dropDownHandlerAfterEdit = async (): Promise<void> => {
     try {
       setSearchTeam(editedPlayerTeam);
-      const players = await findPlayers({ teamName: editedPlayerTeam });
+      const players = await getCorePlayers({ teamName: editedPlayerTeam });
       setSquadPlayers(players);
     } catch (error) {
       setSquadPlayers([]);

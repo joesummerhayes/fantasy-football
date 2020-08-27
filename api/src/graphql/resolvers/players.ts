@@ -103,6 +103,36 @@ export default {
     // }
   },
 
+  async getCorePlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam> {
+    if (!req.isAuth) {
+      throw new Error('not authenticated');
+    }
+
+    const isPlayer = (variableToCheck: any): variableToCheck is FFType.PlayerWithTeam[] => {
+      return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
+    };
+
+    const { teamName } = args;
+
+    try {
+      const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
+      if (!premTeamCursor) {
+        throw new Error('failed to find team for player');
+      }
+
+      // throw error if there are no players for the selected team
+      if (!premTeamCursor?.players && !isPlayer(premTeamCursor?.players)) {
+        throw new Error(`Could not find players for ${teamName}`);
+      }
+
+      const { players } = premTeamCursor;
+      return players;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
     try {
       if (!req.isAuth) {

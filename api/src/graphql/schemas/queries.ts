@@ -4,6 +4,7 @@ export const queries = `
     user: User!
     getPlayers(teamName: String!): [LeaguePlayer]
     getLeague: League!
+    getCorePlayers(teamName: String!): [PlayerWithTeam]!
 }`;
 
 export default {};
