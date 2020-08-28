@@ -12,10 +12,11 @@ import MuiAlert from '@material-ui/lab/Alert';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Redirect } from 'react-router-dom';
-import { premTeams, positions, findSpecPositions } from '../../utils/add-player-data';
+import { positions, findSpecPositions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 import editPlayer from '../../data/edit-player';
 import { getErrorAction, clearErrors } from '../../actions/index';
+import { AppState } from '../../app-state';
 
 const useStyles = makeStyles({
   root: {
@@ -82,8 +83,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.error);
-
-  console.log(props?.location?.state);
+  const premTeams = useSelector((state: AppState) => state.premTeams);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -123,9 +123,9 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     });
   };
 
-  const teamsDropDown = (): ReactNode => {
-    return premTeams.map((teamName: string) => {
-      return <MenuItem key={teamName} value={teamName}>{teamName}</MenuItem>;
+  const teamsDropDown = (premTeams: FFType.PremTeam[]): ReactNode => {
+    return premTeams.map((team) => {
+      return <MenuItem key={team.name} value={team.name}>{team.name}</MenuItem>;
     });
   };
 
@@ -269,7 +269,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
               onChange={handleDropDownChange}
               name="team"
             >
-              {teamsDropDown()}
+              {premTeams && teamsDropDown(premTeams)}
             </Select>
           </FormControl>
         </div>
