@@ -6,17 +6,16 @@ interface PremTeamsState {
   id?: string;
 }
 
-export const getPremTeamsReducer: Reducer = (state: PremTeamsState = {}, action: Action): PremTeamsState => {
+export const getPremTeamsReducer: Reducer = (state: PremTeamsState = {}, action: Action): PremTeamsState[] => {
   switch (action.type) {
     case ActionTypes.getPremTeams: {
       const { payload } = action;
-      return {
-        ...state,
+      return [
         ...payload,
-      };
+      ];
     }
     default:
-      return state;
+      return [];
   }
 };
 
