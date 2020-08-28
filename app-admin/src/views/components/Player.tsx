@@ -46,7 +46,8 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const lastName = props?.location?.state?.player?.lastName || '';
   const position = props?.location?.state?.player?.position || '';
   const specPositions = props?.location?.state?.player?.specPositions || [];
-  const team = props?.location?.state?.player?.team.name || '';
+  const teamName = props?.location?.state?.player?.team.name || '';
+  const teamId = props?.location?.state?.player?.team.id || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -55,7 +56,10 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     lastName: '',
     position: '',
     specPositions: [],
-    team: '',
+    team: {
+      name: '',
+      id: '',
+    },
     usedName: '',
   };
 
@@ -63,23 +67,29 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     on: false,
     team: '',
   });
-  const [player, setPlayer] = React.useState<FFType.Player>({
+  const [player, setPlayer] = React.useState<FFType.PlayerWithTeam>({
     _id,
     firstName,
     lastName,
     position,
     specPositions,
-    team,
+    team: {
+      name: teamName,
+      id: teamId,
+    },
     usedName,
   });
   const classes = useStyles();
   const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.error);
 
+  console.log(props?.location?.state);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
     const { value } = target;
     const { id } = target;
+    console.log(id, value);
     const updatedPlayer = {
       ...player,
       [id]: value,
@@ -130,7 +140,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     try {
       if (props?.location?.state?.editMode) {
         await editPlayer(player);
-        const teamToRedirect = player.team;
+        const teamToRedirect = player.team.name;
         setPlayer(emptyPlayer);
         setRedirect({ on: true, team: teamToRedirect });
         return;

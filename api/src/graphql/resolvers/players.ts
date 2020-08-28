@@ -23,7 +23,10 @@ interface EditPlayerArgs {
     lastName: string;
     position: string;
     specPositions: [string];
-    team: string;
+    team: {
+      name: string;
+      id: string;
+    };
     usedName: string;
   };
 }
@@ -195,7 +198,7 @@ export default {
       throw new Error('Failed to create player, make sure all fields are filled out');
     }
   },
-  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.Player> {
+  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
@@ -210,7 +213,8 @@ export default {
       existingPlayer.lastName = lastName;
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
-      existingPlayer.team = team;
+      existingPlayer.team.name = team.name;
+      existingPlayer.team.id = team.id;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;
@@ -233,6 +237,30 @@ export default {
       return `deleted successfully for playerId ${id}`;
     } catch (error) {
       throw new Error('failed to delete player');
+    }
+  },
+  async editCorePlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
+    try {
+      if (!req.isAuth) {
+        throw new Error('not authenticated');
+      }
+      const { playerInput } = args;
+      const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
+
+      const id = mongoose.Types.ObjectId(_id);
+      const existingPlayer = await Player.findById(id);
+      if (!existingPlayer) throw new Error('Could not add or update player');
+      existingPlayer.firstName = firstName;
+      existingPlayer.lastName = lastName;
+      existingPlayer.position = position;
+      existingPlayer.specPositions = specPositions;
+      existingPlayer.team.name = team.name;
+      existingPlayer.team.id = team.id;
+      existingPlayer.usedName = usedName;
+      const updatedPlayer = existingPlayer.save();
+      return updatedPlayer;
+    } catch (error) {
+      throw new Error('Problem updating player');
     }
   },
 };
