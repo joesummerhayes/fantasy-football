@@ -6,7 +6,7 @@ export interface Player extends Document {
   position: string;
   specPositions: string[];
   team: {
-    id: string;
+    teamId: string;
     name: string;
   };
   usedName: string;

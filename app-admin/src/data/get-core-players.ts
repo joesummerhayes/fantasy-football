@@ -14,7 +14,7 @@ const getCorePlayers = async (variables: any): Promise<FFType.PlayerWithTeam[]> 
         position
         specPositions
         team {
-          id
+          teamId
           name
         }
         usedName

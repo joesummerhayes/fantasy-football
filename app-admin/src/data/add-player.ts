@@ -1,10 +1,10 @@
 import graphQL from './graph-ql';
 
 interface PlayerQlResult {
-  addPlayer: FFType.Player;
+  addPlayer: FFType.PlayerWithTeam;
 }
 
-const addPlayer = async (variables: any): Promise<FFType.Player> => {
+const addPlayer = async (variables: any): Promise<FFType.PlayerWithTeam> => {
   const response = await graphQL.query<PlayerQlResult>(`
     mutation addNewPlayer($firstName: String!, $lastName: String!, $position: String!, $specPositions: [String]! $team: String!, $usedName: String!) {
       addPlayer(playerInput: {firstName: $firstName, lastName: $lastName, position: $position, specPositions: $specPositions, team: $team, usedName: $usedName}) {
@@ -13,7 +13,10 @@ const addPlayer = async (variables: any): Promise<FFType.Player> => {
         lastName
         position
         specPositions
-        team
+        team {
+          name
+          teamId
+        }
         usedName
       }
     }

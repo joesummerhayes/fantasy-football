@@ -48,7 +48,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const position = props?.location?.state?.player?.position || '';
   const specPositions = props?.location?.state?.player?.specPositions || [];
   const teamName = props?.location?.state?.player?.team.name || '';
-  const teamId = props?.location?.state?.player?.team.id || '';
+  const teamId = props?.location?.state?.player?.team.teamId || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -59,7 +59,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     specPositions: [],
     team: {
       name: '',
-      id: '',
+      teamId: '',
     },
     usedName: '',
   };
@@ -76,7 +76,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     specPositions,
     team: {
       name: teamName,
-      id: teamId,
+      teamId,
     },
     usedName,
   });

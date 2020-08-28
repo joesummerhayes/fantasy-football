@@ -60,7 +60,13 @@ export default {
     // if (!userId) {
     //   throw new Error('User not authenticated');
     // }
-    const premTeams = await premTeam.find({});
+    const premTeamsMongo = await premTeam.find({});
+    const premTeams = premTeamsMongo.map((team) => {
+      return {
+        teamId: team._id,
+        name: team.name,
+      };
+    });
     return premTeams;
   },
 };

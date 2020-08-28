@@ -25,7 +25,7 @@ interface EditPlayerArgs {
     specPositions: [string];
     team: {
       name: string;
-      id: string;
+      teamId: string;
     };
     usedName: string;
   };
@@ -156,7 +156,7 @@ export default {
           position,
           specPositions,
           team: {
-            id: premTeam._id.toString(),
+            teamId: premTeam._id.toString(),
             name: team,
           },
           usedName,
@@ -176,7 +176,7 @@ export default {
           position,
           specPositions,
           team: {
-            id: premTeamWithId._id.toString(),
+            teamId: premTeamWithId._id.toString(),
             name: team,
           },
           usedName,
@@ -214,7 +214,7 @@ export default {
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
       existingPlayer.team.name = team.name;
-      existingPlayer.team.id = team.id;
+      existingPlayer.team.teamId = team.teamId;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;
@@ -255,7 +255,7 @@ export default {
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
       existingPlayer.team.name = team.name;
-      existingPlayer.team.id = team.id;
+      existingPlayer.team.teamId = team.teamId;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;

@@ -23,7 +23,7 @@ export const types = `
 
   type PremTeam {
     name: String!
-    id: ID!
+    teamId: ID!
   }
 
   type PlayerWithTeam {
