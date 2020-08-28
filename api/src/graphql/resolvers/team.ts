@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Team from '../../models/team';
 import User from '../../models/user';
 import { checkFieldsExist } from './utils';
+import premTeam from '../../models/prem-team';
 
 interface CreateTeamArgs {
   teamInput: {
@@ -11,6 +12,10 @@ interface CreateTeamArgs {
     styleOfPlay: string;
     teamName: string;
   };
+}
+
+interface CreatePremTeamArgs {
+  teamName: string;
 }
 
 interface RequestWithUser extends Request {
@@ -49,5 +54,13 @@ export default {
 
 
     return createdTeam;
+  },
+  async getPremTeams(args: any, req: RequestWithUser): Promise<FFType.PremTeam[]> {
+    // const userId = req?.userId;
+    // if (!userId) {
+    //   throw new Error('User not authenticated');
+    // }
+    const premTeams = await premTeam.find({});
+    return premTeams;
   },
 };
