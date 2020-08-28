@@ -8,6 +8,7 @@ import Nav from './views/Nav';
 import Login from './views/Login';
 import { logoutAction } from './actions/index';
 import PrivateRoute from './views/components/private-route';
+import AddTeam from './views/Add-team';
 
 const App: React.FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const App: React.FC = (): JSX.Element => {
       <>
         <PrivateRoute exact path="/player" component={AddPlayer} />
         <PrivateRoute exact path="/players" component={PlayerSelect} />
+        <PrivateRoute exact path="/add-team" component={AddTeam} />
         <Route exact path="/login" component={Login} />
       </>
     </Router>
