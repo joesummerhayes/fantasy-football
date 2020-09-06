@@ -23,10 +23,8 @@ interface EditPlayerArgs {
     lastName: string;
     position: string;
     specPositions: [string];
-    team: {
-      name: string;
-      _id: string;
-    };
+    teamName: string;
+    teamId: string;
     usedName: string;
   };
 }
@@ -205,7 +203,7 @@ export default {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
+      const { firstName, lastName, position, teamId, teamName, usedName, _id, specPositions } = playerInput;
 
       const id = mongoose.Types.ObjectId(_id);
       const existingPlayer = await Player.findById(id);
@@ -214,8 +212,8 @@ export default {
       existingPlayer.lastName = lastName;
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
-      existingPlayer.team.name = team.name;
-      existingPlayer.team._id = team._id;
+      existingPlayer.team.name = teamName;
+      existingPlayer.team._id = teamId;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;
@@ -240,28 +238,29 @@ export default {
       throw new Error('failed to delete player');
     }
   },
-  async editCorePlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
-    try {
-      if (!req.isAuth) {
-        throw new Error('not authenticated');
-      }
-      const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
+  // async editCorePlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
+  //   console.log('edit player resolver!!!');
+  //   try {
+  //     if (!req.isAuth) {
+  //       throw new Error('not authenticated');
+  //     }
+  //     const { playerInput } = args;
+  //     const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
 
-      const id = mongoose.Types.ObjectId(_id);
-      const existingPlayer = await Player.findById(id);
-      if (!existingPlayer) throw new Error('Could not add or update player');
-      existingPlayer.firstName = firstName;
-      existingPlayer.lastName = lastName;
-      existingPlayer.position = position;
-      existingPlayer.specPositions = specPositions;
-      existingPlayer.team.name = team.name;
-      existingPlayer.team._id = team._id;
-      existingPlayer.usedName = usedName;
-      const updatedPlayer = existingPlayer.save();
-      return updatedPlayer;
-    } catch (error) {
-      throw new Error('Problem updating player');
-    }
-  },
+  //     const id = mongoose.Types.ObjectId(_id);
+  //     const existingPlayer = await Player.findById(id);
+  //     if (!existingPlayer) throw new Error('Could not add or update player');
+  //     existingPlayer.firstName = firstName;
+  //     existingPlayer.lastName = lastName;
+  //     existingPlayer.position = position;
+  //     existingPlayer.specPositions = specPositions;
+  //     existingPlayer.team.name = team.name;
+  //     existingPlayer.team._id = team._id;
+  //     existingPlayer.usedName = usedName;
+  //     const updatedPlayer = existingPlayer.save();
+  //     return updatedPlayer;
+  //   } catch (error) {
+  //     throw new Error('Problem updating player');
+  //   }
+  // },
 };

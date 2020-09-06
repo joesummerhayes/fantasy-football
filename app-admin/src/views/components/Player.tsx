@@ -156,8 +156,14 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     e.preventDefault();
     try {
       if (props?.location?.state?.editMode) {
-        console.log('1111', player);
-        await editPlayer(player);
+        const { team, ...playerPropsToKeep } = player;
+        const playerToEdit = {
+          ...playerPropsToKeep,
+          teamName: player.team.name,
+          teamId: player.team._id,
+        };
+        console.log('JOE', playerToEdit);
+        await editPlayer(playerToEdit);
         const teamToRedirect = player.team.name;
         setPlayer(emptyPlayer);
         setRedirect({ on: true, team: teamToRedirect });

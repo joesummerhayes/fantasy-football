@@ -28,18 +28,14 @@ export const inputData = `
     styleOfPlay: String!
   }
 
-  input PremTeamInfo {
-    name: String!
-    id: ID!
-  }
-
   input EditPlayerInputData {
     _id: String
     firstName: String!
     lastName: String!
     position: String!
     specPositions: [String]!
-    team: PremTeamInfo!
+    teamName: String!
+    teamId: String!
     usedName: String!
   }
 `;
