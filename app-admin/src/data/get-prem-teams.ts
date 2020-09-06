@@ -8,7 +8,7 @@ const getPremTeams = async (): Promise<FFType.PremTeam[]> => {
   const response = await graphQL.query<GetPremTeamsQlResult>(`
     query {
       getPremTeams {
-        teamId
+        _id
         name
       }
     }

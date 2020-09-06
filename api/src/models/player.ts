@@ -6,7 +6,7 @@ export interface Player extends Document {
   position: string;
   specPositions: string[];
   team: {
-    teamId: string;
+    _id: string;
     name: string;
   };
   usedName: string;
@@ -30,7 +30,7 @@ const playerSchema: Schema = new Schema({
     required: true,
   },
   team: {
-    id: {
+    _id: {
       type: String,
       required: true,
     },

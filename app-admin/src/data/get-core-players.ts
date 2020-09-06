@@ -14,7 +14,7 @@ const getCorePlayers = async (variables: any): Promise<FFType.PlayerWithTeam[]> 
         position
         specPositions
         team {
-          teamId
+          _id
           name
         }
         usedName
@@ -24,7 +24,7 @@ const getCorePlayers = async (variables: any): Promise<FFType.PlayerWithTeam[]> 
   if (response === null) {
     throw new Error('There was a problem fetching players');
   }
-  console.log(response);
+  console.log('get core players response', response.getCorePlayers);
   return response.getCorePlayers;
 };
 

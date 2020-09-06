@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 });
 
 const teamsDropDown = (premTeams: FFType.PremTeam[]): ReactNode => {
-  console.log(premTeams);
   return premTeams.map((team) => {
     return <MenuItem key={team.name} value={team.name}>{team.name}</MenuItem>;
   });

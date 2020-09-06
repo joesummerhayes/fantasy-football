@@ -16,7 +16,7 @@ export interface PlayerWithTeam {
   specPositions: string[];
   team: {
     name: string;
-    teamId: string;
+    _id: string;
   };
   usedName: string;
 }

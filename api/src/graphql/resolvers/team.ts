@@ -63,7 +63,7 @@ export default {
     const premTeamsMongo = await premTeam.find({});
     const premTeams = premTeamsMongo.map((team) => {
       return {
-        teamId: team._id,
+        _id: team._id,
         name: team.name,
       };
     });

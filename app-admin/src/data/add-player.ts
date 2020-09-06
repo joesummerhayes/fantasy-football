@@ -15,7 +15,7 @@ const addPlayer = async (variables: any): Promise<FFType.PlayerWithTeam> => {
         specPositions
         team {
           name
-          teamId
+          _id
         }
         usedName
       }

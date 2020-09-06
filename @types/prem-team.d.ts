@@ -1,5 +1,5 @@
 
 export interface PremTeam {
-  teamId: string;
+  _id: string;
   name: string;
 }

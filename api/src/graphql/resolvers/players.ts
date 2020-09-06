@@ -25,7 +25,7 @@ interface EditPlayerArgs {
     specPositions: [string];
     team: {
       name: string;
-      teamId: string;
+      _id: string;
     };
     usedName: string;
   };
@@ -156,12 +156,13 @@ export default {
           position,
           specPositions,
           team: {
-            teamId: premTeam._id.toString(),
+            _id: premTeam._id,
             name: team,
           },
           usedName,
         });
         premTeam.players.push(player);
+        console.log('pushed player to team')
         await premTeam.save();
       } else if (!premTeam) {
         // team doesnt exists on database and must be created
@@ -176,7 +177,7 @@ export default {
           position,
           specPositions,
           team: {
-            teamId: premTeamWithId._id.toString(),
+            _id: premTeamWithId._id.toString(),
             name: team,
           },
           usedName,
@@ -214,7 +215,7 @@ export default {
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
       existingPlayer.team.name = team.name;
-      existingPlayer.team.teamId = team.teamId;
+      existingPlayer.team._id = team._id;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;
@@ -255,7 +256,7 @@ export default {
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
       existingPlayer.team.name = team.name;
-      existingPlayer.team.teamId = team.teamId;
+      existingPlayer.team._id = team._id;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;

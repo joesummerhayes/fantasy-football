@@ -1,12 +1,14 @@
 import { Reducer } from 'redux';
 import { ActionTypes, Action } from '../actions/types';
 
-interface PremTeamsState {
+interface PremTeam {
   name?: string;
   id?: string;
 }
 
-export const getPremTeamsReducer: Reducer = (state: PremTeamsState = {}, action: Action): PremTeamsState[] => {
+type PremTeamState = PremTeam[];
+
+export const getPremTeamsReducer: Reducer = (state: PremTeamState = [], action: Action): PremTeamState => {
   switch (action.type) {
     case ActionTypes.getPremTeams: {
       const { payload } = action;
@@ -15,7 +17,7 @@ export const getPremTeamsReducer: Reducer = (state: PremTeamsState = {}, action:
       ];
     }
     default:
-      return [];
+      return state;
   }
 };
 

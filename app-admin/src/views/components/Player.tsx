@@ -48,7 +48,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const position = props?.location?.state?.player?.position || '';
   const specPositions = props?.location?.state?.player?.specPositions || [];
   const teamName = props?.location?.state?.player?.team.name || '';
-  const teamId = props?.location?.state?.player?.team.teamId || '';
+  const teamId = props?.location?.state?.player?.team._id || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -59,7 +59,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     specPositions: [],
     team: {
       name: '',
-      teamId: '',
+      _id: '',
     },
     usedName: '',
   };
@@ -76,10 +76,11 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     specPositions,
     team: {
       name: teamName,
-      teamId,
+      _id: teamId,
     },
     usedName,
   });
+  console.log('!!!', player)
   const classes = useStyles();
   const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.error);
@@ -89,7 +90,6 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     const { target } = event;
     const { value } = target;
     const { id } = target;
-    console.log(id, value);
     const updatedPlayer = {
       ...player,
       [id]: value,
@@ -106,26 +106,43 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     }
   }, [props?.location?.state?.resetForm]);
 
-  const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
+  const handleDropDownChange = (event: React.ChangeEvent<{ value: any; name?: string | undefined }>): void => {
     const { target } = event;
-    const { value, name } = target;
-    if (name === 'position') {
+    const { value, name: dropDown } = target;
+    if (dropDown === 'position') {
       setPlayer({
         ...player,
         ['specPositions' as any]: [],
-        [name as string]: value,
+        [dropDown as string]: value,
       });
       return;
     }
+    console.log(value);
+
+    const teamsWithName = premTeams?.filter((premteam) => premteam.name === value);
+    if (!teamsWithName) return;
+    const team = teamsWithName[0];
     setPlayer({
       ...player,
-      [name as string]: value,
+      [dropDown as string]: {
+        ...player.team,
+        name: value,
+        _id: team._id,
+      },
     });
   };
 
   const teamsDropDown = (premTeams: FFType.PremTeam[]): ReactNode => {
     return premTeams.map((team) => {
-      return <MenuItem key={team.name} value={team.name}>{team.name}</MenuItem>;
+      return (
+        <MenuItem
+          key={team._id}
+          // @ts-ignore
+          value={team.name}
+        >
+          {team.name}
+        </MenuItem>
+      );
     });
   };
 
@@ -139,6 +156,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     e.preventDefault();
     try {
       if (props?.location?.state?.editMode) {
+        console.log('1111', player);
         await editPlayer(player);
         const teamToRedirect = player.team.name;
         setPlayer(emptyPlayer);
@@ -265,7 +283,7 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="team"
-              value={player.team}
+              value={player.team.name}
               onChange={handleDropDownChange}
               name="team"
             >

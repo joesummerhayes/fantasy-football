@@ -64,7 +64,7 @@ const PlayersTableNew: React.FC<Props> = (props: Props) => {
   const onModalClick = (player: FFType.PlayerWithTeam): void => {
     setPlayer({
       id: player._id,
-      teamId: player.team.id,
+      teamId: player.team._id,
       teamName: player.team.name,
     });
     setModal(true);
