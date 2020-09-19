@@ -12,10 +12,11 @@ import MuiAlert from '@material-ui/lab/Alert';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Redirect } from 'react-router-dom';
-import { premTeams, positions, findSpecPositions } from '../../utils/add-player-data';
+import { positions, findSpecPositions } from '../../utils/add-player-data';
 import addPlayer from '../../data/add-player';
 import editPlayer from '../../data/edit-player';
 import { getErrorAction, clearErrors } from '../../actions/index';
+import { AppState } from '../../app-state';
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +47,8 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
   const lastName = props?.location?.state?.player?.lastName || '';
   const position = props?.location?.state?.player?.position || '';
   const specPositions = props?.location?.state?.player?.specPositions || [];
-  const team = props?.location?.state?.player?.team.name || '';
+  const teamName = props?.location?.state?.player?.team.name || '';
+  const teamId = props?.location?.state?.player?.team._id || '';
   const usedName = props?.location?.state?.player?.usedName || '';
   const _id = props?.location?.state?.player?._id || '';
   const emptyPlayer = {
@@ -55,7 +57,10 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     lastName: '',
     position: '',
     specPositions: [],
-    team: '',
+    team: {
+      name: '',
+      _id: '',
+    },
     usedName: '',
   };
 
@@ -63,18 +68,23 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     on: false,
     team: '',
   });
-  const [player, setPlayer] = React.useState<FFType.Player>({
+  const [player, setPlayer] = React.useState<FFType.PlayerWithTeam>({
     _id,
     firstName,
     lastName,
     position,
     specPositions,
-    team,
+    team: {
+      name: teamName,
+      _id: teamId,
+    },
     usedName,
   });
+  console.log('!!!', player)
   const classes = useStyles();
   const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.error);
+  const premTeams = useSelector((state: AppState) => state.premTeams);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = event;
@@ -96,26 +106,43 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     }
   }, [props?.location?.state?.resetForm]);
 
-  const handleDropDownChange = (event: React.ChangeEvent<{ value: unknown; name?: string | undefined }>): void => {
+  const handleDropDownChange = (event: React.ChangeEvent<{ value: any; name?: string | undefined }>): void => {
     const { target } = event;
-    const { value, name } = target;
-    if (name === 'position') {
+    const { value, name: dropDown } = target;
+    if (dropDown === 'position') {
       setPlayer({
         ...player,
         ['specPositions' as any]: [],
-        [name as string]: value,
+        [dropDown as string]: value,
       });
       return;
     }
+    console.log(value);
+
+    const teamsWithName = premTeams?.filter((premteam) => premteam.name === value);
+    if (!teamsWithName) return;
+    const team = teamsWithName[0];
     setPlayer({
       ...player,
-      [name as string]: value,
+      [dropDown as string]: {
+        ...player.team,
+        name: value,
+        _id: team._id,
+      },
     });
   };
 
-  const teamsDropDown = (): ReactNode => {
-    return premTeams.map((teamName: string) => {
-      return <MenuItem key={teamName} value={teamName}>{teamName}</MenuItem>;
+  const teamsDropDown = (premTeams: FFType.PremTeam[]): ReactNode => {
+    return premTeams.map((team) => {
+      return (
+        <MenuItem
+          key={team._id}
+          // @ts-ignore
+          value={team.name}
+        >
+          {team.name}
+        </MenuItem>
+      );
     });
   };
 
@@ -129,8 +156,15 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
     e.preventDefault();
     try {
       if (props?.location?.state?.editMode) {
-        await editPlayer(player);
-        const teamToRedirect = player.team;
+        const { team, ...playerPropsToKeep } = player;
+        const playerToEdit = {
+          ...playerPropsToKeep,
+          teamName: player.team.name,
+          teamId: player.team._id,
+        };
+        console.log('JOE', playerToEdit);
+        await editPlayer(playerToEdit);
+        const teamToRedirect = player.team.name;
         setPlayer(emptyPlayer);
         setRedirect({ on: true, team: teamToRedirect });
         return;
@@ -255,11 +289,11 @@ const AddPlayer: React.FC<Props> = (props: Props): JSX.Element => {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="team"
-              value={player.team}
+              value={player.team.name}
               onChange={handleDropDownChange}
               name="team"
             >
-              {teamsDropDown()}
+              {premTeams && teamsDropDown(premTeams)}
             </Select>
           </FormControl>
         </div>

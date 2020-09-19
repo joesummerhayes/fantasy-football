@@ -34,7 +34,8 @@ export const inputData = `
     lastName: String!
     position: String!
     specPositions: [String]!
-    team: String!
+    teamName: String!
+    teamId: String!
     usedName: String!
   }
 `;

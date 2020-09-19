@@ -23,7 +23,8 @@ interface EditPlayerArgs {
     lastName: string;
     position: string;
     specPositions: [string];
-    team: string;
+    teamName: string;
+    teamId: string;
     usedName: string;
   };
 }
@@ -103,6 +104,36 @@ export default {
     // }
   },
 
+  async getCorePlayers(args: FindPlayersArgs, req: Request): Promise<FFType.PlayerWithTeam> {
+    if (!req.isAuth) {
+      throw new Error('not authenticated');
+    }
+
+    const isPlayer = (variableToCheck: any): variableToCheck is FFType.PlayerWithTeam[] => {
+      return (variableToCheck as FFType.Player[])[0].firstName !== undefined;
+    };
+
+    const { teamName } = args;
+
+    try {
+      const premTeamCursor = await PremTeam.findOne({ name: teamName }).populate('players').exec();
+      if (!premTeamCursor) {
+        throw new Error('failed to find team for player');
+      }
+
+      // throw error if there are no players for the selected team
+      if (!premTeamCursor?.players && !isPlayer(premTeamCursor?.players)) {
+        throw new Error(`Could not find players for ${teamName}`);
+      }
+
+      const { players } = premTeamCursor;
+      return players;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   async addPlayer(args: AddPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
     try {
       if (!req.isAuth) {
@@ -123,12 +154,13 @@ export default {
           position,
           specPositions,
           team: {
-            id: premTeam._id.toString(),
+            _id: premTeam._id,
             name: team,
           },
           usedName,
         });
         premTeam.players.push(player);
+        console.log('pushed player to team')
         await premTeam.save();
       } else if (!premTeam) {
         // team doesnt exists on database and must be created
@@ -143,7 +175,7 @@ export default {
           position,
           specPositions,
           team: {
-            id: premTeamWithId._id.toString(),
+            _id: premTeamWithId._id.toString(),
             name: team,
           },
           usedName,
@@ -165,13 +197,13 @@ export default {
       throw new Error('Failed to create player, make sure all fields are filled out');
     }
   },
-  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.Player> {
+  async editPlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
     try {
       if (!req.isAuth) {
         throw new Error('not authenticated');
       }
       const { playerInput } = args;
-      const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
+      const { firstName, lastName, position, teamId, teamName, usedName, _id, specPositions } = playerInput;
 
       const id = mongoose.Types.ObjectId(_id);
       const existingPlayer = await Player.findById(id);
@@ -180,7 +212,8 @@ export default {
       existingPlayer.lastName = lastName;
       existingPlayer.position = position;
       existingPlayer.specPositions = specPositions;
-      existingPlayer.team = team;
+      existingPlayer.team.name = teamName;
+      existingPlayer.team._id = teamId;
       existingPlayer.usedName = usedName;
       const updatedPlayer = existingPlayer.save();
       return updatedPlayer;
@@ -205,4 +238,29 @@ export default {
       throw new Error('failed to delete player');
     }
   },
+  // async editCorePlayer(args: EditPlayerArgs, req: Request): Promise<FFType.PlayerWithTeam> {
+  //   console.log('edit player resolver!!!');
+  //   try {
+  //     if (!req.isAuth) {
+  //       throw new Error('not authenticated');
+  //     }
+  //     const { playerInput } = args;
+  //     const { firstName, lastName, position, team, usedName, _id, specPositions } = playerInput;
+
+  //     const id = mongoose.Types.ObjectId(_id);
+  //     const existingPlayer = await Player.findById(id);
+  //     if (!existingPlayer) throw new Error('Could not add or update player');
+  //     existingPlayer.firstName = firstName;
+  //     existingPlayer.lastName = lastName;
+  //     existingPlayer.position = position;
+  //     existingPlayer.specPositions = specPositions;
+  //     existingPlayer.team.name = team.name;
+  //     existingPlayer.team._id = team._id;
+  //     existingPlayer.usedName = usedName;
+  //     const updatedPlayer = existingPlayer.save();
+  //     return updatedPlayer;
+  //   } catch (error) {
+  //     throw new Error('Problem updating player');
+  //   }
+  // },
 };

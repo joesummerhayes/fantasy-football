@@ -9,4 +9,5 @@ export interface AppState {
     specificError: string;
     errorLocation: string;
   };
+  premTeams?: FFType.PremTeam[];
 }

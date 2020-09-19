@@ -1,11 +1,13 @@
 import React, { ReactNode, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { premTeams } from '../utils/add-player-data';
+import { AppState } from '../app-state';
 import findPlayers from '../data/find-players';
+import getCorePlayers from '../data/get-core-players';
 import PlayersTable from './Players-table';
 
 const useStyles = makeStyles({
@@ -19,9 +21,9 @@ const useStyles = makeStyles({
   },
 });
 
-const teamsDropDown = (): ReactNode => {
-  return premTeams.map((teamName: string) => {
-    return <MenuItem key={teamName} value={teamName}>{teamName}</MenuItem>;
+const teamsDropDown = (premTeams: FFType.PremTeam[]): ReactNode => {
+  return premTeams.map((team) => {
+    return <MenuItem key={team.name} value={team.name}>{team.name}</MenuItem>;
   });
 };
 
@@ -36,6 +38,7 @@ interface Props {
 const PlayerSelect: React.FC<Props> = (props: Props) => {
   const editedPlayerTeam = props?.location?.state?.afterEdit;
   const classes = useStyles();
+  const premTeams = useSelector((state: AppState) => state.premTeams);
   const [searchTeam, setSearchTeam] = React.useState<string>('');
   const [squadPlayers, setSquadPlayers] = React.useState<FFType.PlayerWithTeam[]>([]);
 
@@ -49,7 +52,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
     const { value } = target;
     setSearchTeam(value as string);
     try {
-      const players = await findPlayers({ teamName: value });
+      const players = await getCorePlayers({ teamName: value });
       setSquadPlayers(players);
     } catch (error) {
       setSquadPlayers([]);
@@ -60,7 +63,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
   const dropDownHandlerAfterEdit = async (): Promise<void> => {
     try {
       setSearchTeam(editedPlayerTeam);
-      const players = await findPlayers({ teamName: editedPlayerTeam });
+      const players = await getCorePlayers({ teamName: editedPlayerTeam });
       setSquadPlayers(players);
     } catch (error) {
       setSquadPlayers([]);
@@ -86,7 +89,7 @@ const PlayerSelect: React.FC<Props> = (props: Props) => {
               name="team"
               onChange={dropDownHandler}
             >
-              {teamsDropDown()}
+              {premTeams && teamsDropDown(premTeams)}
             </Select>
           </FormControl>
         </div>
